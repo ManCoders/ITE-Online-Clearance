@@ -269,14 +269,14 @@ if (isset($_GET['delete_section'])) {
                 <form action="" method="post">
                     <label>Major in :</label>
                     <input type="text" name="program-name" required placeholder="Enter ex'Information Technology">
-                    <label for="department">Program course</label>
+                    <label for="department">Program course :</label>
                     <input type="text" name="department-name" required placeholder="Enter ex' DT, AIT or TITE">
                     <input type="submit" name="program_id" value="Add Program">
                 </form>
             </div>
 
             <div class="card_table">
-                <h2>Programs</h2>
+                <h2>Programs </h2>
                 <table class="table table-striped table-bordered">
 
                     <tbody>
