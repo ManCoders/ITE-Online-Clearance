@@ -1,0 +1,75 @@
+:root{
+    --ct-menu-item: #fff;
+    --ct-menu-item-active: #fff;
+    --ct-bg-leftbar: #FA812F;
+    --ct-logo-box-background: #FA812F;
+    --ct-text-muted: #F9F5EC;
+    --ct-menu-item-hover: var(--ct-text-muted);
+}
+.btn-primary {
+    color: #fff;
+    background-color: #FA812F!important;
+    border-color: #FA812F!important;
+}
+.text-primary {
+    color: #FA812F !important;
+}
+.user-box .mdi{
+    color: #fff;
+}
+.user-box .user-name{
+    color: #fff;
+}
+body.authentication-bg{
+    background: var(--ct-light);
+}
+.login-toggle{
+    border-radius: 24px!important;
+    cursor: pointer;
+}
+.login-toggle:hover,
+.login-toggle.active{
+    background: var(--ct-primary);
+    color: #fff;
+}
+body .pagination{
+    gap: 8px;
+}
+body .pagination .disabled a{
+    opacity: .7;
+    cursor: default;
+}
+body .pagination .disabled a:hover{
+    color: var(--ct-link-color)!important;
+}
+.topnav-menu li{
+    position: relative;
+}
+.topnav-menu li .waves-effect{
+    position: unset!important;
+}
+.login-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+.login-button .spinner-border {
+    width: 1rem;
+    height: 1rem;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice{
+    background-color: var(--ct-primary);
+}
+.select2-selection__choice__remove{
+    color: #fff!important;
+}
+.elipsis{
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    display: -webkit-box;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__rendered{
+    text-wrap: wrap;
+}

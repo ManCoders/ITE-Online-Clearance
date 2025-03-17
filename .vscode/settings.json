@@ -1,0 +1,12 @@
+{
+    "liveServer.settings.port": 5501,
+    "editor.multiCursorModifier": "ctrlCmd",
+    "files.autoSave": "afterDelay",
+    "editor.find.autoFindInSelection": "always",
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "diffEditor.codeLens": true,
+    "diffEditor.experimental.useTrueInlineView": true,
+    "editor.acceptSuggestionOnEnter": "smart"
+}
