@@ -12,13 +12,12 @@ if (!isset($_SESSION['admin_id'])) {
 $adminid = $_SESSION['admin_id'];
 
 if (isset($_POST['program_id'])) {
-    $program_id = $_POST['program-name'];
-    InsertNewPrograms($program_id, $_POST['department-name']);
+    InsertNewPrograms($_POST['course'], $_POST['department'], $_POST['sy']);
 }
 
 if (isset($_POST['submit3'])) {
     $subjectName = $_POST['section-name'];
-    InsertNewSection($subjectName, $_SESSION['admin_id'], $_POST['subject-teacher-ID']);
+    InsertNewSection($subjectName, $_SESSION['admin_id'], $_POST['subject-teacher-ID'], $_POST['id']);
 }
 
 if (isset($_GET['delete_program'])) {
@@ -247,8 +246,6 @@ if (isset($_GET['delete_section'])) {
             overflow: hidden;
             overflow-y: scroll;
             color: antiquewhite;
-
-
         }
 
         .add_subject {
@@ -313,10 +310,13 @@ if (isset($_GET['delete_section'])) {
             <div class="card">
                 <h2>Add New Program</h2>
                 <form action="" method="post">
-                    <label>Major in :</label>
-                    <input type="text" name="program-name" required placeholder="Enter ex'Information Technology">
-                    <label for="department">Program course :</label>
-                    <input type="text" name="department-name" required placeholder="Enter ex' DT, AIT or TITE">
+                    <input type="text" name="id" value="<? $_GET['program_id'] ?>" hidden>
+                    <label for="course">Major in :</label>
+                    <input type="text" name="course" required placeholder="Enter ex'Information Technology">
+                    <label for="department">Programs :</label>
+                    <input type="text" name="department" required placeholder="Enter ex' DT, AIT or TITE">
+                    <label for="sy">School Year :</label>
+                    <input type="text" name="sy" required placeholder="Enter ex' YYYY-YYYY">
                     <input type="submit" name="program_id" value="Add Program">
                 </form>
             </div>
@@ -331,18 +331,17 @@ if (isset($_GET['delete_section'])) {
                         foreach ($list as $index => $program) { ?>
                             <tr>
                                 <td>
-                                    <?php echo ($index + 1) . '. ' . htmlspecialchars($program['program_code']) . ' - ' . htmlspecialchars($program['program_name']); ?>
+                                    <?php echo ($index + 1) . '. ' . htmlspecialchars($program['department_program']) . ' - ' . htmlspecialchars($program['program_course']); ?>
                                     <div>
-                                        <?php $_SESSION['programs'] = [
-                                            'program_id' => $program['id'],
-                                            'program_code' => $program['program_code'],
-                                            'program_name' => $program['program_name']
-                                        ] ?>
-                                        <a href="#" onclick="openModal(<?php echo $program['id']; ?>)"><i
-                                                class="fa fa-eye"></i></a>
-                                        <a href="#" class="edit-program" section="<?php echo $program['id']; ?>"><i
+
+                                        <a
+                                            onclick="openModal(<?php echo $program['semester']; ?>, <?php echo $program['id']; ?>, '<?php echo $program['department_program']; ?>', '<?php echo $program['program_course']; ?>', '<?php echo $program['school_year']; ?>')">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                        <a class="edit-program" section="<?php echo $program['id']; ?>"><i
                                                 class="fa fa-edit"></i> </a>
-                                        <a href="#" class="delete-program" sect ion="<?php echo $program['id']; ?>"><i
+
+                                        <a class="delete-program" section="<?php echo $program['id']; ?>"><i
                                                 class="fa fa-trash"></i></a>
                                     </div>
                                 </td>
@@ -358,11 +357,13 @@ if (isset($_GET['delete_section'])) {
                     <span class="close" onclick="closeModal()">&times;</span>
 
                     <h2 id="programTitle">Program Name</h2>
-                    <span>SY: 2024-2025</span>
-                    <p class="semester">1rst Semester</p>
-
+                    <span id="sy">SY: 2024-2025</span>
+                    <p class="semester">1st Semester</p>
+                    <input type="text" name="program_id" id="program_id" hidden>
+                    <input type="text" name="semester_id" id="semester_id" hidden>
                     <div class="table_content">
                         <table>
+
                             <tr>
                                 <th>#</th>
                                 <th>Subject Code</th>
@@ -445,32 +446,18 @@ if (isset($_GET['delete_section'])) {
             </div>
 
             <script>
-                function openModal(programId) {
+                function openModal(programId, semester_id, departmentProgram, programCourse, sy) {
                     document.getElementById("myModal").style.display = "block";
-
-                    // Fetch program details via AJAX
-                    fetch('./subjects/fetch_program.php?id=' + programId)
-                        .then(response => response.json())
-                        .then(data => {
-                            document.getElementById("programTitle").innerText = data.program_name;
-                            let subjectList = document.getElementById("subjectList");
-                            subjectList.innerHTML = "";
-
-                            data.subjects.forEach((subject, index) => {
-                                subjectList.innerHTML += `<tr>
-                    <td>${index + 1}</td>
-                    <td>${subject}</td>
-                </tr>`;
-                            });
-                        })
-                        .catch(error => console.log("Error:", error));
+                    document.getElementById("program_id").value = programId.toString();
+                    document.getElementById("semester_id").value = semester_id.toString();
+                    document.getElementById("programTitle").innerText = departmentProgram + " - " + programCourse;
+                    document.getElementById("sy").innerText = sy;
                 }
 
                 function closeModal() {
                     document.getElementById("myModal").style.display = "none";
                 }
 
-                // Close modal when clicking outside content
                 window.onclick = function (event) {
                     let modal = document.getElementById("myModal");
                     if (event.target === modal) {
@@ -565,7 +552,7 @@ if (isset($_GET['delete_section'])) {
 
                 /* setTimeout(() => {
                     const newURL = window.location.origin + window.location.pathname;
-                    window.history.replaceState({}, document.title, newURL);
+                                    window.history.replaceState({ }, document.title, newURL);
                 }, 10); */
             }
         });

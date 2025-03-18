@@ -400,7 +400,7 @@ function deleteSubject($id)
 function GetProgramList()
 {
     global $pdo;
-    $stmt = $pdo->prepare("SELECT * FROM programs");
+    $stmt = $pdo->prepare("SELECT * FROM programs_with_subjects");
     $stmt->execute();
     return $stmt->fetchAll();
 
@@ -440,10 +440,27 @@ function DeleteMinorByID($minorid)
     }
 }
 
+function getSubjectById($id)
+{
+    function getSubjectById($id)
+    {
+        try {
+            global $pdo;
+            $query = "SELECT * FROM programs_with_subjects WHERE id = ?";
+            $stmt = $pdo->prepare($query);
+            $stmt->execute([$id]);
+            return $stmt->fetch();
+        } catch (PDOException $e) {
+            return null;
+        }
+    }
+
+}
+
 function DeleteProgramByID($minorid)
 {
     global $pdo;
-    $query = "DELETE FROM programs WHERE id = ?";
+    $query = "DELETE FROM programs_with_subjects WHERE id = ?";
     $stmt = $pdo->prepare($query);
     if ($stmt->execute([$minorid])) {
         return true;
@@ -488,7 +505,7 @@ function GetProgramWithId($id)
 {
     global $pdo;
     try {
-        $stmt3 = $pdo->prepare("Select * from programs WHERE id = ?");
+        $stmt3 = $pdo->prepare("Select * from programs_with_subjects WHERE id = ?");
         $stmt3->execute([$id]);
         $row = $stmt3->fetch();
         return $row;
@@ -497,11 +514,11 @@ function GetProgramWithId($id)
     }
 }
 
-function InsertNewPrograms($program_id, $program_name)
+function InsertNewPrograms($program_course, $department_program, $schoolyear)
 {
     global $pdo;
-    $stmt = $pdo->prepare("INSERT INTO programs (program_name, program_code) VALUES (?, ?)");
-    if ($stmt->execute([$program_id, $program_name])) {
+    $stmt = $pdo->prepare("INSERT INTO programs_with_subjects (program_course, department_program, school_year ) VALUES (?, ?, ?)");
+    if ($stmt->execute([$program_course, $department_program, $schoolyear])) {
         header('location: program.php?success=Programs added successfully');
         exit();
     } else {
@@ -525,22 +542,23 @@ function GetProgramsById($id)
 }
 
 
-function InsertNewSection($subjectName, $admin_id, $teacher_id)
+function InsertNewSection($subject_name, $subject_code, $teacher_name, $id)
 {
     global $pdo;
-    $stmt = $pdo->prepare("INSERT INTO sections (section_name, admin_id, teacher_id) VALUES (?,?,?)");
+    $stmt = $pdo->prepare("UPDATE programs_with_subjects SET subject_name = ?, subject_code = ?, teacher_name = ? WHERE id = ?");
 
     try {
-        if ($stmt->execute([$subjectName, $admin_id, $teacher_id])) {
-            header('location: program.php?success=Section added successfully');
+        if ($stmt->execute([$subject_name, $subject_code, $teacher_name, $id])) {
+            header('location: program.php?success=Section updated successfully');
             exit();
         } else {
-            header('location: program.php?error=Section added Unsuccessfully');
+            header('location: program.php?error=Section updated Unsuccessfully');
             exit();
         }
     } catch (Throwable $th) {
-        $_SESSION["error"] = "Failed to add section!";
+        $_SESSION["error"] = "Failed to update section!";
     }
+
 }
 function InsertNewSubject($subjectName, $section, $program, $syear, $admin_id, $teacher_id, $subjectCode, $semester)
 {
