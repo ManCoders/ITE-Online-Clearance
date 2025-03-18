@@ -510,6 +510,29 @@ function GetProgramWithId($id)
         return false;
     }
 }
+function InsertNewSubject2($teacher_id, $semester_id, $subject_name, $subject_code)
+{
+    global $pdo;
+
+    try {
+        $stmt = $pdo->prepare("INSERT INTO subject_with_program_id ( teacher_id, semester_id, subject_name, subject_code) 
+                               VALUES ( :teacher_id, :semester_id, :subject_name, :subject_code)");
+        $stmt->execute([
+            ':teacher_id' => $teacher_id,
+            ':semester_id' => $semester_id,
+            ':subject_name' => $subject_name,
+            ':subject_code' => $subject_code
+        ]);
+
+        header('Location: view_program.php?success=Subject added successfully');
+        exit();
+    } catch (PDOException $e) {
+        error_log("Database Error: " . $e->getMessage());
+        header('Location: view_program.php?error=Failed to add subject');
+        exit();
+    }
+}
+
 
 function InsertNewPrograms($program_course, $department_program, $schoolyear)
 {

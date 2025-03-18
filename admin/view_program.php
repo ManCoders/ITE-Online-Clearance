@@ -10,6 +10,22 @@ if (!isset($_SESSION['admin_id'])) {
 }
 
 $adminid = $_SESSION['admin_id'];
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["add-subject"])) {
+    $teacher_id = $_POST['teacher'];
+    $semester_id = $_POST['semester_id'];
+    $subject_name = $_POST['subject_name'];
+    $subject_code = $_POST['subject_code'];
+
+    if (empty($teacher_id) || empty($semester_id) || empty($subject_name) || empty($subject_code)) {
+        header("Location: view_program.php?error=All fields are required");
+        exit();
+    }
+
+    InsertNewSubject2($program_id, $teacher_id, $semester_id, $subject_name, $subject_code);
+}
+
+
 ?>
 
 
@@ -315,29 +331,35 @@ $adminid = $_SESSION['admin_id'];
 
                     </div>
                     <p class="semester">New Subjects</p>
-
-                    <form id="addSubjectForm" action="" method="post">
+                    <?php if (isset($_GET['error'])) { ?>
+                        <p style="color: red;"><?php echo $_GET['error']; ?></p>
+                    <?php } elseif (isset($_GET['success'])) { ?>
+                        <p style="color: green;"><?php echo $_GET['success']; ?></p>
+                    <?php } ?>
+                    <form action="" method="post">
                         <div class="add_subject">
-                            <input type="text" name="program_id" id="program_id" hidden></input>
 
                             <div style="gap: 2px; display: flex;">
-                                <select style="height: 2.4rem; margin-top:5px;" name="semester_id" id="semester_id">
+                                <input style="height: 2.4rem; margin-top:5px;" type="text" id="subject_code_input"
+                                    name="subject_code" placeholder="Enter Code" required>
+                                <input style="height: 2.4rem; margin-top:5px;" type="text" id="subject_name_input"
+                                    name="subject_name" placeholder="Enter Subject" required>
+
+                                <select style="height: 2.4rem; margin-top:5px;" name="semester_id" id="semester_id"
+                                    required>
                                     <option value="" disabled>Select Semester</option>
                                     <option value="1">1st Semester</option>
                                     <option value="2">2nd Semester</option>
                                 </select>
 
-                                <select style="height: 2.4rem; margin-top:5px;" name="teacher" id="teacher">
+                                <select style="height: 2.4rem; margin-top:5px;" name="teacher" id="teacher" required>
                                     <option value="" disabled>Select Teacher</option>
                                     <option value="1">Teacher 1</option>
                                     <option value="2">Teacher 2</option>
                                 </select>
-                                <input style="height: 2.4rem; margin-top:5px;" type="text" id="subject_code_input"
-                                    name="subject_code" placeholder="Enter Subject Code">
-                                <input style="height: 2.4rem; margin-top:5px;" type="text" id="subject_name_input"
-                                    name="subject_name" placeholder="Enter Subject Name">
+
                                 <input style="height: 2.4rem; width:100%; margin-top:5px;" type="submit"
-                                    id="add-subject" value="Add" class="btn btn-primary add-subject">
+                                    name="add-subject" id="add-subject" value="Add" class="btn btn-primary add-subject">
                                 <input type="button" onclick="window.location.href = './program.php'" value="Back"
                                     class="btn btn-secondary">
                             </div>
@@ -348,6 +370,11 @@ $adminid = $_SESSION['admin_id'];
             </div>
         </div>
     </div>
+
+    <?php
+
+
+    ?>
 
 
 

@@ -15,10 +15,10 @@ if (isset($_POST['program_id'])) {
     InsertNewPrograms($_POST['course'], $_POST['department'], $_POST['sy']);
 }
 
-if (isset($_POST['submit3'])) {
+/* if (isset($_POST['submit3'])) {
     $subjectName = $_POST['section-name'];
     InsertNewSection($subjectName, $_SESSION['admin_id'], $_POST['subject-teacher-ID'], $_POST['id']);
-}
+} */
 
 if (isset($_GET['delete_program'])) {
     DeleteProgramByID($_GET['delete_program']);
