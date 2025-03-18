@@ -205,18 +205,21 @@ if (isset($_GET['delete_section'])) {
             left: 0;
             top: 0;
             width: 100%;
-            height: 100%;
+            height: 90rem;
             background-color: rgba(0, 0, 0, 0.5);
         }
 
         /* Modal Content */
         .modal-content {
             background-color: white;
-            margin: 2% auto;
+            height: 35rem;
+            margin: 1% auto;
             padding: 20px;
             border-radius: 8px;
-            width: 90%;
+            width: 50%;
             text-align: center;
+            overflow: hidden;
+            overflow-y: scroll;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
         }
 
@@ -228,6 +231,20 @@ if (isset($_GET['delete_section'])) {
             cursor: pointer;
             float: right;
         }
+
+        .modal table {
+            width: 100%;
+            padding: .5rem;
+            border: 1px solid #6E1313
+        }
+
+        .modal table th {
+            background-color: #cc2c00;
+        }
+
+        .modal table tr {}
+
+        .modal table td {}
     </style>
 </head>
 
@@ -296,7 +313,7 @@ if (isset($_GET['delete_section'])) {
                                                 class="fa fa-eye"></i></a>
                                         <a href="#" class="edit-program" section="<?php echo $program['id']; ?>"><i
                                                 class="fa fa-edit"></i> </a>
-                                        <a href="#" class="delete-program" section="<?php echo $program['id']; ?>"><i
+                                        <a href="#" class="delete-program" sect ion="<?php echo $program['id']; ?>"><i
                                                 class="fa fa-trash"></i></a>
                                     </div>
                                 </td>
@@ -313,14 +330,78 @@ if (isset($_GET['delete_section'])) {
 
                     <h2 id="programTitle">Program Name</h2>
 
-                    <p>Associated Subjects:</p>
+                    <p>1rst Semester</p>
                     <table>
                         <tr>
                             <th>#</th>
+                            <th>Subject Code</th>
                             <th>Subject Name</th>
+                            <th>Actions</th>
                         </tr>
                         <tbody id="subjectList">
-                            <!-- Data will be loaded here -->
+                            <tr>
+                                <td>1</td>
+                                <td>Sample Subject Code</td>
+                                <td>Sample Subject Name</td>
+                                <td>
+
+                                    <button class="btn btn-secondary edit-subject"><i class="fa fa-edit"></i></button>
+                                    <button class="btn btn-danger delete-subject"><i class="fa fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <form action="">
+
+                                    <td>1</td>
+                                    <td>Sample Subject Code</td>
+                                    <td>Sample Subject Name</td>
+                                    <td>
+                                        <button id="add-subject" class="btn btn-primary add-subject"><i
+                                                class="fa fa-add"></i></button>
+                                    </td>
+                                </form>
+
+                            </tr>
+
+
+
+                        </tbody>
+                    </table>
+                    <p>2nd Semester</p>
+                    <table>
+                        <tr>
+                            <th>#</th>
+                            <th>Subject Code</th>
+                            <th>Subject Name</th>
+                            <th>Actions</th>
+                        </tr>
+                        <tbody id="subjectList">
+                            <tr>
+                                <td>1</td>
+                                <td>Sample Subject Code</td>
+                                <td>Sample Subject Name</td>
+                                <td>
+
+                                    <button class="btn btn-secondary edit-subject"><i class="fa fa-edit"></i></button>
+                                    <button class="btn btn-danger delete-subject"><i class="fa fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <form action="">
+
+                                    <td>1</td>
+                                    <td>Sample Subject Code</td>
+                                    <td>Sample Subject Name</td>
+                                    <td>
+                                        <button id="add-subject" class="btn btn-primary add-subject"><i
+                                                class="fa fa-add"></i></button>
+                                    </td>
+                                </form>
+
+                            </tr>
+
+
+
                         </tbody>
                     </table>
                 </div>
