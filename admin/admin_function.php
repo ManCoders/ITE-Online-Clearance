@@ -397,6 +397,7 @@ function deleteSubject($id)
 }
 
 
+
 function GetProgramList()
 {
     global $pdo;
@@ -442,19 +443,15 @@ function DeleteMinorByID($minorid)
 
 function getSubjectById($id)
 {
-    function getSubjectById($id)
-    {
-        try {
-            global $pdo;
-            $query = "SELECT * FROM programs_with_subjects WHERE id = ?";
-            $stmt = $pdo->prepare($query);
-            $stmt->execute([$id]);
-            return $stmt->fetch();
-        } catch (PDOException $e) {
-            return null;
-        }
+    try {
+        global $pdo;
+        $query = "SELECT * FROM programs_with_subjects WHERE id = ?";
+        $stmt = $pdo->prepare($query);
+        $stmt->execute([$id]);
+        return $stmt->fetch();
+    } catch (PDOException $e) {
+        return null;
     }
-
 }
 
 function DeleteProgramByID($minorid)

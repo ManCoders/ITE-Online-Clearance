@@ -29,6 +29,9 @@ if (isset($_GET['delete_section'])) {
 }
 
 
+$program_id = 0;
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -354,28 +357,26 @@ if (isset($_GET['delete_section'])) {
 
             <div id="myModal" class="modal">
                 <div class="modal-content">
-                    <span class="close" onclick="closeModal()">&times;</span>
 
+                    <span class="close" onclick="closeModal()">&times;</span>
+                    <!--  -->
                     <h2 id="programTitle">Program Name</h2>
                     <span id="sy">SY: 2024-2025</span>
                     <p class="semester">1st Semester</p>
-                    <input type="text" name="program_id" id="program_id" hidden>
-                    <input type="text" name="semester_id" id="semester_id" hidden>
+
                     <div class="table_content">
                         <table>
-
                             <tr>
                                 <th>#</th>
                                 <th>Subject Code</th>
                                 <th>Subject Name</th>
                                 <th>Actions</th>
                             </tr>
-
-                            <tbody id="subjectList">
+                            <tbody id="subjectList1">
                                 <tr>
                                     <td>1</td>
-                                    <td>Sample Subject Code</td>
-                                    <td>Sample Subject Name</td>
+                                    <td>Subject Code</td>
+                                    <td>Subject Names</td>
                                     <td>
                                         <button class="btn btn-secondary edit-subject"><i
                                                 class="fa fa-edit"></i></button>
@@ -383,25 +384,24 @@ if (isset($_GET['delete_section'])) {
                                                 class="fa fa-trash"></i></button>
                                     </td>
                                 </tr>
-
-
                             </tbody>
                         </table>
 
                     </div>
 
-                    <form action="">
+                    <!-- <form action="">
                         <div class="add_subject">
-
+                            <input type="text" name="program_id" id="program_id"></input>
+                            <input type="text" name="semester_id" id="semester_id"></input>
                             <td> <input type="text" id="subject_code_input" placeholder="Enter Subject Code">
                             </td>
                             <td> <input type="text" id="subject_name_input" placeholder="Enter Subject Name">
                             <td>
-                                <input type="submit" id="add-subject" value="Add" class="btn btn-primary add-subject">
+                                <input type="submit" id="add-subject1" value="Add" class="btn btn-primary add-subject">
                                 </input>
                             </td>
                         </div>
-                    </form>
+                    </form> -->
 
                     <p class="semester">2nd Semester</p>
                     <div class="table_content">
@@ -413,7 +413,7 @@ if (isset($_GET['delete_section'])) {
                                 <th>Actions</th>
                             </tr>
 
-                            <tbody id="subjectList">
+                            <tbody id="subjectList2">
                                 <tr>
                                     <td>1</td>
                                     <td>Sample Subject Code</td>
@@ -430,9 +430,16 @@ if (isset($_GET['delete_section'])) {
                         </table>
 
                     </div>
+                    <p class="semester">New Subjects</p>
                     <form action="">
                         <div class="add_subject">
+                            <input type="text" name="program_id" id="program_id" hidden></input>
 
+                            <select style="height: 2.4rem; margin-top:5px;" name="semester_id" id="semester_id">
+                                <option value="" selected disabled>Select Semester</option>
+                                <option value="1">1st Semester</option>
+                                <option value="2">2nd Semester</option>
+                            </select>
                             <td> <input type="text" id="subject_code_input" placeholder="Enter Subject Code">
                             </td>
                             <td> <input type="text" id="subject_name_input" placeholder="Enter Subject Name">
@@ -446,14 +453,24 @@ if (isset($_GET['delete_section'])) {
             </div>
 
             <script>
-                function openModal(programId, semester_id, departmentProgram, programCourse, sy) {
-                    document.getElementById("myModal").style.display = "block";
-                    document.getElementById("program_id").value = programId.toString();
-                    document.getElementById("semester_id").value = semester_id.toString();
-                    document.getElementById("programTitle").innerText = departmentProgram + " - " + programCourse;
-                    document.getElementById("sy").innerText = sy;
+                document.getElementById('program_id').addEventListener('input', handleInput);
+                document.getElementById('semester_id').addEventListener('input', handleInput);
+
+                function handleInput(event) {
+                    const { id, value } = event.target;
+                    console.log(`The current value of ${id} is: ${value}`);
                 }
 
+                function openModal(programId, semesterId, departmentProgram, programCourse, sy) {
+                    document.getElementById("myModal").style.display = "block";
+
+                    document.getElementById("program_id").value = programId;
+                    document.getElementById("semester_id").value = semesterId;
+
+                    document.getElementById("programTitle").innerText = departmentProgram + " - " + programCourse;
+                    document.getElementById("sy").innerText = "SY: " + sy;
+
+                }
                 function closeModal() {
                     document.getElementById("myModal").style.display = "none";
                 }
@@ -464,6 +481,9 @@ if (isset($_GET['delete_section'])) {
                         modal.style.display = "none";
                     }
                 };
+
+
+
 
             </script>
 
@@ -555,6 +575,8 @@ if (isset($_GET['delete_section'])) {
                                     window.history.replaceState({ }, document.title, newURL);
                 }, 10); */
             }
+
+
         });
     </script>
 
