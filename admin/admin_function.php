@@ -514,11 +514,25 @@ function GetProgramWithId($id)
 function InsertNewPrograms($program_course, $department_program, $schoolyear)
 {
     global $pdo;
-    $stmt = $pdo->prepare("INSERT INTO programs_with_subjects (program_course, department_program, school_year ) VALUES (?, ?, ?)");
-    if ($stmt->execute([$program_course, $department_program, $schoolyear])) {
-        header('location: program.php?success=Programs added successfully');
-        exit();
-    } else {
+    try {
+        $stmt = $pdo->prepare("SELECT * FROM programs_with_subjects WHERE program_course = ? AND department_program = ? AND school_year = ?");
+        $stmt->execute([$program_course, $department_program, $schoolyear]);
+        $exists = $stmt->fetchColumn();
+        if ($exists > 0) {
+            header('location: program.php?error=Duplicate Error, Please Use Unique Course, SY and Program');
+            exit();
+        } else {
+            $stmt = $pdo->prepare("INSERT INTO programs_with_subjects (program_course, department_program, school_year ) VALUES (?, ?, ?)");
+            if ($stmt->execute([$program_course, $department_program, $schoolyear])) {
+                header('location: program.php?success=Programs added successfully');
+                exit();
+            } else {
+                header('location: program.php?error=Programs added Unsuccessfully');
+                exit();
+            }
+        }
+    } catch (PDOException $e) {
+        error_log("Database Error: " . $e->getMessage()); // Logs the error
         header('location: program.php?error=Programs added Unsuccessfully');
         exit();
     }
@@ -539,7 +553,7 @@ function GetProgramsById($id)
 }
 
 
-function InsertNewSection($subject_name, $subject_code, $teacher_name, $id)
+function updateSubject($subject_name, $subject_code, $teacher_name, $id)
 {
     global $pdo;
     $stmt = $pdo->prepare("UPDATE programs_with_subjects SET subject_name = ?, subject_code = ?, teacher_name = ? WHERE id = ?");

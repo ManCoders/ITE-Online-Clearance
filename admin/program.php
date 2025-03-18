@@ -337,8 +337,12 @@ $program_id = 0;
                                     <?php echo ($index + 1) . '. ' . htmlspecialchars($program['department_program']) . ' - ' . htmlspecialchars($program['program_course']); ?>
                                     <div>
 
-                                        <a
-                                            onclick="openModal(<?php echo $program['semester']; ?>, <?php echo $program['id']; ?>, '<?php echo $program['department_program']; ?>', '<?php echo $program['program_course']; ?>', '<?php echo $program['school_year']; ?>')">
+                                        <a href="view_program.php?program_id=<?php echo $program['id']; ?>
+                                            &program_name=<?php echo $program['department_program']; ?>
+                                            &course_name=<?php echo $program['program_course']; ?>
+                                            &school_year=<?php echo $program['school_year']; ?>
+                                            
+                                            ">
                                             <i class="fa fa-eye"></i>
                                         </a>
                                         <a class="edit-program" section="<?php echo $program['id']; ?>"><i
