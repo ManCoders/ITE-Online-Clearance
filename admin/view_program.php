@@ -267,9 +267,10 @@ $adminid = $_SESSION['admin_id'];
                             <tbody id="subjectList1">
                                 <tr class="programRow">
                                     <?php
+                                    $subject = getSubjectById($_GET['program_id']);
                                     ?>
                                     <td>1</td>
-                                    <td class="programData">Subject Code</td>
+                                    <td class="programData"><?php echo $subject['subject_name']; ?></td>
                                     <td>Subject Names</td>
                                     <td>
                                         <button class="btn btn-secondary edit-subject"><i
@@ -335,8 +336,8 @@ $adminid = $_SESSION['admin_id'];
                                     name="subject_code" placeholder="Enter Subject Code">
                                 <input style="height: 2.4rem; margin-top:5px;" type="text" id="subject_name_input"
                                     name="subject_name" placeholder="Enter Subject Name">
-                                <input style="height: 2.4rem; margin-top:5px;" type="submit" id="add-subject"
-                                    value="Add" class="btn btn-primary add-subject">
+                                <input style="height: 2.4rem; width:100%; margin-top:5px;" type="submit"
+                                    id="add-subject" value="Add" class="btn btn-primary add-subject">
                                 <input type="button" onclick="window.location.href = './program.php'" value="Back"
                                     class="btn btn-secondary">
                             </div>

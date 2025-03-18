@@ -312,14 +312,43 @@ $program_id = 0;
             <!-- Add Program -->
             <div class="card">
                 <h2>Add New Program</h2>
+                <?php if (isset($_GET['error'])): ?>
+                    <p style="color: red;"><?php echo $_GET['error']; ?></p>
+                <?php elseif (isset($_GET['success'])): ?>
+                    <p style="color: green;"><?php echo $_GET['success']; ?></p>
+                <?php endif; ?>
                 <form action="" method="post">
                     <input type="text" name="id" value="<? $_GET['program_id'] ?>" hidden>
-                    <label for="course">Major in :</label>
-                    <input type="text" name="course" required placeholder="Enter ex'Information Technology">
+                    <label style="margin: 2px;" for=" program_id">Course Title:</label>
+                    <select
+                        style="height: 2.4rem; width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;"
+                        name="course" required>
+                        <option value="">Select Major</option>
+                        <option value="Information Technology">Information Technology</option>
+                        <option value="Automotive Engineering">Automotive Engineering</option>
+                        <option value="Electronic Engineering">Electronic Engineering</option>
+                        <option value="Electrical Engineering">Electrical Engineering</option>
+
+                    </select>
                     <label for="department">Programs :</label>
-                    <input type="text" name="department" required placeholder="Enter ex' DT, AIT or TITE">
+                    <select
+                        style="height: 2.4rem; width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;"
+                        name="department" required>
+                        <option value="">Select Program</option>
+                        <option value="DT">DT</option>
+                        <option value="AIT">AIT</option>
+                        <option value="TITE">TITE</option>
+                    </select>
                     <label for="sy">School Year :</label>
-                    <input type="text" name="sy" required placeholder="Enter ex' YYYY-YYYY">
+                    <select
+                        style="height: 2.4rem; width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;"
+                        name="sy" required>
+                        <option value="">Select School Year</option>
+                        <option value="2022-2023">2022-2023</option>
+                        <option value="2023-2024">2023-2024</option>
+                        <option value="2024-2025">2024-2025</option>
+                        <option value="2025-2026">2025-2026</option>
+                    </select>
                     <input type="submit" name="program_id" value="Add Program">
                 </form>
             </div>
@@ -337,12 +366,8 @@ $program_id = 0;
                                     <?php echo ($index + 1) . '. ' . htmlspecialchars($program['department_program']) . ' - ' . htmlspecialchars($program['program_course']); ?>
                                     <div>
 
-                                        <a href="view_program.php?program_id=<?php echo $program['id']; ?>
-                                            &program_name=<?php echo $program['department_program']; ?>
-                                            &course_name=<?php echo $program['program_course']; ?>
-                                            &school_year=<?php echo $program['school_year']; ?>
-                                            
-                                            ">
+                                        <a
+                                            href="view_program.php?program_id=<?php echo $program['id']; ?>&program_name=<?php echo urlencode($program['department_program']); ?>&course_name=<?php echo urlencode($program['program_course']); ?>&school_year=<?php echo urlencode($program['school_year']); ?>&subject_name=<?php echo urlencode($program['subject_name']); ?>">
                                             <i class="fa fa-eye"></i>
                                         </a>
                                         <a class="edit-program" section="<?php echo $program['id']; ?>"><i
