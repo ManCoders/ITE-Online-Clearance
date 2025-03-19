@@ -16,8 +16,8 @@ if (isset($_POST['program_id'])) {
 }
 
 /* if (isset($_POST['submit3'])) {
-    $subjectName = $_POST['section-name'];
-    InsertNewSection($subjectName, $_SESSION['admin_id'], $_POST['subject-teacher-ID'], $_POST['id']);
+$subjectName = $_POST['section-name'];
+InsertNewSection($subjectName, $_SESSION['admin_id'], $_POST['subject-teacher-ID'], $_POST['id']);
 } */
 
 if (isset($_GET['delete_program'])) {
@@ -441,6 +441,7 @@ if (isset($_GET['delete_section'])) {
                         document.getElementById("sy").innerText = "SY: " + sy;
 
                     }
+
                     function closeModal() {
                         document.getElementById("myModal").style.display = "none";
                     }
