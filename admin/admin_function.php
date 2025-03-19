@@ -14,10 +14,8 @@ function AutoStudentID()
         $stmt = $pdo->prepare("SELECT student_code FROM students WHERE student_code = ?");
         $stmt->execute([$studentID]);
         $exists = $stmt->fetchColumn();
-
     } while ($exists > 0);
     return $studentID;
-
 }
 
 function AutoTeacherID()
@@ -32,10 +30,8 @@ function AutoTeacherID()
         $stmt = $pdo->prepare("SELECT teacher_code FROM teachers WHERE teacher_code = ?");
         $stmt->execute([$studentID]);
         $exists = $stmt->fetchColumn();
-
     } while ($exists > 0);
     return $studentID;
-
 }
 
 function GetStudentsList()
@@ -98,6 +94,16 @@ function TeacherNonAct()
     }
 }
 
+function GetSubject()
+{
+    global $pdo;
+    $stmt = $pdo->prepare("
+        SELECT *
+        FROM subjects
+    ");
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 
 function GetSemester()
 {
@@ -252,7 +258,6 @@ function getTeacherById($id)
         $stmt = $pdo->prepare(" SELECT * FROM teacher_subjects WHERE id = ? ");
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
-
     } catch (PDOException $e) {
         error_log("Database Error: " . $e->getMessage()); // Logs the error
         return [];
@@ -378,7 +383,6 @@ function update_subject($sy, $subject_id, $subject_name, $subject_code, $semeste
 
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$subject_name, $subject_code, $semester, $program, $teacher_id, $sy, $subject_id]);
-
     } catch (PDOException $e) {
         die("Error updating subject: " . $e->getMessage());
     }
@@ -405,7 +409,6 @@ function GetProgramList()
     $stmt = $pdo->prepare("SELECT * FROM programs_with_subjects");
     $stmt->execute();
     return $stmt->fetchAll();
-
 }
 
 
@@ -530,7 +533,7 @@ function InsertNewSubject2($teacher_id, $semester_id, $subject_name, $subject_co
         exit();
     } catch (PDOException $e) {
         error_log("Database Error: " . $e->getMessage());
-        header('Location: view_program.php?error=Failed to add subject');
+        header('Location: view_program.php?program_id=' . $id . '&error=Failed to add subject');
         exit();
     }
 }
@@ -594,7 +597,6 @@ function updateSubject($subject_name, $subject_code, $teacher_name, $id)
     } catch (Throwable $th) {
         $_SESSION["error"] = "Failed to update section!";
     }
-
 }
 function InsertNewSubject($subjectName, $section, $program, $syear, $admin_id, $teacher_id, $subjectCode, $semester)
 {
@@ -618,7 +620,6 @@ function InsertNewSubject($subjectName, $section, $program, $syear, $admin_id, $
         }
     } catch (PDOException $th) {
         header('location: subjects.php?error=Subject added Unsuccessfully');
-
     }
 }
 function InsertNewTeacher($teacherid, $teacherlname, $teachermname, $teacherfname, $teachercontact)
@@ -669,7 +670,6 @@ function CheckStudentCode($studentId)
         echo "Error: " . $e->getMessage();
     }
     return false;
-
 }
 
 function CheckExistingSubject($subjectCode, $subjectName)
@@ -710,7 +710,4 @@ function InsertNewStudentByID($studentID, $lname, $mname, $fname, $contact)
     } catch (Throwable $th) {
         $_SESSION["error"] = "Failed Registration!";
     }
-
 }
-
-?>

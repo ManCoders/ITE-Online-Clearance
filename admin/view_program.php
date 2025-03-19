@@ -33,187 +33,187 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["add-subject"])) {
     <title>Admin Panel - Programs & Sections</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css">
     <style>
-        /* General Reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Georgia', serif;
-        }
+    /* General Reset */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Georgia', serif;
+    }
 
-        /* Background - Classic Deep Maroon */
-        body {
-            background: linear-gradient(to right, #6E1313, #8B0000);
-            background-size: cover;
-            display: flex;
-        }
+    /* Background - Classic Deep Maroon */
+    body {
+        background: linear-gradient(to right, #6E1313, #8B0000);
+        background-size: cover;
+        display: flex;
+    }
 
-        /* Sidebar */
-        .sidebar {
-            width: 250px;
-            height: 100vh;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            padding: 20px;
-            position: fixed;
-            left: 0;
-            top: 0;
-            overflow-y: auto;
-            border-right: 2px solid rgba(255, 255, 255, 0.2);
-        }
+    /* Sidebar */
+    .sidebar {
+        width: 250px;
+        height: 100vh;
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
+        padding: 20px;
+        position: fixed;
+        left: 0;
+        top: 0;
+        overflow-y: auto;
+        border-right: 2px solid rgba(255, 255, 255, 0.2);
+    }
 
-        .sidebar .profile-info {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+    .sidebar .profile-info {
+        text-align: center;
+        margin-bottom: 20px;
+    }
 
-        .sidebar .profile-icon {
-            width: 80px;
-            border-radius: 50%;
-            background: white;
-            padding: 5px;
-            border: 2px solid #ffcc00;
-        }
+    .sidebar .profile-icon {
+        width: 80px;
+        border-radius: 50%;
+        background: white;
+        padding: 5px;
+        border: 2px solid #ffcc00;
+    }
 
-        .sidebar-item {
-            padding: 15px;
-            margin: 10px 0;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 5px;
-            font-size: 16px;
-        }
+    .sidebar-item {
+        padding: 15px;
+        margin: 10px 0;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 5px;
+        font-size: 16px;
+    }
 
-        .sidebar-item:hover {
-            background: rgba(255, 255, 255, 0.4);
-        }
+    .sidebar-item:hover {
+        background: rgba(255, 255, 255, 0.4);
+    }
 
-        .sidebar-item a {
-            color: #FFFFFF;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            font-weight: bold;
-        }
+    .sidebar-item a {
+        color: #FFFFFF;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        font-weight: bold;
+    }
 
-        .sidebar-item a i {
-            margin-right: 10px;
-        }
+    .sidebar-item a i {
+        margin-right: 10px;
+    }
 
-        /* Main Content */
-        .content {
-            margin-left: 250px;
-            padding: 20px;
-            width: calc(100% - 245px);
-        }
+    /* Main Content */
+    .content {
+        margin-left: 250px;
+        padding: 20px;
+        width: calc(100% - 245px);
+    }
 
-        .dashboard-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;
-        }
-
-
-        form input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 14px;
-        }
-
-        form input[type="submit"] {
-            background-color: #ff3d00;
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 14px;
-            width: 100%;
-        }
-
-        form input[type="button"] {
-            background-color: #ff3d00;
-            width: 100%;
-            margin: 5px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 14px;
-        }
-
-        form input[type="submit"]:hover {
-            background-color: #cc2c00;
-        }
+    .dashboard-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
 
 
-        .modal {
-            width: 100rem;
-            height: auto;
-        }
+    form input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 14px;
+    }
 
-        /* Modal Content */
-        .modal-content {
-            background-color: white;
-            margin: 1% auto;
-            padding: 20px;
-            border-radius: 8px;
-            text-align: left;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-        }
+    form input[type="submit"] {
+        background-color: #ff3d00;
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 14px;
+        width: 100%;
+    }
 
-        /* Close Button */
-        .close {
-            color: #6E1313;
-            font-size: 24px;
-            font-weight: bold;
-            cursor: pointer;
-            float: right;
-        }
+    form input[type="button"] {
+        background-color: #ff3d00;
+        width: 100%;
+        margin: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 14px;
+    }
 
-        .modal table {
-            width: 100%;
-            padding: .5rem;
-            border: 1px solidrgb(122, 122, 122)
-        }
+    form input[type="submit"]:hover {
+        background-color: #cc2c00;
+    }
 
-        .modal th {
-            background-color: #cc2c00;
-            color: #FFFFFF;
-        }
 
-        .table_content {
-            height: 10rem;
-            background-color: #6E1313;
-            overflow: hidden;
-            overflow-y: scroll;
-            color: antiquewhite;
-        }
+    .modal {
+        width: 100rem;
+        height: auto;
+    }
 
-        .add_subject {
-            display: flex;
-            justify-content: center;
-            flex-direction: row;
-        }
+    /* Modal Content */
+    .modal-content {
+        background-color: white;
+        margin: 1% auto;
+        padding: 20px;
+        border-radius: 8px;
+        text-align: left;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    }
 
-        .add_subject input[type='text'] {
-            width: 90%;
-            height: 1%;
-            margin: 5px;
-        }
+    /* Close Button */
+    .close {
+        color: #6E1313;
+        font-size: 24px;
+        font-weight: bold;
+        cursor: pointer;
+        float: right;
+    }
 
-        .add_subject input[type='submit'] {
-            width: 20%;
-            align-content: center;
-            margin: 5px;
-        }
+    .modal table {
+        width: 100%;
+        padding: .5rem;
+        border: 1px solidrgb(122, 122, 122)
+    }
 
-        .semester {
-            font-size: 1rem;
-            font-weight: bold;
-            margin: 5px;
-        }
+    .modal th {
+        background-color: #cc2c00;
+        color: #FFFFFF;
+    }
+
+    .table_content {
+        height: 10rem;
+        background-color: #6E1313;
+        overflow: hidden;
+        overflow-y: scroll;
+        color: antiquewhite;
+    }
+
+    .add_subject {
+        display: flex;
+        justify-content: center;
+        flex-direction: row;
+    }
+
+    .add_subject input[type='text'] {
+        width: 90%;
+        height: 1%;
+        margin: 5px;
+    }
+
+    .add_subject input[type='submit'] {
+        width: 20%;
+        align-content: center;
+        margin: 5px;
+    }
+
+    .semester {
+        font-size: 1rem;
+        font-weight: bold;
+        margin: 5px;
+    }
     </style>
 </head>
 
@@ -255,11 +255,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["add-subject"])) {
                     <span class="close" onclick="window.location.href = './program.php'">&times;</span>
                     <!--  -->
                     <h2 id="programTitle"><?php if (isset($_GET['program_name']) && isset($_GET['course_name'])) {
-                        echo $_GET['program_name'] . ' - ' . $_GET['course_name'];
-                    } ?></h2>
+                                                echo $_GET['program_name'] . ' - ' . $_GET['course_name'];
+                                            } ?></h2>
                     <span id="sy">SY: <?php if (isset($_GET['school_year'])) {
-                        echo $_GET['school_year'];
-                    } ?></span>
+                                            echo $_GET['school_year'];
+                                        } ?></span>
 
                     <p class="semester">1st Semester <input type="text" id="searchInput" class="form-control"
                             placeholder="Search programs..." style="float: right;" onkeyup="searchPrograms()">
@@ -272,6 +272,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["add-subject"])) {
                                 <th>#</th>
                                 <th>Course Code</th>
                                 <th>Course Title</th>
+                                <th>Subject Teacher</th>
                                 <th>Actions</th>
                             </tr>
                             <tbody id="subjectList1">
@@ -281,20 +282,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["add-subject"])) {
                                     $index = 1;
                                     foreach ($subjects as $subject) {
                                         if ($subject['semester'] == 1) {
-                                            ?>
-                                        <tr class="programRow">
-                                            <td><?php echo $index++; ?></td>
-                                            <td class="programData"><?php echo htmlspecialchars($subject['subject_code']) ?>
-                                            </td>
-                                            <td class="programData"><?php echo $subject['subject_name']; ?></td>
-                                            <td>
-                                                <button class="btn btn-secondary edit-subject"><i
-                                                        class="fa fa-edit"></i></button>
-                                                <button class="btn btn-danger delete-subject"><i
-                                                        class="fa fa-trash"></i></button>
-                                            </td>
-                                        </tr>
-                                    <?php }
+                                    ?>
+                                <tr class="programRow">
+                                    <td><?php echo $index++; ?></td>
+                                    <td class="programData"><?php echo htmlspecialchars($subject['subject_code']) ?>
+                                    </td>
+                                    <td class="programData"><?php echo $subject['subject_name']; ?></td>
+                                    <td class="programData"><?php echo $subject['teacher_name']; ?></td>
+                                    <td>
+                                        <button class="btn btn-secondary edit-subject"><i
+                                                class="fa fa-edit"></i></button>
+                                        <button class="btn btn-danger delete-subject"><i
+                                                class="fa fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <?php }
                                     } ?>
                                 </tr>
                             </tbody>
@@ -312,6 +314,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["add-subject"])) {
                                 <th>#</th>
                                 <th>Course Code</th>
                                 <th>Course Title</th>
+                                <th>Subject Teacher</th>
                                 <th>Actions</th>
                             </tr>
 
@@ -321,19 +324,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["add-subject"])) {
                                     $subjects = getSubjectById($_GET['program_id']);
                                     foreach ($subjects as $subject) {
                                         if ($subject['semester'] == 2) {
-                                            ?>
-                                        <tr class="programRow">
-                                            <td>1</td>
-                                            <td class="programData"><?php echo $subject['subject_code']; ?></td>
-                                            <td class="programData"><?php echo $subject['subject_name']; ?></td>
-                                            <td>
-                                                <button class="btn btn-secondary edit-subject"><i
-                                                        class="fa fa-edit"></i></button>
-                                                <button class="btn btn-danger delete-subject"><i
-                                                        class="fa fa-trash"></i></button>
-                                            </td>
-                                        </tr>
-                                    <?php }
+                                    ?>
+                                <tr class="programRow">
+                                    <td>1</td>
+                                    <td class="programData"><?php echo $subject['subject_code']; ?></td>
+                                    <td class="programData"><?php echo $subject['subject_name']; ?></td>
+                                    <td class="programData"><?php echo $subject['teacher_name']; ?></td>
+                                    <td>
+                                        <button class="btn btn-secondary edit-subject"><i
+                                                class="fa fa-edit"></i></button>
+                                        <button class="btn btn-danger delete-subject"><i
+                                                class="fa fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <?php }
                                     } ?>
                                 </tr>
 
@@ -343,25 +347,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["add-subject"])) {
                     </div>
                     <p class="semester">New Subjects</p>
                     <?php if (isset($_GET['error'])) { ?>
-                        <p style="color: red;"><?php echo $_GET['error']; ?></p>
+                    <p style="color: red;"><?php echo $_GET['error']; ?></p>
                     <?php } elseif (isset($_GET['success'])) { ?>
-                        <p style="color: green;"><?php echo $_GET['success']; ?></p>
+                    <p style="color: green;"><?php echo $_GET['success']; ?></p>
                     <?php } ?>
                     <form action="" method="post">
                         <div class="add_subject">
 
                             <div style="gap: 2px; display: flex;">
+
                                 <input type="text" name="program_id" value="<?php echo $_GET['program_id']; ?>"
                                     style="display: none;">
                                 <input style="height: 2.4rem; margin-top:5px; width:20rem;" type="text"
                                     name="subject_code" placeholder="Enter Subject Code" required>
+
                                 <input style="height: 2.4rem; margin-top:5px; width:20rem;" type="text"
                                     name="subject_name" placeholder="Enter Subject Name" required>
 
-                                <select style="height: 2.4rem; margin-top:5px;" name="semester_id" required>
-                                    <option value="" disabled>Select Semester</option>
-                                    <option value="1">1st Semester</option>
-                                    <option value="2">2nd Semester</option>
+                                <?php $teacher = GetSemester(); ?>
+                                <select style="height: 2.4rem; margin-top:5px;" name="semester_id" id="semester"
+                                    required>
+                                    <option value="" disabled>Select Teacher</option>
+                                    <?php foreach ($teacher as $t) { ?>
+                                    <option value="<?php echo $t['semester']; ?>"><?php echo $t['semester']; ?>
+                                    </option>
+                                    <?php } ?>
                                 </select>
 
                                 <?php $teacher = GetTeachersList(); ?>
@@ -369,8 +379,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["add-subject"])) {
                                     required>
                                     <option value="" disabled>Select Teacher</option>
                                     <?php foreach ($teacher as $t) { ?>
-                                        <option value="<?php echo $t['teacher_name']; ?>"><?php echo $t['teacher_name']; ?>
-                                        </option>
+                                    <option value="<?php echo $t['teacher_name']; ?>"><?php echo $t['teacher_name']; ?>
+                                    </option>
                                     <?php } ?>
                                 </select>
 
