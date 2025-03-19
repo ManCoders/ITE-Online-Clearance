@@ -20,7 +20,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["add-subject"])) {
     InsertNewSubject2($teacher_id, $semester_id, $subject_name, $subject_code, $program_id);
 }
 
-
 ?>
 
 
