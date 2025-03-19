@@ -121,6 +121,14 @@ function GetSchoolYear()
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+function GetCourse()
+{
+    global $pdo;
+    $stmt = $pdo->prepare("SELECT * FROM course");
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 function GetPrograms()
 {
     global $pdo;
@@ -384,11 +392,11 @@ function update_subject($sy, $subject_id, $subject_name, $subject_code, $semeste
     }
 }
 
-function deleteSubject($id)
+function deleteSubjectbyId($id)
 {
     global $pdo;
     try {
-        $sql = "DELETE FROM student_subjects WHERE student_id = ?";
+        $sql = "DELETE FROM subject_with_program_id WHERE id = ?";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$id]);
         return true;
@@ -511,29 +519,39 @@ function GetProgramWithId($id)
         return false;
     }
 }
+
 function InsertNewSubject2($teacher_id, $semester_id, $subject_name, $subject_code, $id)
 {
     global $pdo;
 
     try {
-        $stmt = $pdo->prepare("INSERT INTO subject_with_program_id ( teacher_name, semester, subject_name, subject_code, program_id ) 
-                               VALUES ( ?,?,?,?,?)");
-        $stmt->execute([
-            $teacher_id,
-            $semester_id,
-            $subject_name,
-            $subject_code,
-            $id
-        ]);
+        $stmt = $pdo->prepare("SELECT * FROM subject_with_program_id WHERE subject_name = ? AND subject_code = ? AND program_id = ?");
+        $stmt->execute([$subject_name, $subject_code, $id]);
+        $exists = $stmt->fetchColumn();
+        if ($exists > 0) {
+            header('Location: view_program.php?error=Duplicate Error, Please Use Unique Subject Name and Code&program_id=' . $id);
+            exit();
+        } else {
+            $stmt = $pdo->prepare("INSERT INTO subject_with_program_id ( teacher_name, semester, subject_name, subject_code, program_id ) 
+                                   VALUES ( ?,?,?,?,?)");
+            $stmt->execute([
+                $teacher_id,
+                $semester_id,
+                $subject_name,
+                $subject_code,
+                $id
+            ]);
 
-        header('Location: view_program.php?program_id=' . $id . '&success=Subject added successfully');
-        exit();
+            header('Location: view_program.php?success=Subject added successfully&program_id=' . $id);
+            return true;
+        }
     } catch (PDOException $e) {
         error_log("Database Error: " . $e->getMessage());
-        header('Location: view_program.php?error=Failed to add subject');
-        exit();
+        header('Location: view_program.php?error=Failed to add subject&program_id=' . $id);
+        return false;
     }
 }
+
 
 
 function InsertNewPrograms($program_course, $department_program, $schoolyear)

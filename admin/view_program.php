@@ -20,6 +20,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["add-subject"])) {
     InsertNewSubject2($teacher_id, $semester_id, $subject_name, $subject_code, $program_id);
 }
 
+if (isset($_GET['subject_id'])) {
+    $subject_id = $_GET['subject_id'];
+    deleteSubjectbyId($subject_id);
+}
 ?>
 
 
@@ -144,6 +148,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["add-subject"])) {
         }
 
         form input[type="submit"]:hover {
+            background-color: #cc2c00;
+        }
+
+        form input[type="button"]:hover {
             background-color: #cc2c00;
         }
 
@@ -272,26 +280,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["add-subject"])) {
                                 <th>#</th>
                                 <th>Course Code</th>
                                 <th>Course Title</th>
+                                <th>Instructor</th>
                                 <th>Actions</th>
                             </tr>
                             <tbody id="subjectList1">
                                 <tr class="programRow">
                                     <?php
+                                    if (!isset($_SESSION['program_id'])) {
+                                        echo '<tr><td colspan="4">No programs found.</td></tr>';
+                                    }
+
                                     $subjects = getSubjectById($_GET['program_id']);
                                     $index = 1;
                                     foreach ($subjects as $subject) {
-                                        if ($subject['semester'] == 1) {
-                                            ?>
-                                        <tr class="programRow">
+                                        if ($subject['semester'] == 1) { ?>
+                                        <tr>
                                             <td><?php echo $index++; ?></td>
-                                            <td class="programData"><?php echo htmlspecialchars($subject['subject_code']) ?>
-                                            </td>
-                                            <td class="programData"><?php echo $subject['subject_name']; ?></td>
+                                            <td><?php echo htmlspecialchars($subject['subject_code']); ?></td>
+                                            <td><?php echo $subject['subject_name']; ?></td>
+                                            <td><?php echo $subject['teacher_name']; ?></td>
                                             <td>
-                                                <button class="btn btn-secondary edit-subject"><i
-                                                        class="fa fa-edit"></i></button>
-                                                <button class="btn btn-danger delete-subject"><i
-                                                        class="fa fa-trash"></i></button>
+                                                <button subject="<?php echo $subject['id']; ?>"
+                                                    program="<?php echo $subject['program_id']; ?>" class="delete_subject">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
                                             </td>
                                         </tr>
                                     <?php }
@@ -312,25 +324,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["add-subject"])) {
                                 <th>#</th>
                                 <th>Course Code</th>
                                 <th>Course Title</th>
+                                <th>Instructor</th>
                                 <th>Actions</th>
                             </tr>
 
                             <tbody id="subjectList2">
                                 <tr class="programRow">
                                     <?php
-                                    $subjects = getSubjectById($_GET['program_id']);
+                                    $index = 1;
                                     foreach ($subjects as $subject) {
-                                        if ($subject['semester'] == 2) {
-                                            ?>
-                                        <tr class="programRow">
-                                            <td>1</td>
-                                            <td class="programData"><?php echo $subject['subject_code']; ?></td>
-                                            <td class="programData"><?php echo $subject['subject_name']; ?></td>
+                                        if ($subject['semester'] == 2) { ?>
+                                        <tr>
                                             <td>
-                                                <button class="btn btn-secondary edit-subject"><i
-                                                        class="fa fa-edit"></i></button>
-                                                <button class="btn btn-danger delete-subject"><i
-                                                        class="fa fa-trash"></i></button>
+                                                <?php echo $index++; ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $subject['subject_code']; ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $subject['subject_name']; ?>
+                                            </td>
+                                            <td><?php echo $subject['teacher_name']; ?></td>
+                                            <td>
+                                                <button subject="<?php echo $subject['id']; ?>"
+                                                    program="<?php echo $subject['program_id']; ?>" class="delete_subject">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
                                             </td>
                                         </tr>
                                     <?php }
@@ -359,23 +378,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["add-subject"])) {
                                     name="subject_name" placeholder="Enter Subject Name" required>
 
                                 <select style="height: 2.4rem; margin-top:5px;" name="semester_id" required>
-                                    <option value="" disabled>Select Semester</option>
-                                    <option value="1">1st Semester</option>
-                                    <option value="2">2nd Semester</option>
+                                    <?php $teacher = GetSemester(); ?>
+                                    <option value="">Select Semester</option>
+                                    <?php foreach ($teacher as $t) { ?>
+                                        <option value="<?php echo $t['semester']; ?>"><?php echo $t['semester']; ?>
+                                        </option>
+                                    <?php } ?>
                                 </select>
 
                                 <?php $teacher = GetTeachersList(); ?>
                                 <select style="height: 2.4rem; margin-top:5px;" name="teacher_name" id="teacher"
                                     required>
-                                    <option value="" disabled>Select Teacher</option>
+                                    <option value="">Select Teacher</option>
                                     <?php foreach ($teacher as $t) { ?>
                                         <option value="<?php echo $t['teacher_name']; ?>"><?php echo $t['teacher_name']; ?>
                                         </option>
                                     <?php } ?>
                                 </select>
 
-                                <input style="height: 2.4rem; width:100%; margin-top:5px;" type="submit"
-                                    name="add-subject" id="add-subject" value="Add" class="btn btn-primary add-subject">
+                                <input section=".<?php echo $_GET['program_id'] ?>."
+                                    style="height: 2.4rem; width:100%; margin-top:5px;" type="submit" name="add-subject"
+                                    id="add-subject" value="Add" class="btn btn-primary add-subject">
+
                                 <input type="button" onclick="window.location.href = './program.php'" value="Back"
                                     class="btn btn-secondary">
                             </div>
@@ -391,9 +415,60 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["add-subject"])) {
 
 
     ?>
+    <script src="../assets/libs/sweetalert2/sweetalert2.all.min.js"></script>
+    <script src="../assets/bootstrap/bootstrap.bundle.min.js"></script>
+    <script>
 
 
 
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll(".delete_subject").forEach(button => {
+                button.addEventListener("click", function (event) {
+                    event.preventDefault();
+                    let subject_id = this.getAttribute("subject");
+                    let program_id = this.getAttribute("program");
+
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "This subject will be permanently deleted!",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#d33",
+                        cancelButtonColor: "#3085d6",
+                        confirmButtonText: "Yes, delete it!"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+
+                            window.location.href = "?subject_id=" + subject_id + "&program_id=" + program_id;
+                        }
+                    });
+                });
+            });
+
+            function loadSubjects() {
+                fetch("get_subjects.php?program_id=<?php echo $_GET['program_id']; ?>")
+                    .then(response => response.text())
+                    .then(data => {
+                        document.getElementById("subjectList1").innerHTML = data;
+                        document.getElementById("subjectList2").innerHTML = data;
+                    });
+            }
+
+            if (urlParams.has("success")) {
+                Swal.fire({
+                    icon: "success",
+                    title: "Successfully added!",
+                    text: "The program was successfully Added!.",
+                    showConfirmButton: false,
+                    timer: 2500
+                });
+                const newURL = window.location.origin + window.location.pathname;
+                window.history.replaceState({}, document.title, newURL);
+
+            }
+        });
+
+    </script>
 
 
 

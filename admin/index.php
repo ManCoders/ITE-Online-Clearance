@@ -28,24 +28,23 @@ if ($section_result->rowCount() > 0) {
 }
 
 
-$programs_query = "SELECT * FROM programs";
+$programs_query = "SELECT * FROM programs_with_subjects";
 $programs_result = $pdo->prepare($programs_query);
 $programs_result->execute();
 if ($programs_result->rowCount() > 0) {
     while ($row = $programs_result->fetch()) {
-        $sampleData['programs'][] = $row['program_name'];
+        $sampleData['programs'][] = $row['program_course'];
     }
 }
 
 
 
-$subjects_query = "SELECT s.*, sm.semester FROM subjects s INNER JOIN semesters sm ON s.semester_id = sm.id";
+$subjects_query = "SELECT DISTINCT subject_name FROM subject_with_program_id";
 $subjects_result = $pdo->prepare($subjects_query);
 $subjects_result->execute();
 if ($subjects_result->rowCount() > 0) {
     while ($row = $subjects_result->fetch()) {
-        $new['new'] = $row['subject_name'] . " - " . $row['semester'];
-        $sampleData['subjects'][] = $new['new'];
+        $sampleData['subjects'][] = $row['subject_name'];
     }
 }
 

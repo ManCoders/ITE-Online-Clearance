@@ -29,8 +29,6 @@ if (isset($_GET['delete_section'])) {
 }
 
 
-$program_id = 0;
-
 
 ?>
 <!DOCTYPE html>
@@ -323,11 +321,13 @@ $program_id = 0;
                     <select
                         style="height: 2.4rem; width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;"
                         name="course" required>
-                        <option value="">Select Major</option>
-                        <option value="Information Technology">Information Technology</option>
-                        <option value="Automotive Engineering">Automotive Engineering</option>
-                        <option value="Electronic Engineering">Electronic Engineering</option>
-                        <option value="Electrical Engineering">Electrical Engineering</option>
+                        <option value="">Select Major Course</option>
+                        <?php
+                        $years = GetCourse();
+                        foreach ($years as $year) { ?>
+                            <option value="<?php echo $year['course_name']; ?>"><?php echo $year['course_name'] ?>
+                            </option>
+                        <?php } ?>
 
                     </select>
                     <label for="department">Programs :</label>
@@ -335,25 +335,30 @@ $program_id = 0;
                         style="height: 2.4rem; width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;"
                         name="department" required>
                         <option value="">Select Program</option>
-                        <option value="DT">DT</option>
-                        <option value="AIT">AIT</option>
-                        <option value="TITE">TITE</option>
+                        <?php
+                        $years = GetPrograms();
+                        foreach ($years as $year) { ?>
+                            <option value="<?php echo $year['program_code']; ?>"><?php echo $year['program_code'] ?>
+                            </option>
+                        <?php } ?>
                     </select>
                     <label for="sy">School Year :</label>
                     <select
                         style="height: 2.4rem; width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;"
                         name="sy" required>
                         <option value="">Select School Year</option>
-                        <option value="2022-2023">2022-2023</option>
-                        <option value="2023-2024">2023-2024</option>
-                        <option value="2024-2025">2024-2025</option>
-                        <option value="2025-2026">2025-2026</option>
+
+                        <?php
+                        $years = GetSchoolYear();
+                        foreach ($years as $year) { ?>
+                            <option value="<?php echo $year['school_year']; ?>"><?php echo $year['school_year'] ?></option>
+                        <?php } ?>
                     </select>
                     <input type="submit" name="program_id" value="Add Program">
                 </form>
             </div>
 
-            <div class="card_table">
+            <div class="card">
                 <h2>Programs</h2>
 
                 <form method="GET">
@@ -362,12 +367,10 @@ $program_id = 0;
                         style="height: 2.4rem; width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;">
                         <option value="">Select School Year</option>
                         <?php
-                        $years = ["2022-2023", "2023-2024", "2024-2025", "2025-2026"];
-                        foreach ($years as $year) {
-                            $selected = (isset($_GET['sy']) && $_GET['sy'] == $year) ? 'selected' : '';
-                            echo "<option value='$year' $selected>$year</option>";
-                        }
-                        ?>
+                        $years = GetSchoolYear();
+                        foreach ($years as $year) { ?>
+                            <option value="<?php echo $year['school_year']; ?>"><?php echo $year['school_year'] ?></option>
+                        <?php } ?>
                     </select>
 
                     <label for="department">Programs:</label>
@@ -375,150 +378,45 @@ $program_id = 0;
                         style="height: 2.4rem; width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;">
                         <option value="">Select Program</option>
                         <?php
-                        $departments = ["DT", "AIT", "TITE"];
-                        foreach ($departments as $dept) {
-                            $selected = (isset($_GET['department']) && $_GET['department'] == $dept) ? 'selected' : '';
-                            echo "<option value='$dept' $selected>$dept</option>";
-                        }
-                        ?>
+                        $years = GetPrograms();
+                        foreach ($years as $year) { ?>
+                            <option value="<?php echo $year['program_code']; ?>"><?php echo $year['program_code'] ?>
+                            </option>
+                        <?php } ?>
                     </select>
 
-                    <button
-                        style="height: 2.4rem; background-color: #ff3d00; margin: 5px; width: 50%; color: #ffff; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;"
-                        type="submit" class="btn btn-primary" style="margin-top: 10px; ">Submit</button>
+                    <label style="margin: 2px;" for=" program_id">Course Title:</label>
+                    <select
+                        style="height: 2.4rem; width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;"
+                        name="course">
+                        <option value="">Select Major Course</option>
+                        <?php
+                        $years = GetCourse();
+                        foreach ($years as $year) { ?>
+                            <option value="<?php echo $year['course_name']; ?>"><?php echo $year['course_name'] ?>
+                            </option>
+                        <?php } ?>
+
+                    </select>
+
+                    <button class="buttons" type="submit" onclick="display()" class="btn btn-primary"
+                        style="margin-top: 10px; ">Filtering</button>
                 </form>
-                <div class="tables" style="background-color: #8B0000; height: auto; color: white;">
-                    <table class="table table-striped table-bordered">
-                        <tbody>
-                            <?php
-                            $list = GetProgramList();
-                            foreach ($list as $index => $program) {
-                                // Apply filter conditions
-                                if (
-                                    (!isset($_GET['sy']) || $_GET['sy'] == '' || $_GET['sy'] == $program['school_year']) &&
-                                    (!isset($_GET['department']) || $_GET['department'] == '' || $_GET['department'] == $program['department_program'])
-                                ) {
-                                    ?>
-                                    <tr>
-                                        <td>
-                                            <?php echo ($index + 1) . '. ' . htmlspecialchars($program['school_year']) . ' - ' . htmlspecialchars($program['department_program']) . ' - ' . htmlspecialchars($program['program_course']); ?>
-                                            <div>
-                                                <a
-                                                    href="view_program.php?program_id=<?php echo $program['id']; ?>&program_name=<?php echo urlencode($program['department_program']); ?>&course_name=<?php echo urlencode($program['program_course']); ?>&school_year=<?php echo urlencode($program['school_year']); ?>&subject_name=<?php echo urlencode($program['subject_name']); ?>">
-                                                    <i class="fa fa-eye"></i>
-                                                </a>
-                                                <a class="edit-program" section="<?php echo $program['id']; ?>"><i
-                                                        class="fa fa-edit"></i></a>
-                                                <a class="delete-program" section="<?php echo $program['id']; ?>"><i
-                                                        class="fa fa-trash"></i></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                <?php }
-                            } ?>
-                        </tbody>
-                    </table>
-                </div>
+                <style>
+                    .buttons {
+                        height: 2.6rem;
+                        background-color: #ff3d00;
+                        width: 100%;
+                        margin-top: 100%;
+                        color: #ffff;
+                        padding: 10px;
+                        border: 1px solid #ccc;
+                        border-radius: 5px;
+                        font-size: 14px;
+                    }
 
-
-
-                <div id="myModal" class="modal">
-                    <div class="modal-content">
-
-                        <span class="close" onclick="closeModal()">&times;</span>
-                        <!--  -->
-                        <h2 id="programTitle">Program Name</h2>
-                        <span id="sy">SY: 2024-2025</span>
-                        <p class="semester">1st Semester</p>
-
-                        <div class="table_content">
-                            <table>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Subject Code</th>
-                                    <th>Subject Name</th>
-                                    <th>Actions</th>
-                                </tr>
-                                <tbody id="subjectList1">
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Subject Code</td>
-                                        <td>Subject Names</td>
-                                        <td>
-                                            <button class="btn btn-secondary edit-subject"><i
-                                                    class="fa fa-edit"></i></button>
-                                            <button class="btn btn-danger delete-subject"><i
-                                                    class="fa fa-trash"></i></button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                        </div>
-
-                        <!-- <form action="">
-                        <div class="add_subject">
-                            <input type="text" name="program_id" id="program_id"></input>
-                            <input type="text" name="semester_id" id="semester_id"></input>
-                            <td> <input type="text" id="subject_code_input" placeholder="Enter Subject Code">
-                            </td>
-                            <td> <input type="text" id="subject_name_input" placeholder="Enter Subject Name">
-                            <td>
-                                <input type="submit" id="add-subject1" value="Add" class="btn btn-primary add-subject">
-                                </input>
-                            </td>
-                        </div>
-                    </form> -->
-
-                        <p class="semester">2nd Semester</p>
-                        <div class="table_content">
-                            <table>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Subject Code</th>
-                                    <th>Subject Name</th>
-                                    <th>Actions</th>
-                                </tr>
-
-                                <tbody id="subjectList2">
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Sample Subject Code</td>
-                                        <td>Sample Subject Name</td>
-                                        <td>
-                                            <button class="btn btn-secondary edit-subject"><i
-                                                    class="fa fa-edit"></i></button>
-                                            <button class="btn btn-danger delete-subject"><i
-                                                    class="fa fa-trash"></i></button>
-                                        </td>
-                                    </tr>
-
-                                </tbody>
-                            </table>
-
-                        </div>
-                        <p class="semester">New Subjects</p>
-                        <form action="">
-                            <div class="add_subject">
-                                <input type="text" name="program_id" id="program_id" hidden></input>
-
-                                <select style="height: 2.4rem; margin-top:5px;" name="semester_id" id="semester_id">
-                                    <option value="" selected disabled>Select Semester</option>
-                                    <option value="1">1st Semester</option>
-                                    <option value="2">2nd Semester</option>
-                                </select>
-                                <td> <input type="text" id="subject_code_input" placeholder="Enter Subject Code">
-                                </td>
-                                <td> <input type="text" id="subject_name_input" placeholder="Enter Subject Name">
-                                <td>
-                                    <input type="submit" id="add-subject" value="Add"
-                                        class="btn btn-primary add-subject">
-                                    </input>
-                                </td>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                    #tableNone {}
+                </style>
 
                 <script>
                     document.getElementById('program_id').addEventListener('input', handleInput);
@@ -527,6 +425,10 @@ $program_id = 0;
                     function handleInput(event) {
                         const { id, value } = event.target;
                         console.log(`The current value of ${id} is: ${value}`);
+                    }
+
+                    function display() {
+                        document.getElementById("tableNone").style.display = "block";
                     }
 
                     function openModal(programId, semesterId, departmentProgram, programCourse, sy) {
@@ -549,15 +451,60 @@ $program_id = 0;
                             modal.style.display = "none";
                         }
                     };
-
-
-
-
                 </script>
+            </div>
 
+            <div class="card-table" id="tableNone"
+                style="width: 100%; color: #ccc; border: 1px solid #ccc; height: 15rem; background-color: #8B0000; overflow-y: scroll;">
+                <div class="tables-content" style=" background-color: #8B0000; display: flex; color: white;">
+                    <table class="table" style=" width: 100%; ">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>School year</th>
+                                <th>Programs</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $list = GetProgramList();
+                            foreach ($list as $index => $program) {
+                                // Apply filter conditions
+                                if (
+                                    (!isset($_GET['sy']) || $_GET['sy'] == '' || $_GET['sy'] == $program['school_year']) &&
+                                    (!isset($_GET['department']) || $_GET['department'] == '' || $_GET['department'] == $program['department_program']) &&
+                                    (!isset($_GET['course']) || $_GET['course'] == '' || $_GET['course'] == $program['program_course'])
+                                ) {
+                                    ?>
+                                    <tr style="text-align: center;">
+                                        <td><?php echo $index + 1 ?></td>
+                                        <td><?php echo htmlspecialchars($program['school_year']) ?></td>
+                                        <td>
+                                            <?php echo htmlspecialchars($program['department_program']) . ' - ' . htmlspecialchars($program['program_course']); ?>
+                                        </td>
 
+                                        <td>
+                                            <div style="color: aliceblue;">
+                                                <a
+                                                    href="view_program.php?program_id=<?php echo $_SESSION['program_id'] = $program['id']; ?>&program_name=<?php echo urlencode($program['department_program']); ?>&course_name=<?php echo urlencode($program['program_course']); ?>&school_year=<?php echo urlencode($program['school_year']); ?>&subject_name=<?php echo urlencode($program['subject_name']); ?>">
+                                                    <i style="color: aliceblue;" class="fa fa-eye"></i>
+                                                </a>
+                                                <!-- <a class="edit-program" section="<?php echo $program['id']; ?>"><i
+                                                        class="fa fa-edit"></i></a> -->
+                                                <a class="delete-program" section="<?php echo $program['id']; ?>"><i
+                                                        class="fa fa-trash"></i></a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <?php }
+                            } ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
+
 
         <script src="../assets/libs/sweetalert2/sweetalert2.all.min.js"></script>
 
@@ -619,6 +566,31 @@ $program_id = 0;
                         icon: "success",
                         title: "Deleted!",
                         text: "The program was successfully deleted.",
+                        showConfirmButton: false,
+                        timer: 2500
+                    });
+                    const newURL = window.location.origin + window.location.pathname;
+                    window.history.replaceState({}, document.title, newURL);
+
+                }
+
+                if (urlParams.has("error")) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error!",
+                        text: "The program was unsuccessfully Added!.",
+                        showConfirmButton: false,
+                        timer: 2500
+                    });
+                    const newURL = window.location.origin + window.location.pathname;
+                    window.history.replaceState({}, document.title, newURL);
+
+                }
+                if (urlParams.has("success")) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Successfully added!",
+                        text: "The program was successfully Added!.",
                         showConfirmButton: false,
                         timer: 2500
                     });
