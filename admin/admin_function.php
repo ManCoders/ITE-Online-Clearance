@@ -537,7 +537,18 @@ function InsertNewSubject2($teacher_id, $semester_id, $subject_name, $subject_co
         exit();
     }
 }
-
+function GetCourse()
+{
+    global $pdo;
+    try {
+        $stmt = $pdo->prepare("SELECT * FROM programs");
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+        return $result;
+    } catch (PDOException $e) {
+        return false;
+    }
+}
 
 function InsertNewPrograms($program_course, $department_program, $schoolyear)
 {
