@@ -140,7 +140,7 @@ $program_id = 0;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
             overflow-y: hidden;
             overflow-y: scroll;
-            height: auto;
+            height: 20rem;
             text-align: center;
         }
 
@@ -354,71 +354,109 @@ $program_id = 0;
             </div>
 
             <div class="card_table">
-                <h2>Programs </h2>
-                <table class="table table-striped table-bordered">
+                <h2>Programs</h2>
 
-                    <tbody>
+                <form method="GET">
+                    <label for="sy">School Year:</label>
+                    <select name="sy"
+                        style="height: 2.4rem; width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;">
+                        <option value="">Select School Year</option>
                         <?php
-                        $list = GetProgramList();
-                        foreach ($list as $index => $program) { ?>
-                            <tr>
-                                <td>
-                                    <?php echo ($index + 1) . '. ' . htmlspecialchars($program['department_program']) . ' - ' . htmlspecialchars($program['program_course']); ?>
-                                    <div>
+                        $years = ["2022-2023", "2023-2024", "2024-2025", "2025-2026"];
+                        foreach ($years as $year) {
+                            $selected = (isset($_GET['sy']) && $_GET['sy'] == $year) ? 'selected' : '';
+                            echo "<option value='$year' $selected>$year</option>";
+                        }
+                        ?>
+                    </select>
 
-                                        <a
-                                            href="view_program.php?program_id=<?php echo $program['id']; ?>&program_name=<?php echo urlencode($program['department_program']); ?>&course_name=<?php echo urlencode($program['program_course']); ?>&school_year=<?php echo urlencode($program['school_year']); ?>&subject_name=<?php echo urlencode($program['subject_name']); ?>">
-                                            <i class="fa fa-eye"></i>
-                                        </a>
-                                        <a class="edit-program" section="<?php echo $program['id']; ?>"><i
-                                                class="fa fa-edit"></i> </a>
+                    <label for="department">Programs:</label>
+                    <select name="department"
+                        style="height: 2.4rem; width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;">
+                        <option value="">Select Program</option>
+                        <?php
+                        $departments = ["DT", "AIT", "TITE"];
+                        foreach ($departments as $dept) {
+                            $selected = (isset($_GET['department']) && $_GET['department'] == $dept) ? 'selected' : '';
+                            echo "<option value='$dept' $selected>$dept</option>";
+                        }
+                        ?>
+                    </select>
 
-                                        <a class="delete-program" section="<?php echo $program['id']; ?>"><i
-                                                class="fa fa-trash"></i></a>
-                                    </div>
-                                </td>
-                            </tr>
-                        <?php } ?>
-                    </tbody>
-                </table>
-            </div>
+                    <button
+                        style="height: 2.4rem; background-color: #ff3d00; margin: 5px; width: 50%; color: #ffff; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;"
+                        type="submit" class="btn btn-primary" style="margin-top: 10px; ">Submit</button>
+                </form>
+                <div class="tables" style="background-color: #8B0000; height: auto; color: white;">
+                    <table class="table table-striped table-bordered">
+                        <tbody>
+                            <?php
+                            $list = GetProgramList();
+                            foreach ($list as $index => $program) {
+                                // Apply filter conditions
+                                if (
+                                    (!isset($_GET['sy']) || $_GET['sy'] == '' || $_GET['sy'] == $program['school_year']) &&
+                                    (!isset($_GET['department']) || $_GET['department'] == '' || $_GET['department'] == $program['department_program'])
+                                ) {
+                                    ?>
+                                    <tr>
+                                        <td>
+                                            <?php echo ($index + 1) . '. ' . htmlspecialchars($program['school_year']) . ' - ' . htmlspecialchars($program['department_program']) . ' - ' . htmlspecialchars($program['program_course']); ?>
+                                            <div>
+                                                <a
+                                                    href="view_program.php?program_id=<?php echo $program['id']; ?>&program_name=<?php echo urlencode($program['department_program']); ?>&course_name=<?php echo urlencode($program['program_course']); ?>&school_year=<?php echo urlencode($program['school_year']); ?>&subject_name=<?php echo urlencode($program['subject_name']); ?>">
+                                                    <i class="fa fa-eye"></i>
+                                                </a>
+                                                <a class="edit-program" section="<?php echo $program['id']; ?>"><i
+                                                        class="fa fa-edit"></i></a>
+                                                <a class="delete-program" section="<?php echo $program['id']; ?>"><i
+                                                        class="fa fa-trash"></i></a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <?php }
+                            } ?>
+                        </tbody>
+                    </table>
+                </div>
 
 
-            <div id="myModal" class="modal">
-                <div class="modal-content">
 
-                    <span class="close" onclick="closeModal()">&times;</span>
-                    <!--  -->
-                    <h2 id="programTitle">Program Name</h2>
-                    <span id="sy">SY: 2024-2025</span>
-                    <p class="semester">1st Semester</p>
+                <div id="myModal" class="modal">
+                    <div class="modal-content">
 
-                    <div class="table_content">
-                        <table>
-                            <tr>
-                                <th>#</th>
-                                <th>Subject Code</th>
-                                <th>Subject Name</th>
-                                <th>Actions</th>
-                            </tr>
-                            <tbody id="subjectList1">
+                        <span class="close" onclick="closeModal()">&times;</span>
+                        <!--  -->
+                        <h2 id="programTitle">Program Name</h2>
+                        <span id="sy">SY: 2024-2025</span>
+                        <p class="semester">1st Semester</p>
+
+                        <div class="table_content">
+                            <table>
                                 <tr>
-                                    <td>1</td>
-                                    <td>Subject Code</td>
-                                    <td>Subject Names</td>
-                                    <td>
-                                        <button class="btn btn-secondary edit-subject"><i
-                                                class="fa fa-edit"></i></button>
-                                        <button class="btn btn-danger delete-subject"><i
-                                                class="fa fa-trash"></i></button>
-                                    </td>
+                                    <th>#</th>
+                                    <th>Subject Code</th>
+                                    <th>Subject Name</th>
+                                    <th>Actions</th>
                                 </tr>
-                            </tbody>
-                        </table>
+                                <tbody id="subjectList1">
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Subject Code</td>
+                                        <td>Subject Names</td>
+                                        <td>
+                                            <button class="btn btn-secondary edit-subject"><i
+                                                    class="fa fa-edit"></i></button>
+                                            <button class="btn btn-danger delete-subject"><i
+                                                    class="fa fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
-                    </div>
+                        </div>
 
-                    <!-- <form action="">
+                        <!-- <form action="">
                         <div class="add_subject">
                             <input type="text" name="program_id" id="program_id"></input>
                             <input type="text" name="semester_id" id="semester_id"></input>
@@ -432,182 +470,183 @@ $program_id = 0;
                         </div>
                     </form> -->
 
-                    <p class="semester">2nd Semester</p>
-                    <div class="table_content">
-                        <table>
-                            <tr>
-                                <th>#</th>
-                                <th>Subject Code</th>
-                                <th>Subject Name</th>
-                                <th>Actions</th>
-                            </tr>
-
-                            <tbody id="subjectList2">
+                        <p class="semester">2nd Semester</p>
+                        <div class="table_content">
+                            <table>
                                 <tr>
-                                    <td>1</td>
-                                    <td>Sample Subject Code</td>
-                                    <td>Sample Subject Name</td>
-                                    <td>
-                                        <button class="btn btn-secondary edit-subject"><i
-                                                class="fa fa-edit"></i></button>
-                                        <button class="btn btn-danger delete-subject"><i
-                                                class="fa fa-trash"></i></button>
-                                    </td>
+                                    <th>#</th>
+                                    <th>Subject Code</th>
+                                    <th>Subject Name</th>
+                                    <th>Actions</th>
                                 </tr>
 
-                            </tbody>
-                        </table>
+                                <tbody id="subjectList2">
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Sample Subject Code</td>
+                                        <td>Sample Subject Name</td>
+                                        <td>
+                                            <button class="btn btn-secondary edit-subject"><i
+                                                    class="fa fa-edit"></i></button>
+                                            <button class="btn btn-danger delete-subject"><i
+                                                    class="fa fa-trash"></i></button>
+                                        </td>
+                                    </tr>
 
-                    </div>
-                    <p class="semester">New Subjects</p>
-                    <form action="">
-                        <div class="add_subject">
-                            <input type="text" name="program_id" id="program_id" hidden></input>
+                                </tbody>
+                            </table>
 
-                            <select style="height: 2.4rem; margin-top:5px;" name="semester_id" id="semester_id">
-                                <option value="" selected disabled>Select Semester</option>
-                                <option value="1">1st Semester</option>
-                                <option value="2">2nd Semester</option>
-                            </select>
-                            <td> <input type="text" id="subject_code_input" placeholder="Enter Subject Code">
-                            </td>
-                            <td> <input type="text" id="subject_name_input" placeholder="Enter Subject Name">
-                            <td>
-                                <input type="submit" id="add-subject" value="Add" class="btn btn-primary add-subject">
-                                </input>
-                            </td>
                         </div>
-                    </form>
+                        <p class="semester">New Subjects</p>
+                        <form action="">
+                            <div class="add_subject">
+                                <input type="text" name="program_id" id="program_id" hidden></input>
+
+                                <select style="height: 2.4rem; margin-top:5px;" name="semester_id" id="semester_id">
+                                    <option value="" selected disabled>Select Semester</option>
+                                    <option value="1">1st Semester</option>
+                                    <option value="2">2nd Semester</option>
+                                </select>
+                                <td> <input type="text" id="subject_code_input" placeholder="Enter Subject Code">
+                                </td>
+                                <td> <input type="text" id="subject_name_input" placeholder="Enter Subject Name">
+                                <td>
+                                    <input type="submit" id="add-subject" value="Add"
+                                        class="btn btn-primary add-subject">
+                                    </input>
+                                </td>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </div>
 
-            <script>
-                document.getElementById('program_id').addEventListener('input', handleInput);
-                document.getElementById('semester_id').addEventListener('input', handleInput);
+                <script>
+                    document.getElementById('program_id').addEventListener('input', handleInput);
+                    document.getElementById('semester_id').addEventListener('input', handleInput);
 
-                function handleInput(event) {
-                    const { id, value } = event.target;
-                    console.log(`The current value of ${id} is: ${value}`);
-                }
-
-                function openModal(programId, semesterId, departmentProgram, programCourse, sy) {
-                    document.getElementById("myModal").style.display = "block";
-
-                    document.getElementById("program_id").value = programId;
-                    document.getElementById("semester_id").value = semesterId;
-
-                    document.getElementById("programTitle").innerText = departmentProgram + " - " + programCourse;
-                    document.getElementById("sy").innerText = "SY: " + sy;
-
-                }
-                function closeModal() {
-                    document.getElementById("myModal").style.display = "none";
-                }
-
-                window.onclick = function (event) {
-                    let modal = document.getElementById("myModal");
-                    if (event.target === modal) {
-                        modal.style.display = "none";
+                    function handleInput(event) {
+                        const { id, value } = event.target;
+                        console.log(`The current value of ${id} is: ${value}`);
                     }
-                };
+
+                    function openModal(programId, semesterId, departmentProgram, programCourse, sy) {
+                        document.getElementById("myModal").style.display = "block";
+
+                        document.getElementById("program_id").value = programId;
+                        document.getElementById("semester_id").value = semesterId;
+
+                        document.getElementById("programTitle").innerText = departmentProgram + " - " + programCourse;
+                        document.getElementById("sy").innerText = "SY: " + sy;
+
+                    }
+                    function closeModal() {
+                        document.getElementById("myModal").style.display = "none";
+                    }
+
+                    window.onclick = function (event) {
+                        let modal = document.getElementById("myModal");
+                        if (event.target === modal) {
+                            modal.style.display = "none";
+                        }
+                    };
 
 
 
 
-            </script>
+                </script>
 
 
+            </div>
         </div>
-    </div>
 
-    <script src="../assets/libs/sweetalert2/sweetalert2.all.min.js"></script>
+        <script src="../assets/libs/sweetalert2/sweetalert2.all.min.js"></script>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
 
-            // Deleting Program
-            document.querySelectorAll(".delete-program").forEach(button => {
-                button.addEventListener("click", function (event) {
-                    event.preventDefault();
-                    let programId = this.getAttribute("section");
+                // Deleting Program
+                document.querySelectorAll(".delete-program").forEach(button => {
+                    button.addEventListener("click", function (event) {
+                        event.preventDefault();
+                        let programId = this.getAttribute("section");
 
-                    Swal.fire({
-                        title: "Are you sure?",
-                        text: "This program will be permanently deleted!",
-                        icon: "warning",
-                        showCancelButton: true,
-                        confirmButtonColor: "#d33",
-                        cancelButtonColor: "#3085d6",
-                        confirmButtonText: "Yes, delete it!"
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href = "?delete_program=" + programId +
-                                "&deleted_program=1";
-                        }
+                        Swal.fire({
+                            title: "Are you sure?",
+                            text: "This program will be permanently deleted!",
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#d33",
+                            cancelButtonColor: "#3085d6",
+                            confirmButtonText: "Yes, delete it!"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = "?delete_program=" + programId +
+                                    "&deleted_program=1";
+                            }
+                        });
                     });
                 });
-            });
 
-            document.querySelectorAll(".delete-section").forEach(button => {
-                button.addEventListener("click", function (event) {
-                    event.preventDefault();
+                document.querySelectorAll(".delete-section").forEach(button => {
+                    button.addEventListener("click", function (event) {
+                        event.preventDefault();
 
 
-                    let sectionId = this.getAttribute("data-sectionid");
+                        let sectionId = this.getAttribute("data-sectionid");
 
-                    Swal.fire({
-                        title: "Are you sure?",
-                        text: "This section will be permanently deleted!",
-                        icon: "warning",
-                        showCancelButton: true,
-                        confirmButtonColor: "#d33",
-                        cancelButtonColor: "#3085d6",
-                        confirmButtonText: "Yes, delete it!"
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href = "?delete_section=" + sectionId +
-                                "&deleted_section=1";
-                        }
+                        Swal.fire({
+                            title: "Are you sure?",
+                            text: "This section will be permanently deleted!",
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#d33",
+                            cancelButtonColor: "#3085d6",
+                            confirmButtonText: "Yes, delete it!"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = "?delete_section=" + sectionId +
+                                    "&deleted_section=1";
+                            }
+                        });
                     });
                 });
-            });
 
-            // Success message after deletion
-            const urlParams = new URLSearchParams(window.location.search);
+                // Success message after deletion
+                const urlParams = new URLSearchParams(window.location.search);
 
-            if (urlParams.has("deleted_program")) {
-                Swal.fire({
-                    icon: "success",
-                    title: "Deleted!",
-                    text: "The program was successfully deleted.",
-                    showConfirmButton: false,
-                    timer: 2500
-                });
-                const newURL = window.location.origin + window.location.pathname;
-                window.history.replaceState({}, document.title, newURL);
-
-            }
-
-            if (urlParams.has("deleted_section")) {
-                Swal.fire({
-                    icon: "success",
-                    title: "Deleted!",
-                    text: "The section was successfully deleted.",
-                    showConfirmButton: false,
-                    timer: 2500
-                });
-                const newURL = window.location.origin + window.location.pathname;
-                window.history.replaceState({}, document.title, newURL);
-
-                /* setTimeout(() => {
+                if (urlParams.has("deleted_program")) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Deleted!",
+                        text: "The program was successfully deleted.",
+                        showConfirmButton: false,
+                        timer: 2500
+                    });
                     const newURL = window.location.origin + window.location.pathname;
-                                    window.history.replaceState({ }, document.title, newURL);
-                }, 10); */
-            }
+                    window.history.replaceState({}, document.title, newURL);
+
+                }
+
+                if (urlParams.has("deleted_section")) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Deleted!",
+                        text: "The section was successfully deleted.",
+                        showConfirmButton: false,
+                        timer: 2500
+                    });
+                    const newURL = window.location.origin + window.location.pathname;
+                    window.history.replaceState({}, document.title, newURL);
+
+                    /* setTimeout(() => {
+                        const newURL = window.location.origin + window.location.pathname;
+                                        window.history.replaceState({ }, document.title, newURL);
+                    }, 10); */
+                }
 
 
-        });
-    </script>
+            });
+        </script>
 
 
 </body>

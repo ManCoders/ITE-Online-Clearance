@@ -12,17 +12,12 @@ if (!isset($_SESSION['admin_id'])) {
 $adminid = $_SESSION['admin_id'];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["add-subject"])) {
-    $teacher_id = $_POST['teacher'];
+    $teacher_id = $_POST['teacher_name'];
     $semester_id = $_POST['semester_id'];
     $subject_name = $_POST['subject_name'];
     $subject_code = $_POST['subject_code'];
-
-    if (empty($teacher_id) || empty($semester_id) || empty($subject_name) || empty($subject_code)) {
-        header("Location: view_program.php?error=All fields are required");
-        exit();
-    }
-
-    InsertNewSubject2($program_id, $teacher_id, $semester_id, $subject_name, $subject_code);
+    $program_id = $_POST['program_id'];
+    InsertNewSubject2($teacher_id, $semester_id, $subject_name, $subject_code, $program_id);
 }
 
 
@@ -258,7 +253,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["add-subject"])) {
             <div class="modal">
                 <div class="modal-content">
 
-                    <span class="close" onclick="closeModal()">&times;</span>
+                    <span class="close" onclick="window.location.href = './program.php'">&times;</span>
                     <!--  -->
                     <h2 id="programTitle"><?php if (isset($_GET['program_name']) && isset($_GET['course_name'])) {
                         echo $_GET['program_name'] . ' - ' . $_GET['course_name'];
@@ -283,17 +278,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["add-subject"])) {
                             <tbody id="subjectList1">
                                 <tr class="programRow">
                                     <?php
-                                    $subject = getSubjectById($_GET['program_id']);
-                                    ?>
-                                    <td>1</td>
-                                    <td class="programData"><?php echo $subject['subject_name']; ?></td>
-                                    <td>Subject Names</td>
-                                    <td>
-                                        <button class="btn btn-secondary edit-subject"><i
-                                                class="fa fa-edit"></i></button>
-                                        <button class="btn btn-danger delete-subject"><i
-                                                class="fa fa-trash"></i></button>
-                                    </td>
+                                    $subjects = getSubjectById($_GET['program_id']);
+                                    $index = 1;
+                                    foreach ($subjects as $subject) {
+                                        if ($subject['semester'] == 1) {
+                                            ?>
+                                        <tr class="programRow">
+                                            <td><?php echo $index++; ?></td>
+                                            <td class="programData"><?php echo htmlspecialchars($subject['subject_code']) ?>
+                                            </td>
+                                            <td class="programData"><?php echo $subject['subject_name']; ?></td>
+                                            <td>
+                                                <button class="btn btn-secondary edit-subject"><i
+                                                        class="fa fa-edit"></i></button>
+                                                <button class="btn btn-danger delete-subject"><i
+                                                        class="fa fa-trash"></i></button>
+                                            </td>
+                                        </tr>
+                                    <?php }
+                                    } ?>
                                 </tr>
                             </tbody>
                         </table>
@@ -314,16 +317,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["add-subject"])) {
                             </tr>
 
                             <tbody id="subjectList2">
-                                <tr>
-                                    <td>1</td>
-                                    <td>Sample Subject Code</td>
-                                    <td>Sample Subject Name</td>
-                                    <td>
-                                        <button class="btn btn-secondary edit-subject"><i
-                                                class="fa fa-edit"></i></button>
-                                        <button class="btn btn-danger delete-subject"><i
-                                                class="fa fa-trash"></i></button>
-                                    </td>
+                                <tr class="programRow">
+                                    <?php
+                                    $subjects = getSubjectById($_GET['program_id']);
+                                    foreach ($subjects as $subject) {
+                                        if ($subject['semester'] == 2) {
+                                            ?>
+                                        <tr class="programRow">
+                                            <td>1</td>
+                                            <td class="programData"><?php echo $subject['subject_code']; ?></td>
+                                            <td class="programData"><?php echo $subject['subject_name']; ?></td>
+                                            <td>
+                                                <button class="btn btn-secondary edit-subject"><i
+                                                        class="fa fa-edit"></i></button>
+                                                <button class="btn btn-danger delete-subject"><i
+                                                        class="fa fa-trash"></i></button>
+                                            </td>
+                                        </tr>
+                                    <?php }
+                                    } ?>
                                 </tr>
 
                             </tbody>
@@ -340,22 +352,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["add-subject"])) {
                         <div class="add_subject">
 
                             <div style="gap: 2px; display: flex;">
-                                <input style="height: 2.4rem; margin-top:5px;" type="text" id="subject_code_input"
-                                    name="subject_code" placeholder="Enter Code" required>
-                                <input style="height: 2.4rem; margin-top:5px;" type="text" id="subject_name_input"
-                                    name="subject_name" placeholder="Enter Subject" required>
+                                <input type="text" name="program_id" value="<?php echo $_GET['program_id']; ?>"
+                                    style="display: none;">
+                                <input style="height: 2.4rem; margin-top:5px; width:20rem;" type="text"
+                                    name="subject_code" placeholder="Enter Subject Code" required>
+                                <input style="height: 2.4rem; margin-top:5px; width:20rem;" type="text"
+                                    name="subject_name" placeholder="Enter Subject Name" required>
 
-                                <select style="height: 2.4rem; margin-top:5px;" name="semester_id" id="semester_id"
-                                    required>
+                                <select style="height: 2.4rem; margin-top:5px;" name="semester_id" required>
                                     <option value="" disabled>Select Semester</option>
                                     <option value="1">1st Semester</option>
                                     <option value="2">2nd Semester</option>
                                 </select>
 
-                                <select style="height: 2.4rem; margin-top:5px;" name="teacher" id="teacher" required>
+                                <?php $teacher = GetTeachersList(); ?>
+                                <select style="height: 2.4rem; margin-top:5px;" name="teacher_name" id="teacher"
+                                    required>
                                     <option value="" disabled>Select Teacher</option>
-                                    <option value="1">Teacher 1</option>
-                                    <option value="2">Teacher 2</option>
+                                    <?php foreach ($teacher as $t) { ?>
+                                        <option value="<?php echo $t['teacher_name']; ?>"><?php echo $t['teacher_name']; ?>
+                                        </option>
+                                    <?php } ?>
                                 </select>
 
                                 <input style="height: 2.4rem; width:100%; margin-top:5px;" type="submit"

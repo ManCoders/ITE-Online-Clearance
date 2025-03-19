@@ -68,7 +68,8 @@ function GetTeachersList()
     global $pdo;
 
     $stmt = $pdo->prepare(" 
-        SELECT t.*, tl.*, t.contact, t.id AS teacher_id, tl.teacher_id AS tloginId 
+        SELECT tl.*, t.contact, t.id AS teacher_id, tl.teacher_id AS tloginId,
+        CONCAT(t.lname, ' ', t.mname, ' ', t.fname) AS teacher_name
         
         FROM teacher_login tl 
         INNER JOIN teachers t ON tl.teacher_id = t.id
@@ -440,17 +441,17 @@ function DeleteMinorByID($minorid)
         exit();
     }
 }
-
 function getSubjectById($id)
 {
     try {
         global $pdo;
-        $query = "SELECT * FROM programs_with_subjects WHERE id = ?";
+        $query = "SELECT * FROM subject_with_program_id WHERE program_id = ?";
         $stmt = $pdo->prepare($query);
         $stmt->execute([$id]);
-        return $stmt->fetch();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
-        return null;
+        error_log("Database Error: " . $e->getMessage()); // Logs the error
+        return []; // Return an empty array on failure
     }
 }
 
@@ -510,21 +511,22 @@ function GetProgramWithId($id)
         return false;
     }
 }
-function InsertNewSubject2($teacher_id, $semester_id, $subject_name, $subject_code)
+function InsertNewSubject2($teacher_id, $semester_id, $subject_name, $subject_code, $id)
 {
     global $pdo;
 
     try {
-        $stmt = $pdo->prepare("INSERT INTO subject_with_program_id ( teacher_id, semester_id, subject_name, subject_code) 
-                               VALUES ( :teacher_id, :semester_id, :subject_name, :subject_code)");
+        $stmt = $pdo->prepare("INSERT INTO subject_with_program_id ( teacher_name, semester, subject_name, subject_code, program_id ) 
+                               VALUES ( ?,?,?,?,?)");
         $stmt->execute([
-            ':teacher_id' => $teacher_id,
-            ':semester_id' => $semester_id,
-            ':subject_name' => $subject_name,
-            ':subject_code' => $subject_code
+            $teacher_id,
+            $semester_id,
+            $subject_name,
+            $subject_code,
+            $id
         ]);
 
-        header('Location: view_program.php?success=Subject added successfully');
+        header('Location: view_program.php?program_id=' . $id . '&success=Subject added successfully');
         exit();
     } catch (PDOException $e) {
         error_log("Database Error: " . $e->getMessage());
