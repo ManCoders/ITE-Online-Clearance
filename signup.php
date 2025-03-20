@@ -21,8 +21,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         try {
 
-            $stmt = $pdo->prepare("SELECT * FROM students WHERE student_code = ?");
-            $stmt->execute([$studentId]);
+            $stmt = $pdo->prepare("SELECT * FROM students WHERE student_code = ? AND email = ?");
+            $stmt->execute([$studentId, $email]);
             $student_code = $stmt->fetch();
 
 

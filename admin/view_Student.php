@@ -267,15 +267,13 @@ if (isset($_GET['subject_id'])) {
                     } ?></h2>
                     <span id="sy">Student ID: <?php if (isset($_GET['student_id'])) {
                         echo $_GET['student_id'];
-                    } ?></span><br>
-                    <span id="course">Course: <?php if (isset($_GET['course_name'])) {
-                        echo $_GET['course_name'];
-                    } ?></span>
+                    } ?></span><br><span id="course">Course:
+                        <?php if (isset($_GET['course_name']) && isset($_GET['program_name'])) {
+                            echo $_GET['program_name'] . ' - ' . $_GET['course_name'];
+                        } ?></span>
 
-                    <p class="semester">1st Semester <!-- <input type="text" id="searchInput" class="form-control"
-                            placeholder="Search programs..." style="float: right;" onkeyup="searchPrograms()"> -->
-                        <!-- <label style="float: right;" for="Search">Search: </label> -->
-                    </p>
+                        
+                    <p class="semester">1st Semester</p>
 
                     <div class="table_content" style="text-align:center;">
                         <table>
@@ -320,9 +318,7 @@ if (isset($_GET['subject_id'])) {
 
                     </div>
 
-                    <p class="semester">2nd Semester <!-- <input type="text" id="searchInput" class="form-control"
-                            placeholder="Search programs..." style="float: right;" onkeyup="searchPrograms()">
-                        <label style="float: right;" for="Search">Search: </label> -->
+                    <p class="semester">2nd Semester
                     </p>
                     <div class="table_content" style="text-align:center;">
                         <table>
