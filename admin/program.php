@@ -24,10 +24,10 @@ if (isset($_GET['delete_program'])) {
     DeleteProgramByID($_GET['delete_program']);
 }
 
-if (isset($_GET['delete_section'])) {
+/* if (isset($_GET['delete_section'])) {
     DeleteSectionByID($_GET['delete_section']);
 }
-
+ */
 
 
 ?>

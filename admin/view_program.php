@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["add-subject"])) {
     $subject_name = $_POST['subject_name'];
     $subject_code = $_POST['subject_code'];
     $program_id = $_POST['program_id'];
-    InsertNewSubject2($teacher_id, $semester_id, $subject_name, $subject_code, $program_id);
+    InsertNewSubjectByAdmin($teacher_id, $semester_id, $subject_name, $subject_code, $program_id);
 }
 
 if (isset($_GET['subject_id'])) {
@@ -269,9 +269,7 @@ if (isset($_GET['subject_id'])) {
                         echo $_GET['school_year'];
                     } ?></span>
 
-                    <p class="semester">1st Semester <input type="text" id="searchInput" class="form-control"
-                            placeholder="Search programs..." style="float: right;" onkeyup="searchPrograms()">
-                        <label style="float: right;" for="Search">Search: </label>
+                    <p class="semester">1st Semester
                     </p>
 
                     <div class="table_content" style="text-align:center;">
@@ -314,9 +312,9 @@ if (isset($_GET['subject_id'])) {
 
                     </div>
 
-                    <p class="semester">2nd Semester <input type="text" id="searchInput" class="form-control"
+                    <p class="semester">2nd Semester <!--  <input type="text" id="searchInput" class="form-control"
                             placeholder="Search programs..." style="float: right;" onkeyup="searchPrograms()">
-                        <label style="float: right;" for="Search">Search: </label></table>
+                        <label style="float: right;" for="Search">Search: </label></table> -->
                     </p>
                     <div class="table_content" style="text-align:center;">
                         <table>
@@ -389,8 +387,7 @@ if (isset($_GET['subject_id'])) {
                                 </select>
 
                                 <?php $teacher = GetTeachersList(); ?>
-                                <select style="height: 2.4rem; margin-top:5px;" name="teacher_name" id="teacher"
-                                    required>
+                                <select style="height: 2.4rem; margin-top:5px;" name="teacher_name" id="teacher">
                                     <option value="">Select Teacher</option>
                                     <?php foreach ($teacher as $t) { ?>
                                         <option value="<?php echo $t['teacher_name']; ?>"><?php echo $t['teacher_name']; ?>
