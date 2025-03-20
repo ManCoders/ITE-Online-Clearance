@@ -270,47 +270,26 @@ if (isset($_GET['delete_program'])) {
 
                 <form action="" method="post">
 
-                    <div style="display: flex; margin: 5px;">
+                    <div style="display: none; margin: 5px;">
                         <label style="width: 8rem; margin: 5px;" for="year">School Year</label>
-                        <select name="year" id="year" style="width: 100%; border: 1px solid #ccc; border-radius: 5px;">
-                            <option value="">Select School Year</option>
-                            <?php
-                            $years = GetSchoolYearOnProgram();
-                            foreach ($years as $year) { ?>
-                                <option value="<?php echo $year['school_year']; ?>"><?php echo $year['school_year'] ?>
-                                </option>
-                            <?php } ?>
+                        <select name="student_id" id="student_id"
+                            style="width: 100%; border: 1px solid #ccc; border-radius: 5px;">
+                            <option value="<?php echo $_SESSION['student_id'] ?>"><?php echo $_SESSION['student_id'] ?>
+                            </option>
                         </select>
                     </div>
+
                     <div style="display: flex; margin: 5px;">
                         <label style="width: 8rem; margin: 5px;" for="program">Program</label>
                         <select name="program" id="program"
                             style="width: 100%; border: 1px solid #ccc; border-radius: 5px;">
                             <option value="">Select Department Program</option>
-                            <?php
-                            $program = GetSchoolProgram();
-                            foreach ($program as $year) { ?>
-                                <option value="<?php echo $year['department_program']; ?>">
-                                    <?php echo $year['department_program'] ?>
-                                </option>
-                            <?php } ?>
                         </select>
                     </div>
+
+
                     <div style="display: flex; margin: 5px;">
-                        <label style="width: 8rem; margin: 5px;" for="program">Course</label>
-                        <select name="course" id="course"
-                            style="width: 100%; border: 1px solid #ccc; border-radius: 5px;">
-                            <option value="">Select Program Course</option>
-                            <?php
-                            $course = GetSchoolCourse();
-                            foreach ($course as $year) { ?>
-                                <option value="<?php echo $year['program_course']; ?>"><?php echo $year['program_course'] ?>
-                                </option>
-                            <?php } ?>
-                        </select>
-                    </div>
-                    <div style="display: flex; margin: 5px;">
-                        <label style="width: 8rem; margin: 5px;" for="program">Semester</label>
+                        <label style="width: 8rem; margin: 5px;" for="semester">Semester</label>
                         <select name="semester" id="semester"
                             style="width: 100%; border: 1px solid #ccc; border-radius: 5px;">
                             <option value="">Select School Semester</option>
@@ -319,54 +298,85 @@ if (isset($_GET['delete_program'])) {
                         </select>
                     </div>
 
+
                     <div style="display: flex; margin: 5px;">
                         <label style="width: 8rem; margin: 5px;" for="subject_code">Subject Code</label>
                         <select name="subject_code" id="subject_code"
                             style="width: 100%; border: 1px solid #ccc; border-radius: 5px;">
-                            <option value="">Select Subject Course</option>
+                            <option value="">Select Subject Code</option>
                             <?php
-                            $subject_code = GetSchoolSubject();
-                            foreach ($subject_code as $year) { ?>
-                                <option value="<?php echo $year['subject_code']; ?>"><?php echo $year['subject_code'] ?>
+                            $subject = getStudentSubject();
+                            foreach ($subject as $subjects) {
+                                ?>
+                                <option value="<?php echo $subjects['subject_code'] ?>">
+                                    <?php echo $subjects['subject_code'] ?>
                                 </option>
                             <?php } ?>
                         </select>
                     </div>
 
+
+
                     <div style="display: flex; margin: 5px;">
-                        <label style="width: 8rem; margin: 5px;" for="program">Subjects</label>
+                        <label style="width: 8rem; margin: 5px;" for="subject_name">Subjects</label>
                         <select name="subject_name" id="subject_name"
                             style="width: 100%; border: 1px solid #ccc; border-radius: 5px;">
-                            <option value="">Select Subject Course</option>
+                            <option value="">Select Subject Name</option>
                             <?php
-                            $subject_name = GetSchoolSubject();
-                            foreach ($subject_name as $year) { ?>
-                                <option value="<?php echo $year['subject_name']; ?>"><?php echo $year['subject_name'] ?>
+                            $subject = getStudentSubject();
+                            foreach ($subject as $subjects) {
+                                ?>
+                                <option value="<?php echo $subjects['subject_name'] ?>">
+                                    <?php echo $subjects['subject_name'] ?>
                                 </option>
                             <?php } ?>
                         </select>
                     </div>
 
+
                     <div style="display: flex; margin: 5px;">
-                        <label style="width: 8rem; margin: 5px;" for="program">Instructor</label>
-                        <select name="teacher_name" id="subject_name"
+                        <label style="width: 8rem; margin: 5px;" for="teacher_name">Instructor</label>
+                        <select name="teacher_name" id="teacher_name"
                             style="width: 100%; border: 1px solid #ccc; border-radius: 5px;">
                             <option value="">Select Instructor</option>
-                            <?php
-                            $teacher_name = GetInstructorSubject();
-                            foreach ($teacher_name as $year) { ?>
-                                <option value="<?php echo $year['teacher_name']; ?>"><?php echo $year['teacher_name'] ?>
-                                </option>
-                            <?php } ?>
                         </select>
                     </div>
+
 
 
                     <input type="submit" name="new_subject" value="Load">
                 </form>
+
+
             </div>
 
 
+            <!-- *********************** STARTING HERE NAAY LABOT ************************* -->
+
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script>
+                $(document).ready(function () {
+
+                    var student_id = $('#student_id').val();
+                    if (student_id !== "") {
+                        $.ajax({
+                            url: "ajax.php",
+                            type: "POST",
+                            data: { action: 'getPrograms', student_id: student_id },
+                            success: function (response) {
+                                $('#program').html(response);
+                            }
+                        });
+                    }
+
+                });
+            </script>
+
+
+
+
+
+            <!-- ************** THIS IS NOT LABOT **************** -->
 
             <div class="card">
                 <h2>Searching</h2>
@@ -387,7 +397,8 @@ if (isset($_GET['delete_program'])) {
                     </div>
                     <div style="display: flex; margin: 5px;">
                         <label for="program" style="width: 8rem; margin: 5px;">Programs</label>
-                        <select name="program" style=" width: 100%;  border: 1px solid #ccc; border-radius: 5px;">
+                        <select name="program" id="program"
+                            style=" width: 100%;  border: 1px solid #ccc; border-radius: 5px;">
                             <option value="">Select Program</option>
                             <?php
                             $years = GetSchoolProgram();
@@ -423,6 +434,62 @@ if (isset($_GET['delete_program'])) {
                         style="margin-top: 10px; ">Filtering</button>
                 </form>
                 <script>
+
+                    /* ************************ start here the fetchin sample blah blah blah ************************** */
+                    $(document).ready(function () {
+                        // Load programs when a school year is selected
+                        $("#year").change(function () {
+                            let schoolYearId = $(this).val();
+                            $("#program").html('<option value="">Loading...</option>');
+
+                            if (schoolYearId !== "") {
+                                $.post("./fetch_programs.php", { school_year_id: schoolYearId }, function (data) {
+                                    $("#program").html('<option value="">Select Program</option>' + data);
+                                    $("#program-container").removeClass("hidden");
+                                    $("#course-container, #subject-container").addClass("hidden");
+                                });
+                            } else {
+                                $("#program-container, #course-container, #subject-container").addClass("hidden");
+                            }
+                        });
+
+                        // Load courses when a program is selected
+                        $("#program").change(function () {
+                            let programId = $(this).val();
+                            $("#course").html('<option value="">Loading...</option>');
+
+                            if (programId !== "") {
+                                $.post("fetch_courses.php", { program_id: programId }, function (data) {
+                                    $("#course").html('<option value="">Select Course</option>' + data);
+                                    $("#course-container").removeClass("hidden");
+                                    $("#subject-container").addClass("hidden");
+                                });
+                            } else {
+                                $("#course-container, #subject-container").addClass("hidden");
+                            }
+                        });
+
+                        // Load subjects when a course is selected
+                        $("#course").change(function () {
+                            let courseId = $(this).val();
+                            $("#subject").html('<option value="">Loading...</option>');
+
+                            if (courseId !== "") {
+                                $.post("fetch_subjects.php", { course_id: courseId }, function (data) {
+                                    $("#subject").html('<option value="">Select Subject</option>' + data);
+                                    $("#subject-container").removeClass("hidden");
+                                });
+                            } else {
+                                $("#subject-container").addClass("hidden");
+                            }
+                        });
+                    });
+
+                    /* ******************************* Stop Here Fetching *********************** */
+
+
+
+
                     document.getElementById('student_name').addEventListener('input', handleInput);
                     document.getElementById('semester_id').addEventListener('input', handleInput);
 
@@ -464,7 +531,7 @@ if (isset($_GET['delete_program'])) {
                             </tr>
                         </thead>
                         <tbody>
-                            <?php $subject = getStudentSubject($student_id);
+                            <?php $subject = getStudentSubject();
 
                             foreach ($subject as $key => $value) { ?>
                                 <tr>

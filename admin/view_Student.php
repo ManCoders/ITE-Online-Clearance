@@ -272,7 +272,7 @@ if (isset($_GET['subject_id'])) {
                             echo $_GET['program_name'] . ' - ' . $_GET['course_name'];
                         } ?></span>
 
-                        
+
                     <p class="semester">1st Semester</p>
 
                     <div class="table_content" style="text-align:center;">
@@ -288,31 +288,7 @@ if (isset($_GET['subject_id'])) {
                                 <th>Actions</th>
                             </tr>
                             <tbody id="subjectList1">
-                                <tr class="programRow">
-                                    <?php
-                                    if (!isset($_SESSION['program_id'])) {
-                                        echo '<tr><td colspan="4">No programs found.</td></tr>';
-                                    }
 
-                                    $subjects = getSubjectById($_GET['program_id']);
-                                    $index = 1;
-                                    foreach ($subjects as $subject) {
-                                        if ($subject['semester'] == 1) { ?>
-                                        <tr>
-                                            <td><?php echo $index++; ?></td>
-                                            <td><?php echo htmlspecialchars($subject['subject_code']); ?></td>
-                                            <td><?php echo $subject['subject_name']; ?></td>
-                                            <td><?php echo $subject['teacher_name']; ?></td>
-                                            <td>
-                                                <button subject="<?php echo $subject['id']; ?>"
-                                                    program="<?php echo $subject['program_id']; ?>" class="delete_subject">
-                                                    <i class="fa fa-trash"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    <?php }
-                                    } ?>
-                                </tr>
                             </tbody>
                         </table>
 
@@ -336,31 +312,7 @@ if (isset($_GET['subject_id'])) {
 
                             <tbody id="subjectList2">
                                 <tr class="programRow">
-                                    <?php
-                                    $index = 1;
-                                    foreach ($subjects as $subject) {
-                                        if ($subject['semester'] == 2) { ?>
-                                        <tr>
-                                            <td>
-                                                <?php echo $index++; ?>
-                                            </td>
-                                            <td>
-                                                <?php echo $subject['subject_code']; ?>
-                                            </td>
-                                            <td>
-                                                <?php echo $subject['subject_name']; ?>
-                                            </td>
-                                            <td><?php echo $subject['teacher_name']; ?></td>
-                                            <td>
-                                                <button subject="<?php echo $subject['id']; ?>"
-                                                    program="<?php echo $subject['program_id']; ?>" class="delete_subject">
-                                                    <i class="fa fa-trash"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    <?php }
-                                    } ?>
-                                </tr>
+
 
                             </tbody>
                         </table>

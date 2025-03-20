@@ -20,6 +20,8 @@ function getMyId($id)
     }
 }
 
+
+
 function GetSchoolYearOnProgram()
 {
     global $pdo;
@@ -37,19 +39,26 @@ function GetSchoolProgram()
     $stmt = $pdo->prepare($sql);
     $stmt->execute();
 
-    return $stmt->fetchAll();
+    if ($stmt->rowCount() > 0) {
+        return $stmt->fetchAll();
+    } else {
+        return [];
+    }
 }
 
 
-function getStudentSubject($student_id)
+function getStudentSubject()
 {
     global $pdo;
     $sql = "SELECT DISTINCT * FROM student_with_subjects";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute();
-
-    return $stmt->fetchAll();
-
+    try {
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    } catch (PDOException $e) {
+        echo 'Error: ' . $e->getMessage();
+        return [];
+    }
 }
 
 function InsertStudentSubject($student_id, $year, $subject_code, $subject_name, $semester, $teacher_name)

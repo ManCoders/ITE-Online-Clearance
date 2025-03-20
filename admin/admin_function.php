@@ -161,7 +161,9 @@ function GetStudents()
     try {
         $stmt = $pdo->prepare("SELECT s.*, 
             CONCAT(s.lname, ' ', s.mname, ' ', s.fname) AS student_name
-         FROM students s");
+         FROM students s
+
+         ");
         $stmt->execute();
         $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $students;
