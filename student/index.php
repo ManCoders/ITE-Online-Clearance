@@ -222,7 +222,7 @@ $student_id = $_SESSION['student_id'];
             <img src="../images/ITE.png" alt="Profile Icon" class="profile-icon">
         </div>
         <div class="sidebar-item" style="background-color: maroon;">
-            <a href="./index.php"></i> Dashboard</a>
+            <a href="./index.php"> <i class="fas fa-chart-bar"></i>Dashboard</a>
         </div>
         <div class="sidebar-item">
             <a href="./subject_load.php"><i class="fas fa-chalkboard-teacher"></i> Subjects Load </a>
@@ -275,6 +275,7 @@ $student_id = $_SESSION['student_id'];
                     <p class="semester">2nd Semester</p>
                     <div class="table_content" style="text-align:center;">
                         <table>
+
                             <tr>
                                 <th>#</th>
                                 <th>Course Code</th>
