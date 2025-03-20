@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 12, 2025 at 05:26 PM
+-- Generation Time: Mar 20, 2025 at 02:09 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -92,14 +92,27 @@ INSERT INTO `clearance` (`id`, `status_name`) VALUES
 
 CREATE TABLE `course` (
   `id` int(11) NOT NULL,
-  `teacher_id` int(11) DEFAULT NULL,
-  `admin_id` int(11) DEFAULT NULL,
-  `student_id` int(11) DEFAULT NULL,
-  `course_name` varchar(255) NOT NULL,
-  `course_code` varchar(50) NOT NULL,
-  `description` text DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+  `course_name` varchar(100) NOT NULL,
+  `created_at` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `course`
+--
+
+INSERT INTO `course` (`id`, `course_name`, `created_at`) VALUES
+(1, 'AIT ELECT', 0),
+(2, 'AIT FOOD', 0),
+(3, 'AIT GARMENTS', 0),
+(4, 'AIT RACT', 0),
+(5, 'DT AUTO', 0),
+(6, 'DT CIVIL', 0),
+(7, 'DT ELECT', 0),
+(8, 'DT ELEXT', 0),
+(9, 'DT GARMENTS', 0),
+(10, 'DT FOOD', 0),
+(11, 'DT HMT', 0),
+(12, 'TITE WAFT', 0);
 
 -- --------------------------------------------------------
 
@@ -156,10 +169,36 @@ CREATE TABLE `programs` (
 --
 
 INSERT INTO `programs` (`id`, `program_name`, `program_code`) VALUES
-(2, 'TITE ', '123'),
-(3, 'ITE', '123'),
-(4, 'ITPC', '101'),
-(5, 'AIT', 'AIT');
+(57, 'Information System', 'DT'),
+(58, 'Electrical Engineering', 'AIT'),
+(61, 'Electronic Engineering', 'TITE'),
+(62, 'TTIC', 'TTIC');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `programs_with_subjects`
+--
+
+CREATE TABLE `programs_with_subjects` (
+  `id` int(11) NOT NULL,
+  `program_course` varchar(100) NOT NULL,
+  `department_program` varchar(100) NOT NULL,
+  `school_year` varchar(100) NOT NULL,
+  `subject_name` varchar(100) NOT NULL,
+  `subject_code` varchar(100) NOT NULL,
+  `semester` int(1) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `teacher_name` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `programs_with_subjects`
+--
+
+INSERT INTO `programs_with_subjects` (`id`, `program_course`, `department_program`, `school_year`, `subject_name`, `subject_code`, `semester`, `created_at`, `teacher_name`) VALUES
+(57, 'AIT ELECT', 'DT', '2024-2025', '', '', 0, '2025-03-20 04:52:51', ''),
+(59, 'AIT RACT', 'TITE', '2025-2026', '', '', 0, '2025-03-20 05:02:11', '');
 
 -- --------------------------------------------------------
 
@@ -219,9 +258,8 @@ CREATE TABLE `sections` (
 --
 
 INSERT INTO `sections` (`id`, `section_name`, `created_at`, `admin_id`, `teacher_id`, `student_id`) VALUES
-(13, 'DT-3A', '2025-02-13 18:27:20', 8, NULL, NULL),
-(14, 'DT-3B', '2025-02-13 18:27:29', 8, NULL, NULL),
-(16, 'DT-3C', '2025-03-03 14:21:57', 8, 31, NULL);
+(47, 'asd', '2025-03-16 23:42:55', 8, NULL, NULL),
+(48, 'asd', '2025-03-16 23:43:36', 8, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -271,12 +309,9 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`id`, `admin_id`, `teacher_id`, `student_code`, `fname`, `mname`, `lname`, `profile`, `section`, `clearance`, `contact`, `verify`, `course_id`, `section_id`, `program_id`) VALUES
-(60, NULL, NULL, '1999', 'Manuela', 'E', 'Daligdig', '', 'DT-3B', '', '09695196520', '', NULL, NULL, NULL),
-(62, NULL, NULL, '12323', 'wqe', 'qweq', 'weqwe', '', 'DT-3A', '', '12312312', '', NULL, NULL, NULL),
-(63, NULL, NULL, '9898', 'manuel', 'E', 'Dalidgig', '', NULL, '', '09695196522', '', NULL, NULL, NULL),
-(64, NULL, NULL, '23423', 'weqwe', 'qweqw', 'eqwe', '', NULL, '', 'qweqwe', '', NULL, NULL, NULL),
-(66, NULL, NULL, '1111111', 'wqeqwe', 'qweqw', 'eqwe', '', 'DT-3A', '', 'qweqwe', '', NULL, NULL, NULL),
-(67, NULL, NULL, '78978', 'werwer', 'erwer', 'werwe', '', 'DT-3A', '', 'rwer', '', NULL, NULL, NULL);
+(60, NULL, NULL, '1999', 'Manuela', 'EEEEY', 'Daligdig', '', 'asd', '', '09695196520', '', NULL, NULL, NULL),
+(62, NULL, NULL, '12323', 'Florenlyn', 'ge', 'Daligdig', '', NULL, '', '09364228237', '', NULL, NULL, NULL),
+(63, NULL, NULL, '9898', 'manuel', 'E', 'Dalidgig', '', NULL, '', '09695196522', '', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -320,17 +355,6 @@ CREATE TABLE `student_subjects` (
   `student_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
---
--- Dumping data for table `student_subjects`
---
-
-INSERT INTO `student_subjects` (`id`, `subject_id`, `midterm`, `finalterm`, `remark`, `clearance`, `grade_id`, `teacher_id`, `semester_id`, `student_id`) VALUES
-(219, 8, '', '', '', '', NULL, 43, NULL, 60),
-(224, 10, '', '5', 'Passed', 'Cleared', NULL, 41, NULL, 62),
-(225, 11, '', '2', 'Passed', 'Cleared', NULL, 41, NULL, 62),
-(228, 11, '', '5', 'Passed', 'Cleared', NULL, 41, NULL, 60),
-(229, 10, '', '4', 'Failed', 'Not Cleared', NULL, 41, NULL, 60);
-
 -- --------------------------------------------------------
 
 --
@@ -349,14 +373,34 @@ CREATE TABLE `subjects` (
   `section_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `subjects`
+-- Table structure for table `subject_with_program_id`
 --
 
-INSERT INTO `subjects` (`id`, `subject_name`, `subject_code`, `assign`, `admin_id`, `teacher_id`, `semester_id`, `program_id`, `section_id`) VALUES
-(18, 'Information Technology 1', 'ITPC 102', '', 8, 43, 3, 3, 13),
-(20, '3453', '345', '', 8, 41, 3, 3, 13),
-(21, '765756', 'sdfsdf', '', 8, 41, 3, 3, 14);
+CREATE TABLE `subject_with_program_id` (
+  `id` int(11) NOT NULL,
+  `program_id` int(11) NOT NULL,
+  `school_year` varchar(100) NOT NULL,
+  `subject_name` varchar(100) NOT NULL,
+  `subject_code` varchar(100) NOT NULL,
+  `teacher_name` varchar(100) NOT NULL,
+  `semester` int(1) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `subject_with_program_id`
+--
+
+INSERT INTO `subject_with_program_id` (`id`, `program_id`, `school_year`, `subject_name`, `subject_code`, `teacher_name`, `semester`, `created_at`) VALUES
+(35, 57, '', 'COMPUTER PROGRAMMING 6', 'ITPC 106', 'Daligdig M mutmut', 1, '2025-03-20 04:53:02'),
+(43, 59, '', 'tewst213', 'ITPC 106', 'Daligdig M mutmut', 1, '2025-03-20 05:02:41'),
+(44, 59, '', 'tewst213', 'ITPC 106', 'Dela cruz E vanesa', 2, '2025-03-20 05:03:02'),
+(45, 59, '', 'Programming 1', 'ITPC 101', 'Daligdig M mutmut', 2, '2025-03-20 05:03:12'),
+(48, 59, '', 'tewst213', 'ITPC 101', 'Daligdig M mutmut', 1, '2025-03-20 05:13:21'),
+(49, 57, '', 'COMPUTER PROGRAMMING 2', 'ITPC 102', 'Dela cruz E vanesa', 2, '2025-03-20 05:17:53');
 
 -- --------------------------------------------------------
 
@@ -376,15 +420,6 @@ CREATE TABLE `subject_year` (
   `section_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `subject_year`
---
-
-INSERT INTO `subject_year` (`id`, `name`, `code`, `created_at`, `program_id`, `semester_id`, `year_id`, `teacher_id`, `section_id`) VALUES
-(8, 'Information Technology 1', 'ITPC 102', '2025-03-11 02:34:54', 3, 3, 2, 43, 13),
-(10, '3453', '345', '2025-03-12 23:12:35', 3, 3, 1, 41, 13),
-(11, '765756', 'sdfsdf', '2025-03-12 23:16:12', 3, 3, 1, 41, 14);
-
 -- --------------------------------------------------------
 
 --
@@ -398,7 +433,7 @@ CREATE TABLE `teachers` (
   `mname` varchar(50) NOT NULL,
   `lname` varchar(50) NOT NULL,
   `profile` varchar(100) NOT NULL,
-  `assign` varchar(50) NOT NULL,
+  `profession` varchar(100) NOT NULL,
   `contact` varchar(50) NOT NULL,
   `section` varchar(20) NOT NULL,
   `verify` varchar(20) NOT NULL
@@ -408,11 +443,10 @@ CREATE TABLE `teachers` (
 -- Dumping data for table `teachers`
 --
 
-INSERT INTO `teachers` (`id`, `teacher_code`, `fname`, `mname`, `lname`, `profile`, `assign`, `contact`, `section`, `verify`) VALUES
-(41, '12312', 'mutmut', 'M', 'Daligdig', '', '', '096951965020', 'AUTO - 3D', ''),
+INSERT INTO `teachers` (`id`, `teacher_code`, `fname`, `mname`, `lname`, `profile`, `profession`, `contact`, `section`, `verify`) VALUES
+(41, '12312', 'mutmut', 'M', 'Daligdig', '', '', '096951965020', 'DT-3C', ''),
 (43, '123123', 'vanesa', 'E', 'Dela cruz', '', '', '09695196522', '', ''),
-(45, '231', 'test', 'test', 'test', '', '', 'test', '', ''),
-(46, '435345', 'wewer', 'werr', 'werwe', '', '', 'rwerw', '', '');
+(46, '435345', '123', 'werr', 'werwe', '', '', 'rwerw', 'DT-3A', '');
 
 -- --------------------------------------------------------
 
@@ -485,11 +519,7 @@ ALTER TABLE `clearance`
 -- Indexes for table `course`
 --
 ALTER TABLE `course`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `course_code` (`course_code`),
-  ADD KEY `fk_admin_id` (`admin_id`),
-  ADD KEY `fk_teacher_key` (`teacher_id`),
-  ADD KEY `fk_student_key` (`student_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `grading`
@@ -511,6 +541,12 @@ ALTER TABLE `majors`
 -- Indexes for table `programs`
 --
 ALTER TABLE `programs`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `programs_with_subjects`
+--
+ALTER TABLE `programs_with_subjects`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -586,6 +622,12 @@ ALTER TABLE `subjects`
   ADD KEY `FK_section_id_key` (`section_id`);
 
 --
+-- Indexes for table `subject_with_program_id`
+--
+ALTER TABLE `subject_with_program_id`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `subject_year`
 --
 ALTER TABLE `subject_year`
@@ -643,7 +685,7 @@ ALTER TABLE `clearance`
 -- AUTO_INCREMENT for table `course`
 --
 ALTER TABLE `course`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `grading`
@@ -661,7 +703,13 @@ ALTER TABLE `majors`
 -- AUTO_INCREMENT for table `programs`
 --
 ALTER TABLE `programs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+
+--
+-- AUTO_INCREMENT for table `programs_with_subjects`
+--
+ALTER TABLE `programs_with_subjects`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT for table `room`
@@ -679,7 +727,7 @@ ALTER TABLE `school_year`
 -- AUTO_INCREMENT for table `sections`
 --
 ALTER TABLE `sections`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 
 --
 -- AUTO_INCREMENT for table `semesters`
@@ -703,13 +751,19 @@ ALTER TABLE `student_login`
 -- AUTO_INCREMENT for table `student_subjects`
 --
 ALTER TABLE `student_subjects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=230;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=233;
 
 --
 -- AUTO_INCREMENT for table `subjects`
 --
 ALTER TABLE `subjects`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+
+--
+-- AUTO_INCREMENT for table `subject_with_program_id`
+--
+ALTER TABLE `subject_with_program_id`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT for table `subject_year`
@@ -744,16 +798,6 @@ ALTER TABLE `teacher_subjects`
 --
 ALTER TABLE `admin_login`
   ADD CONSTRAINT `fk_admin_login` FOREIGN KEY (`admin_id`) REFERENCES `admin` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
-
---
--- Constraints for table `course`
---
-ALTER TABLE `course`
-  ADD CONSTRAINT `fk_admin_id` FOREIGN KEY (`admin_id`) REFERENCES `admin_login` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_student_course_id` FOREIGN KEY (`admin_id`) REFERENCES `students` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_student_key` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_teacher_id` FOREIGN KEY (`admin_id`) REFERENCES `teachers` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_teacher_key` FOREIGN KEY (`teacher_id`) REFERENCES `teachers` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Constraints for table `student_subjects`

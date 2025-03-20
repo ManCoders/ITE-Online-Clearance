@@ -65,7 +65,7 @@ if (isset($_GET['delete_section'])) {
             position: fixed;
             left: 0;
             top: 0;
-            overflow-y: auto;
+
             border-right: 2px solid rgba(255, 255, 255, 0.2);
         }
 
@@ -197,38 +197,7 @@ if (isset($_GET['delete_section'])) {
         }
 
 
-        .modal {
-            display: none;
-            /* Hidden by default */
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 95rem;
-            background-color: rgba(0, 0, 0, 0.5);
-        }
 
-        /* Modal Content */
-        .modal-content {
-            background-color: white;
-            height: 36rem;
-            margin: 1% auto;
-            padding: 20px;
-            border-radius: 8px;
-            width: 50%;
-            text-align: center;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Close Button */
-        .close {
-            color: #6E1313;
-            font-size: 24px;
-            font-weight: bold;
-            cursor: pointer;
-            float: right;
-        }
 
         .modal table {
             width: 100%;

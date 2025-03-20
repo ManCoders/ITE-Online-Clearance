@@ -142,28 +142,37 @@ if (isset($_GET['studentId'])) {
                 </tr>
             </thead>
             <tbody>
-                <?php
-                $searchQuery = isset($_GET['search']) ? trim($_GET['search']) : "";
-                $students = StudentNonAct();
 
-                $found = false; // Track if any matching students are found
-                
-                if (!empty($students)) {
-                    foreach ($students as $student) {
-                        if (empty($student['verify'])) {
-                            // Check if search query is provided and filter results
-                            if ($searchQuery !== "") {
-                                $fullName = strtolower($student['fname'] . " " . $student['lname'] . " " . $student['mname']);
-                                $studentCode = strtolower($student['student_code']);
-                                $searchTerm = strtolower($searchQuery);
+            </tbody>
+        </table>
 
-                                if (strpos($fullName, $searchTerm) === false && strpos($studentCode, $searchTerm) === false) {
-                                    continue; // Skip if search term doesn't match
-                                }
-                            }
+        <div class="card-table" id="tableNone"
+            style="width: 100%; color: #ccc; border: 1px solid #ccc;  background-color: #8B0000; overflow-y: scroll;">
+            <div class="tables-content" style=" background-color: #8B0000; display: flex; color: white;">
+                <table class="table" style=" width: 100%; ">
+                    <tbody>
+                        <?php
+                        $searchQuery = isset($_GET['search']) ? trim($_GET['search']) : "";
+                        $students = StudentNonAct();
 
-                            $found = true;
-                            echo "<tr>
+                        $found = false; // Track if any matching students are found
+                        
+                        if (!empty($students)) {
+                            foreach ($students as $student) {
+                                if (empty($student['verify'])) {
+                                    // Check if search query is provided and filter results
+                                    if ($searchQuery !== "") {
+                                        $fullName = strtolower($student['fname'] . " " . $student['lname'] . " " . $student['mname']);
+                                        $studentCode = strtolower($student['student_code']);
+                                        $searchTerm = strtolower($searchQuery);
+
+                                        if (strpos($fullName, $searchTerm) === false && strpos($studentCode, $searchTerm) === false) {
+                                            continue; // Skip if search term doesn't match
+                                        }
+                                    }
+
+                                    $found = true;
+                                    echo "<tr>
                         <td>{$student['student_code']}</td>
                         <td>{$student['fname']}, {$student['lname']} {$student['mname'][0]}.</td>
                         <td>" . (!empty($student['section']) ? $student['section'] : 'No Section') . "</td>
@@ -179,17 +188,65 @@ if (isset($_GET['studentId'])) {
                             </a>
                         </td>
                     </tr>";
+                                }
+                            }
                         }
-                    }
-                }
 
-                // Show "No students found" message only if no matching students exist
-                if (!$found) {
-                    echo "<tr><td colspan='4'>No students found.</td></tr>";
-                }
-                ?>
-            </tbody>
-        </table>
+                        // Show "No students found" message only if no matching students exist
+                        if (!$found) {
+                            echo "<tr><td colspan='4'>No students found.</td></tr>";
+                        }
+                        ?><?php
+                        $searchQuery = isset($_GET['search']) ? trim($_GET['search']) : "";
+                        $students = StudentNonAct();
+
+                        $found = false; // Track if any matching students are found
+                        
+                        if (!empty($students)) {
+                            foreach ($students as $student) {
+                                if (empty($student['verify'])) {
+                                    // Check if search query is provided and filter results
+                                    if ($searchQuery !== "") {
+                                        $fullName = strtolower($student['fname'] . " " . $student['lname'] . " " . $student['mname']);
+                                        $studentCode = strtolower($student['student_code']);
+                                        $searchTerm = strtolower($searchQuery);
+
+                                        if (strpos($fullName, $searchTerm) === false && strpos($studentCode, $searchTerm) === false) {
+                                            continue; // Skip if search term doesn't match
+                                        }
+                                    }
+
+                                    $found = true;
+                                    echo "<tr>
+                        <td>{$student['student_code']}</td>
+                        <td>{$student['fname']}, {$student['lname']} {$student['mname'][0]}.</td>
+                        <td>" . (!empty($student['section']) ? $student['section'] : 'No Section') . "</td>
+                        <td>
+                            <a href='edit_student.php?student_code={$student['student_code']}&fname={$student['fname']}&lname={$student['lname']}&mname={$student['mname']}&contact={$student['contact']}&section={$student['section']}&profile={$student['profile']}'>
+                                <i class='fas fa-edit'></i>
+                            </a>
+                            <a onclick=\"return confirm('Are you sure you want to delete this student?')\" href='students.php?studentId={$student['student_code']}'>
+                                <i class='fas fa-trash-alt'></i>
+                            </a>
+                            <a href='view_Student.php?studentId={$student['id']}&student_code={$student['student_code']}&fname={$student['fname']}&lname={$student['lname']}&mname={$student['mname']}&contact={$student['contact']}&section={$student['section']}&profile={$student['profile']}'>
+                                <i class='fas fa-eye'></i>
+                            </a>
+                        </td>
+                    </tr>";
+                                }
+                            }
+                        }
+
+                        // Show "No students found" message only if no matching students exist
+                        if (!$found) {
+                            echo "<tr><td colspan='4'>No students found.</td></tr>";
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
 
     </div>
 
