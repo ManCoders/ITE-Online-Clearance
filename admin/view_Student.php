@@ -262,11 +262,14 @@ if (isset($_GET['subject_id'])) {
 
                     <span class="close" onclick="window.location.href = './program.php'">&times;</span>
                     <!--  -->
-                    <h2 id="programTitle"><?php if (isset($_GET['program_name']) && isset($_GET['course_name'])) {
-                        echo $_GET['program_name'] . ' - ' . $_GET['course_name'];
+                    <h2 id="programTitle"><?php if (isset($_GET['student_name'])) {
+                        echo $_GET['student_name'];
                     } ?></h2>
-                    <span id="sy">SY: <?php if (isset($_GET['school_year'])) {
-                        echo $_GET['school_year'];
+                    <span id="sy">Student ID: <?php if (isset($_GET['student_id'])) {
+                        echo $_GET['student_id'];
+                    } ?></span><br>
+                    <span id="course">Course: <?php if (isset($_GET['course_name'])) {
+                        echo $_GET['course_name'];
                     } ?></span>
 
                     <p class="semester">1st Semester <input type="text" id="searchInput" class="form-control"
@@ -280,6 +283,9 @@ if (isset($_GET['subject_id'])) {
                                 <th>#</th>
                                 <th>Course Code</th>
                                 <th>Course Title</th>
+                                <th>Status</th>
+                                <th>Remark</th>
+                                <th>Final</th>
                                 <th>Instructor</th>
                                 <th>Actions</th>
                             </tr>
@@ -324,7 +330,11 @@ if (isset($_GET['subject_id'])) {
                                 <th>#</th>
                                 <th>Course Code</th>
                                 <th>Course Title</th>
+                                <th>Status</th>
+                                <th>Remark</th>
+                                <th>Final</th>
                                 <th>Instructor</th>
+
                                 <th>Actions</th>
                             </tr>
 

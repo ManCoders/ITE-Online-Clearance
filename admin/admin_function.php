@@ -159,7 +159,9 @@ function GetStudents()
 {
     global $pdo;
     try {
-        $stmt = $pdo->prepare("SELECT * FROM students");
+        $stmt = $pdo->prepare("SELECT s.*, 
+            CONCAT(s.lname, ' ', s.mname, ' ', s.fname) AS student_name
+         FROM students s");
         $stmt->execute();
         $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $students;
@@ -420,17 +422,21 @@ function GetProgramList()
 }
 
 
+
+
 function DeleteStudentByID($student_code)
 {
     global $pdo;
 
     try {
-        $stmt3 = $pdo->prepare("DELETE FROM students WHERE student_code = ?");
+
+        $stmt = $pdo->prepare("DELETE FROM student_login WHERE student_id = ?");
+        $stmt->execute([$student_code]);
+
+
+        $stmt3 = $pdo->prepare("DELETE FROM students WHERE id = ?");
         $stmt3->execute([$student_code]);
 
-        /* $stmt4 = $pdo->prepare("DELETE FROM student_login WHERE id = ?");
-        $stmt4->execute([$loginid]);
-        */
         header("Location: students.php?success=Student Deleted Successfully");
         exit();
     } catch (PDOException $e) {
@@ -480,8 +486,10 @@ function InsertNewStudent($student_id, $lname, $fname, $mname, $contact, $email,
                                        VALUES ( ?,?,?,?,?,?,?,?)";
             $stmt = $pdo->prepare($query);
             if ($stmt->execute([$student_id, $lname, $fname, $mname, $contact, $email, $program, $course])) {
+                header("Location: students.php?success=Student Added Successfully");
                 return true;
             } else {
+                header("Location: students.php?error=Failed to Add Student");
                 return false;
             }
         }
@@ -503,6 +511,7 @@ function DeleteProgramByID($minorid)
         return false;
     }
 }
+
 
 
 

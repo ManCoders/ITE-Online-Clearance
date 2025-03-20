@@ -32,18 +32,12 @@ if (isset($_POST['new_student'])) {
     }
 }
 
-/* if (isset($_POST['submit3'])) {
-$subjectName = $_POST['section-name'];
-InsertNewSection($subjectName, $_SESSION['admin_id'], $_POST['subject-teacher-ID'], $_POST['id']);
-} */
+
 
 if (isset($_GET['delete_program'])) {
-    DeleteProgramByID($_GET['delete_program']);
+    DeleteStudentByID($_GET['delete_program']);
 }
 
-if (isset($_GET['delete_section'])) {
-    DeleteSectionByID($_GET['delete_section']);
-}
 
 
 
@@ -227,13 +221,6 @@ if (isset($_GET['delete_section'])) {
             color: #FFFFFF;
         }
 
-        .table_content {
-            height: 10rem;
-            background-color: #6E1313;
-            overflow: hidden;
-            overflow-y: scroll;
-            color: antiquewhite;
-        }
 
         .add_subject {
             display: flex;
@@ -354,19 +341,11 @@ if (isset($_GET['delete_section'])) {
             </div>
 
             <div class="card">
-                <h2>Programs</h2>
+                <h2>Searching</h2>
 
                 <form method="GET">
-                    <label for="sy">School Year:</label>
-                    <select name="sy"
-                        style="height: 2.4rem; width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;">
-                        <option value="">Select School Year</option>
-                        <?php
-                        $years = GetSchoolYear();
-                        foreach ($years as $year) { ?>
-                            <option value="<?php echo $year['school_year']; ?>"><?php echo $year['school_year'] ?></option>
-                        <?php } ?>
-                    </select>
+                    <label for="student_name">Search Student details</label>
+                    <input type="text" name="student_name" placeholder="Enter Student Name">
 
                     <label for="department">Programs:</label>
                     <select name="department"
@@ -451,39 +430,51 @@ if (isset($_GET['delete_section'])) {
             </div>
 
             <div class="card-table" id="tableNone"
-                style="width: 100%; color: #ccc; border: 1px solid #ccc; height: 15rem; background-color: #8B0000; overflow-y: scroll;">
+                style="width: 100%; color: #ccc; border: 1px solid #ccc; height: 10rem; background-color: #8B0000; overflow-y: scroll;">
                 <div class="tables-content" style=" background-color: #8B0000; display: flex; color: white;">
                     <table class="table" style=" width: 100%; ">
                         <thead>
                             <tr>
-                                <th>#</th>
-                                <th>School year</th>
+                                <th>No :</th>
+                                <th>Student ID</th>
+                                <th>Complete Name</th>
                                 <th>Programs</th>
+                                <th>Course</th>
+                                <th>Email</th>
+                                <th>Contact</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                            $list = GetProgramList();
+                            $list = GetStudents();
                             foreach ($list as $index => $program) {
                                 // Apply filter conditions
                                 if (
-                                    (!isset($_GET['sy']) || $_GET['sy'] == '' || $_GET['sy'] == $program['school_year']) &&
-                                    (!isset($_GET['department']) || $_GET['department'] == '' || $_GET['department'] == $program['department_program']) &&
-                                    (!isset($_GET['course']) || $_GET['course'] == '' || $_GET['course'] == $program['program_course'])
+                                    (!isset($_GET['student_name']) || $_GET['student_name'] == '' || $_GET['student_name'] == $program['student_name']) /* &&
+(!isset($_GET['department']) || $_GET['department'] == '' || $_GET['department'] == $program['department_program']) &&
+(!isset($_GET['course']) || $_GET['course'] == '' || $_GET['course'] == $program['program_course'])
+*/
                                 ) {
                                     ?>
                                     <tr style="text-align: center;">
-                                        <td><?php echo $index + 1 ?></td>
-                                        <td><?php echo htmlspecialchars($program['school_year']) ?></td>
-                                        <td>
-                                            <?php echo htmlspecialchars($program['department_program']) . ' - ' . htmlspecialchars($program['program_course']); ?>
+                                        <td style="margin-left: 5px;"><?php echo $index + 1 ?>. </td>
+                                        <td style="text-align: left;">
+                                            <?php echo htmlspecialchars($program['student_code']) ?>
                                         </td>
-
+                                        <td style="text-align: left;">
+                                            <?php echo htmlspecialchars($program['student_name']) ?>
+                                        </td>
+                                        <td>
+                                            <?php echo htmlspecialchars($program['program']); ?>
+                                        </td>
+                                        <td style="text-align: left;"><?php echo htmlspecialchars($program['course']) ?></td>
+                                        <td style="text-align: left;"><?php echo htmlspecialchars($program['email']) ?></td>
+                                        <td style="text-align: left;"><?php echo htmlspecialchars($program['contact']) ?></td>
                                         <td>
                                             <div style="color: aliceblue;">
                                                 <a
-                                                    href="view_student.php?program_id=<?php echo $_SESSION['program_id'] = $program['id']; ?>&program_name=<?php echo urlencode($program['department_program']); ?>&course_name=<?php echo urlencode($program['program_course']); ?>&school_year=<?php echo urlencode($program['school_year']); ?>&subject_name=<?php echo urlencode($program['subject_name']); ?>">
+                                                    href="view_student.php?program_id=<?php echo $program['id']; ?>&program_name=<?php echo urlencode($program['program']); ?>&student_name=<?php echo urlencode($program['student_name']); ?></a>&course_name=<?php echo urlencode($program['course']); ?>&student_id=<?php echo urlencode($program['student_code']); ?>">
                                                     <i style="color: aliceblue;" class="fa fa-eye"></i>
                                                 </a>
                                                 <!-- <a class="edit-program" section="<?php echo $program['id']; ?>"><i
