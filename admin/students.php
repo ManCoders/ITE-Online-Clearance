@@ -344,11 +344,14 @@ if (isset($_GET['delete_program'])) {
                 <h2>Searching</h2>
 
                 <form method="GET">
-                    <label for="student_name">Search Student details</label>
+                    <label for="student_name">Search Student Name</label>
                     <input type="text" name="student_name" placeholder="Enter Student Name">
 
-                    <label for="department">Programs:</label>
-                    <select name="department"
+                    <label for="student_name">Search Contact number</label>
+                    <input type="text" name="contact" placeholder="Enter Contact number">
+
+                    <label for="program">Programs:</label>
+                    <select name="program"
                         style="height: 2.4rem; width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;">
                         <option value="">Select Program</option>
                         <?php
@@ -393,7 +396,7 @@ if (isset($_GET['delete_program'])) {
                 </style>
 
                 <script>
-                    document.getElementById('program_id').addEventListener('input', handleInput);
+                    document.getElementById('student_name').addEventListener('input', handleInput);
                     document.getElementById('semester_id').addEventListener('input', handleInput);
 
                     function handleInput(event) {
@@ -405,16 +408,6 @@ if (isset($_GET['delete_program'])) {
                         document.getElementById("tableNone").style.display = "block";
                     }
 
-                    function openModal(programId, semesterId, departmentProgram, programCourse, sy) {
-                        document.getElementById("myModal").style.display = "block";
-
-                        document.getElementById("program_id").value = programId;
-                        document.getElementById("semester_id").value = semesterId;
-
-                        document.getElementById("programTitle").innerText = departmentProgram + " - " + programCourse;
-                        document.getElementById("sy").innerText = "SY: " + sy;
-
-                    }
 
                     function closeModal() {
                         document.getElementById("myModal").style.display = "none";
@@ -451,10 +444,12 @@ if (isset($_GET['delete_program'])) {
                             foreach ($list as $index => $program) {
                                 // Apply filter conditions
                                 if (
-                                    (!isset($_GET['student_name']) || $_GET['student_name'] == '' || $_GET['student_name'] == $program['student_name']) /* &&
-(!isset($_GET['department']) || $_GET['department'] == '' || $_GET['department'] == $program['department_program']) &&
-(!isset($_GET['course']) || $_GET['course'] == '' || $_GET['course'] == $program['program_course'])
-*/
+                                    (!isset($_GET['student_name']) || $_GET['student_name'] == '' || $_GET['student_name'] == $program['student_name']) &&
+                                    (!isset($_GET['student_name']) || $_GET['student_name'] == '' || $_GET['student_name'] == $program['student_name']) &&
+                                    (!isset($_GET['contact']) || $_GET['contact'] == '' || $_GET['contact'] == $program['contact']) &&
+                                    (!isset($_GET['program']) || $_GET['program'] == '' || $_GET['program'] == $program['program']) &&
+                                    (!isset($_GET['course']) || $_GET['course'] == '' || $_GET['course'] == $program['course'])
+
                                 ) {
                                     ?>
                                     <tr style="text-align: center;">

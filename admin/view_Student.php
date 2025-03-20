@@ -260,7 +260,7 @@ if (isset($_GET['subject_id'])) {
             <div class="modal">
                 <div class="modal-content">
 
-                    <span class="close" onclick="window.location.href = './program.php'">&times;</span>
+                    <span class="close" onclick="window.location.href = './students.php'">&times;</span>
                     <!--  -->
                     <h2 id="programTitle"><?php if (isset($_GET['student_name'])) {
                         echo $_GET['student_name'];
@@ -272,9 +272,9 @@ if (isset($_GET['subject_id'])) {
                         echo $_GET['course_name'];
                     } ?></span>
 
-                    <p class="semester">1st Semester <input type="text" id="searchInput" class="form-control"
-                            placeholder="Search programs..." style="float: right;" onkeyup="searchPrograms()">
-                        <label style="float: right;" for="Search">Search: </label>
+                    <p class="semester">1st Semester <!-- <input type="text" id="searchInput" class="form-control"
+                            placeholder="Search programs..." style="float: right;" onkeyup="searchPrograms()"> -->
+                        <!-- <label style="float: right;" for="Search">Search: </label> -->
                     </p>
 
                     <div class="table_content" style="text-align:center;">
@@ -320,9 +320,9 @@ if (isset($_GET['subject_id'])) {
 
                     </div>
 
-                    <p class="semester">2nd Semester <input type="text" id="searchInput" class="form-control"
+                    <p class="semester">2nd Semester <!-- <input type="text" id="searchInput" class="form-control"
                             placeholder="Search programs..." style="float: right;" onkeyup="searchPrograms()">
-                        <label style="float: right;" for="Search">Search: </label></table>
+                        <label style="float: right;" for="Search">Search: </label> -->
                     </p>
                     <div class="table_content" style="text-align:center;">
                         <table>
