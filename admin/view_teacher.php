@@ -243,10 +243,10 @@ if (!isset($_SESSION['admin_id'])) {
         </div>
         <div class="sidebar-item">
             <a href="./Program.php"><i class="fas fa-calendar-alt"></i> Programs</a>
-        </div>
+        </div><!-- 
         <div class="sidebar-item">
             <a href="./subjects.php"><i class="fas fa-book"></i> Subjects</a>
-        </div>
+        </div> -->
         <div class="sidebar-item">
             <a href="./students.php"><i class="fas fa-chalkboard-teacher"></i> Students</a>
         </div>
