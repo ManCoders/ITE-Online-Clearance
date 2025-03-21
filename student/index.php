@@ -263,11 +263,23 @@ $student_id = $_SESSION['student_id'];
                                 <th>Remark</th>
                                 <th>Final</th>
                                 <th>Instructor</th>
-                                <th>Actions</th>
                             </tr>
                             <tbody id="subjectList1">
                                 <tr class="programRow">
-
+                                    <?php $subject = getSubject2($student_id) ?>
+                                    <?php foreach ($subject as $index => $row) { ?>
+                                        <?php if ($row['semester'] == 1) { ?>
+                                        <tr>
+                                            <td><?php echo $index + 1; ?></td>
+                                            <td><?php echo $row['subject_code']; ?></td>
+                                            <td><?php echo $row['subject_name']; ?></td>
+                                            <td><?php echo $row['status']; ?></td>
+                                            <td><?php echo $row['remark']; ?></td>
+                                            <td><?php echo $row['final']; ?></td>
+                                            <td><?php echo $row['teacher_name']; ?></td>
+                                        </tr>
+                                    <?php }
+                                    } ?>
                                 </tr>
                             </tbody>
                         </table>
@@ -285,12 +297,24 @@ $student_id = $_SESSION['student_id'];
                                 <th>Final</th>
                                 <th>Instructor</th>
 
-                                <th>Actions</th>
                             </tr>
 
                             <tbody id="subjectList2">
                                 <tr class="programRow">
-
+                                    <?php $subject = getSubject2($student_id) ?>
+                                    <?php foreach ($subject as $index => $row) { ?>
+                                        <?php if ($row['semester'] == 2) { ?>
+                                        <tr>
+                                            <td><?php echo $index + 1; ?></td>
+                                            <td><?php echo $row['subject_code']; ?></td>
+                                            <td><?php echo $row['subject_name']; ?></td>
+                                            <td><?php echo $row['status']; ?></td>
+                                            <td><?php echo $row['remark']; ?></td>
+                                            <td><?php echo $row['final']; ?></td>
+                                            <td><?php echo $row['teacher_name']; ?></td>
+                                        </tr>
+                                    <?php }
+                                    } ?>
                                 </tr>
                             </tbody>
                         </table>

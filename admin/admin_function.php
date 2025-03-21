@@ -474,6 +474,20 @@ function getSubjectById($id)
     }
 }
 
+function getSubject1($id)
+{
+    global $pdo;
+    $sql = "SELECT DISTINCT * FROM student_with_subjects WHERE student_id = ?";
+    try {
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$id]);
+        return $stmt->fetchAll();
+    } catch (PDOException $e) {
+        echo 'Error: ' . $e->getMessage();
+        return [];
+    }
+}
+
 function InsertNewStudent($student_id, $lname, $fname, $mname, $contact, $email, $program, $course, $sy)
 {
     global $pdo;
