@@ -284,6 +284,7 @@ if (isset($_GET['delete_program'])) {
                         <select name="year" id="schoolyear"
                             style="width: 100%; border: 1px solid #ccc; border-radius: 5px;">
                             <option value="">Select School Year</option>
+
                         </select>
                     </div>
 
@@ -362,9 +363,28 @@ if (isset($_GET['delete_program'])) {
                             success: function (response) {
                                 $('#program').html("<option value=''>Select Program Title</option>" + response);
                                 $('#semester').prop("disabled", false);
+                                $('#subject_code, #subject_name, #teacher').prop("disabled", true).html("<option value=''>Select</option>"); // Reset dependent dropdowns
                             }
                         });
                     }
+
+                    var student_id = $('#student_id').val();
+                    if (student_id !== "") {
+                        $.ajax({
+                            url: "ajax.php",
+                            type: "POST",
+                            data: { action: 'getschoolYear', student_id: student_id },
+                            success: function (response) {
+                                $('#schoolyear').html("<option value=''>Select Program Title</option>" + response);
+                                $('#semester').prop("disabled", false);
+                                $('#subject_code, #subject_name, #teacher').prop("disabled", true).html("<option value=''>Select</option>"); // Reset dependent dropdowns
+                            }
+                        });
+                    }
+
+
+
+
 
                     // Fetch subjects when semester is selected
                     $('#semester').change(function () {
@@ -377,6 +397,7 @@ if (isset($_GET['delete_program'])) {
                                 success: function (response) {
                                     $('#subject_code').html('<option value="">Select Subject Code</option>' + response);
                                     $('#subject_code').prop("disabled", false);
+                                    $('#subject_name, #teacher').prop("disabled", true).html("<option value=''>Select</option>"); // Reset dependent dropdowns
                                 }
                             });
                         } else {

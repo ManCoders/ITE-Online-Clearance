@@ -20,8 +20,19 @@ function getMyId($id)
     }
 }
 
-
-
+function getStudentByIds($id)
+{
+    global $pdo;
+    try {
+        $stmt = $pdo->prepare("
+        SELECT school_year FROM students WHERE id = ?
+        ");
+        $stmt->execute([$id]);
+        return $stmt->fetch() ?: [];
+    } catch (PDOException $e) {
+        return [];
+    }
+}
 function GetSchoolYearOnProgram()
 {
     global $pdo;

@@ -29,6 +29,28 @@ if (isset($_POST['action'])) {
         }
     }
 
+
+    if ($_POST['action'] == 'getschoolYear' && isset($_POST['student_id'])) {
+        $student_id = $_POST['student_id'];
+
+        if (!is_numeric($student_id)) {
+            echo "<option value=''>Invalid Student ID</option>";
+            exit;
+        }
+
+        $stmt = $pdo->prepare("SELECT DISTINCT program, course, school_year FROM students WHERE id = ?");
+        $stmt->execute([$student_id]);
+        $programs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if ($programs) {
+            foreach ($programs as $program) {
+                echo "<option selected value='{$program['school_year']}'>{$program['school_year']}</option>";
+            }
+        } else {
+            echo "<option value=''>No programs found</option>";
+        }
+    }
+
     if ($_POST['action'] == 'getSemester' && isset($_POST['semester'])) {
         $semester = $_POST['semester'];
 
@@ -72,7 +94,7 @@ if (isset($_POST['action'])) {
     }
 
     if ($_POST['action'] == 'getTeacherSubjects' && (isset($_POST['subject_name']) || isset($_POST['subject_code']))) {
-        $subject_name = $_POST['subject_name'] ?? ''; // Use default empty string if not set
+        $subject_name = $_POST['subject_name'] ?? '';
         $subject_code = $_POST['subject_code'] ?? '';
 
         if (empty($subject_name) && empty($subject_code)) {
@@ -80,14 +102,13 @@ if (isset($_POST['action'])) {
             exit;
         }
 
-        // Prepare SQL query with both `subject_name` and `subject_code`
         $stmt = $pdo->prepare('SELECT DISTINCT teacher_name FROM subject_with_program_id WHERE subject_name = ? AND subject_code = ?');
         $stmt->execute([$subject_name, $subject_code]);
         $teachers = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         if ($teachers) {
             foreach ($teachers as $teacher) {
-                echo "<option selected value='{$teacher['teacher_name']}'>{$teacher['teacher_name']}</option>";
+                echo "<option  value='{$teacher['teacher_name']}'>{$teacher['teacher_name']}</option>";
             }
         } else {
             echo "<option value=''>No teachers found for this subject</option>";
