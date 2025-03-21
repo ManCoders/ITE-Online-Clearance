@@ -626,7 +626,8 @@ if (isset($_GET['delete_program'])) {
                                     <td><?php echo $value['teacher_name'] ?>
                                     </td>
 
-                                    <td style="margin: 5px;"><a class="fa fa-trash" style="cursor: pointer;"></a></td>
+                                    <td style="margin: 5px; text-align: center;"><a class="fa fa-trash"
+                                            style="cursor: pointer;"></a></td>
                                 </tr>
                             <?php } ?>
                         </tbody>

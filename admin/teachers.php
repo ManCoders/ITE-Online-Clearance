@@ -448,8 +448,30 @@ if (isset($_GET['delete_program'])) {
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- PHP CODE FERI -->
-                             <?php $get_teacher = GetTeachers(); ?>
+                            <?php $get_teacher = GetTeachers(); ?>
+                            <?php foreach ($get_teacher as $index => $teacher) { ?>
+                                <tr>
+                                    <td style="text-align: center;"><?php echo $index + 1; ?></td>
+                                    <td><?php echo $teacher['teacher_code']; ?></td>
+                                    <td><?php echo $teacher['lname'] . ' ' . $teacher['fname'] . ' ' . $teacher['mname']; ?>
+                                    </td>
+                                    <td><?php echo $teacher['profession']; ?></td>
+                                    <td><?php echo $teacher['specialized']; ?></td>
+                                    <td><?php echo $teacher['email']; ?></td>
+                                    <td><?php echo $teacher['contact']; ?></td>
+                                    <td>
+                                        <div style="color: aliceblue; text-align:center;">
+                                            <a href="view_teacher.php?teacher_id=<?php echo $teacher['id'] ?>">
+                                                <i style="color: aliceblue;" class="fa fa-eye"></i>
+                                            </a>
+                                            <!-- <a class="edit-program" section="<?php echo $program['id']; ?>"><i
+                                                        class="fa fa-edit"></i></a> -->
+                                            <a class="delete-program" section="<?php echo $program['id']; ?>"><i
+                                                    class="fa fa-trash"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php } ?>
                         </tbody>
                     </table>
                 </div>
