@@ -474,7 +474,7 @@ function getSubjectById($id)
     }
 }
 
-function InsertNewStudent($student_id, $lname, $fname, $mname, $contact, $email, $program, $course)
+function InsertNewStudent($student_id, $lname, $fname, $mname, $contact, $email, $program, $course, $sy)
 {
     global $pdo;
     try {
@@ -484,10 +484,10 @@ function InsertNewStudent($student_id, $lname, $fname, $mname, $contact, $email,
             header("Location: students.php?error=Student Already Exists");
             return false;
         } else {
-            $query = "INSERT INTO students ( student_code, lname, fname, mname, contact, email, program, course ) 
-                                       VALUES ( ?,?,?,?,?,?,?,?)";
+            $query = "INSERT INTO students ( student_code, lname, fname, mname, contact, email, program, course ,school_year) 
+                                       VALUES ( ?,?,?,?,?,?,?,?,?)";
             $stmt = $pdo->prepare($query);
-            if ($stmt->execute([$student_id, $lname, $fname, $mname, $contact, $email, $program, $course])) {
+            if ($stmt->execute([$student_id, $lname, $fname, $mname, $contact, $email, $program, $course, $sy])) {
                 header("Location: students.php?success=Student Added Successfully");
                 return true;
             } else {

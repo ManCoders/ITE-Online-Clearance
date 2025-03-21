@@ -21,13 +21,14 @@ if (isset($_POST['new_student'])) {
         $email = $_POST['email'];
         $program = $_POST['program'];
         $course = $_POST['course'];
+        $SY = $_POST['schoolYear'];
 
-        if (empty($student_id) || empty($lname) || empty($fname) || empty($mname) || empty($contact) || empty($email) || empty($program) || empty($course)) {
+        if (empty($SY) || empty($student_id) || empty($lname) || empty($fname) || empty($mname) || empty($contact) || empty($email) || empty($program) || empty($course)) {
             header('location: ?error=Please fill in all fields');
             exit();
         }
 
-        InsertNewStudent($student_id, $lname, $fname, $mname, $contact, $email, $program, $course);
+        InsertNewStudent($student_id, $lname, $fname, $mname, $contact, $email, $program, $course, $SY);
 
     }
 }
@@ -311,10 +312,23 @@ if (isset($_GET['delete_program'])) {
                     </div>
 
                     <div style="display: flex; gap: 15px; margin-top: 5px; width: 100%;">
-                        <div><label for="course">Choose Program</label>
+                        <div>
+                            <label for="schoolYear">Choose SY</label>
+                            <label for="program">Choose Program</label>
                             <label for="course">Choose Course</label>
                         </div>
+
                         <div style="margin: 5px; width: 17.4rem; ">
+                            <select style="padding: 5px;  width: 100%;" name="schoolYear" id="schoolYear">
+                                <option value="">Select School Year</option>
+                                <?php
+                                $years = GetSchoolYear();
+                                foreach ($years as $year) { ?>
+                                    <option value="<?php echo $year['school_year']; ?>"><?php echo $year['school_year'] ?>
+                                    </option>
+                                <?php } ?>
+                            </select>
+
                             <select style="padding: 5px;  width: 100%;" name="program" id="program">
                                 <option value="">Select Program</option>
                                 <?php
