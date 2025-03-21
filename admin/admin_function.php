@@ -143,6 +143,14 @@ function GetPrograms()
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+function teacher_profession()
+{
+    global $pdo;
+    $stmt = $pdo->prepare("SELECT * FROM teacher_profession ORDER BY profession ASC");
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 function GetTeachers()
 {
     global $pdo;

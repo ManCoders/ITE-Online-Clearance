@@ -307,16 +307,19 @@ if (isset($_GET['delete_program'])) {
                         <input placeholder="Enter Contact Number" type="text" name="contact" id="contact" required>
                         <input type="text" name="email" id="email" placeholder="Enter Email Address">
                     </div>
-
+                    <div style="display:flex; gap:3.9rem;">
+                        <label for="">School Year</label>
+                        <label for="">Profession</label>
+                        <label for="">Specialization</label>
+                    </div>
                     <div style="display: flex; gap: 15px; margin-top: 5px; width: 100%;">
-                        <div>
-                            <label for="schoolYear">Choose SY</label>
-                            <label for="program">Choose Profession</label>
-                            <label for="course">Choose Course</label>
-                        </div>
 
-                        <div style="margin: 5px; width: 17.4rem; ">
-                            <select style="padding: 5px;  width: 100%;" name="schoolYear" id="schoolYear">
+
+                        <div style="display: flex; gap: 5px;">
+
+                            <select
+                                style="padding: 5px;  width: 100%; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;"
+                                name="schoolYear" id="schoolYear">
                                 <option value="">Select School Year</option>
                                 <?php
                                 $years = GetSchoolYear();
@@ -325,23 +328,26 @@ if (isset($_GET['delete_program'])) {
                                     </option>
                                 <?php } ?>
                             </select>
-
-                            <select style="padding: 5px;  width: 100%;" name="program" id="program">
-                                <option value="">Select Program</option>
+                            <select
+                                style="padding: 5px;  width: 100%; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;"
+                                name="schoolYear" id="schoolYear">
+                                <option value="">Select School Year</option>
                                 <?php
-                                $years = GetPrograms();
+                                $years = teacher_profession();
                                 foreach ($years as $year) { ?>
-                                    <option value="<?php echo $year['program_code']; ?>"><?php echo $year['program_code'] ?>
+                                    <option value="<?php echo $year['Specialized']; ?>"><?php echo $year['Specialized'] ?>
                                     </option>
                                 <?php } ?>
                             </select>
 
-                            <select style="padding: 5px; width: 100%;" name="course" id="courses">
-                                <option value="">Select Course</option>
+                            <select
+                                style="padding: 5px;  width: 100%; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;"
+                                name="program" id="program">
+                                <option value="">Select Profession</option>
                                 <?php
-                                $years = GetCourse();
+                                $years = teacher_profession();
                                 foreach ($years as $year) { ?>
-                                    <option value="<?php echo $year['course_name']; ?>"><?php echo $year['course_name'] ?>
+                                    <option value="<?php echo $year['profession']; ?>"><?php echo $year['profession'] ?>
                                     </option>
                                 <?php } ?>
                             </select>
@@ -356,13 +362,13 @@ if (isset($_GET['delete_program'])) {
 
                 <form method="GET">
                     <label for="student_name">Search Student Name</label>
-                    <input type="text" name="student_name" placeholder="Enter Student Name">
+                    <input type="text" name="student_name_filter" placeholder="Enter Student Name">
 
                     <label for="student_name">Search Contact number</label>
-                    <input type="text" name="contact" placeholder="Enter Contact number">
+                    <input type="text" name="contact_filter" placeholder="Enter Contact number">
 
                     <label for="program">Programs:</label>
-                    <select name="program"
+                    <select name="program_filter"
                         style="height: 2.4rem; width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;">
                         <option value="">Select Program</option>
                         <?php
@@ -376,7 +382,7 @@ if (isset($_GET['delete_program'])) {
                     <label style="margin: 2px;" for=" program_id">Course Title:</label>
                     <select
                         style="height: 2.4rem; width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;"
-                        name="course">
+                        name="course_filter">
                         <option value="">Select Major Course</option>
                         <?php
                         $years = GetCourse();
@@ -419,17 +425,6 @@ if (isset($_GET['delete_program'])) {
                         document.getElementById("tableNone").style.display = "block";
                     }
 
-
-                    function closeModal() {
-                        document.getElementById("myModal").style.display = "none";
-                    }
-
-                    window.onclick = function (event) {
-                        let modal = document.getElementById("myModal");
-                        if (event.target === modal) {
-                            modal.style.display = "none";
-                        }
-                    };
                 </script>
             </div>
 
@@ -440,58 +435,17 @@ if (isset($_GET['delete_program'])) {
                         <thead>
                             <tr>
                                 <th>No :</th>
-                                <th>Student ID</th>
+                                <th>Employee ID</th>
                                 <th>Complete Name</th>
-                                <th>Programs</th>
-                                <th>Course</th>
+                                <th>Profession</th>
+                                <th>Specialization</th>
                                 <th>Email</th>
                                 <th>Contact</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php
-                            $list = GetStudents();
-                            foreach ($list as $index => $program) {
-                                // Apply filter conditions
-                                if (
-                                    (!isset($_GET['student_name']) || $_GET['student_name'] == '' || $_GET['student_name'] == $program['student_name']) &&
-                                    (!isset($_GET['student_name']) || $_GET['student_name'] == '' || $_GET['student_name'] == $program['student_name']) &&
-                                    (!isset($_GET['contact']) || $_GET['contact'] == '' || $_GET['contact'] == $program['contact']) &&
-                                    (!isset($_GET['program']) || $_GET['program'] == '' || $_GET['program'] == $program['program']) &&
-                                    (!isset($_GET['course']) || $_GET['course'] == '' || $_GET['course'] == $program['course'])
-
-                                ) {
-                                    ?>
-                                    <tr style="text-align: center;">
-                                        <td style="margin-left: 5px;"><?php echo $index + 1 ?>. </td>
-                                        <td style="text-align: left;">
-                                            <?php echo htmlspecialchars($program['student_code']) ?>
-                                        </td>
-                                        <td style="text-align: left;">
-                                            <?php echo htmlspecialchars($program['student_name']) ?>
-                                        </td>
-                                        <td>
-                                            <?php echo htmlspecialchars($program['program']); ?>
-                                        </td>
-                                        <td style="text-align: left;"><?php echo htmlspecialchars($program['course']) ?></td>
-                                        <td style="text-align: left;"><?php echo htmlspecialchars($program['email']) ?></td>
-                                        <td style="text-align: left;"><?php echo htmlspecialchars($program['contact']) ?></td>
-                                        <td>
-                                            <div style="color: aliceblue;">
-                                                <a
-                                                    href="view_student.php?program_id=<?php echo $program['id']; ?>&program_name=<?php echo urlencode($program['program']); ?>&student_name=<?php echo urlencode($program['student_name']); ?></a>&course_name=<?php echo urlencode($program['course']); ?>&student_id=<?php echo urlencode($program['student_code']); ?>">
-                                                    <i style="color: aliceblue;" class="fa fa-eye"></i>
-                                                </a>
-                                                <!-- <a class="edit-program" section="<?php echo $program['id']; ?>"><i
-                                                        class="fa fa-edit"></i></a> -->
-                                                <a class="delete-program" section="<?php echo $program['id']; ?>"><i
-                                                        class="fa fa-trash"></i></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                <?php }
-                            } ?>
+                            <!-- PHP CODE FERI -->
                         </tbody>
                     </table>
                 </div>
