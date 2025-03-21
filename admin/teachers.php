@@ -12,27 +12,24 @@ if (!isset($_SESSION['admin_id'])) {
 $adminid = $_SESSION['admin_id'];
 
 if (isset($_POST['new_student'])) {
-    if (isset($_POST['new_student'])) {
-        $student_id = $_POST['student_id'];
-        $lname = $_POST['lname'];
-        $fname = $_POST['fname'];
-        $mname = $_POST['mname'];
-        $contact = $_POST['contact'];
-        $email = $_POST['email'];
-        $program = $_POST['program'];
-        $course = $_POST['course'];
-        $SY = $_POST['schoolYear'];
+    $student_id = $_POST['student_id'];
+    $lname = $_POST['lname'];
+    $fname = $_POST['fname'];
+    $mname = $_POST['mname'];
+    $contact = $_POST['contact'];
+    $email = $_POST['email'];
+    $program = $_POST['program'];
+    $course = $_POST['course'];
+    $SY = $_POST['schoolYear'];
 
-        if (empty($SY) || empty($student_id) || empty($lname) || empty($fname) || empty($mname) || empty($contact) || empty($email) || empty($program) || empty($course)) {
-            header('location: ?error=Please fill in all fields');
-            exit();
-        }
-
-        InsertNewStudent($student_id, $lname, $fname, $mname, $contact, $email, $program, $course, $SY);
-
+    if (empty($SY) || empty($student_id) || empty($lname) || empty($fname) || empty($mname) || empty($contact) || empty($email) || empty($program) || empty($course)) {
+        header('location: ?error=Please fill in all fields');
+        exit();
     }
-}
 
+    InsertNewTeacher($student_id, $lname, $fname, $mname, $contact, $email, $program, $course, $SY);
+
+}
 
 
 if (isset($_GET['delete_program'])) {

@@ -524,7 +524,7 @@ function InsertNewTeacher($student_id, $lname, $fname, $mname, $contact, $email,
         $stmt = $pdo->prepare("SELECT * FROM teacher WHERE teacher_code = ? AND email = ? AND contact = ?");
         $stmt->execute([$student_id, $email, $contact]);
         if ($stmt->fetchColumn() > 0) {
-            header("Location: students.php?error=Teachers Already Exists");
+            header("Location: teachers.php?error=Teachers Already Exists");
             return false;
         } else {
             $query = "INSERT INTO teacher ( teacher_code, lname, fname, mname, contact, email, 	profession, course ,school_year) 
@@ -771,22 +771,6 @@ function InsertNewSubject($subjectName, $section, $program, $syear, $admin_id, $
         header('location: subjects.php?error=Subject added Unsuccessfully');
     }
 }
-function InsertNewTeacher($teacherid, $teacherlname, $teachermname, $teacherfname, $teachercontact)
-{
-    global $pdo;
-
-    try {
-        $sql = $pdo->prepare("INSERT INTO teachers (teacher_code, lname, mname, fname, contact) VALUES (?, ?, ?, ?, ?)");
-        $sql->execute([$teacherid, $teacherlname, $teachermname, $teacherfname, $teachercontact]);
-
-        header('Location: teachers.php?success=Teacher added successfully');
-        exit();
-    } catch (PDOException $th) {
-        error_log("Database Error: " . $th->getMessage()); // Logs error in PHP error log
-        die("Database Error: " . $th->getMessage()); // Displays the actual error
-    }
-}
-
 
 
 function CheckTeacherCode($teacherId)
