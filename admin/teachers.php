@@ -461,7 +461,8 @@ if (isset($_GET['delete_program'])) {
                                     <td><?php echo $teacher['contact']; ?></td>
                                     <td>
                                         <div style="color: aliceblue; text-align:center;">
-                                            <a href="view_teacher.php?teacher_id=<?php echo $teacher['id'] ?>">
+                                            <a
+                                                href="view_teacher.php?teacher_id=<?php echo $teacher['id'] ?>&specialized=<?php echo $teacher['specialized'] ?>&profession=<?php echo $teacher['profession'] ?>&employee_id=<?php echo $teacher['teacher_code'] ?>&teacher_name=<?php echo $teacher['lname'] . ' ' . $teacher['fname'] . ' ' . $teacher['mname'][0]; ?>">
                                                 <i style="color: aliceblue;" class="fa fa-eye"></i>
                                             </a>
                                             <!-- <a class="edit-program" section="<?php echo $program['id']; ?>"><i

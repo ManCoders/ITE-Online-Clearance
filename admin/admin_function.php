@@ -64,11 +64,7 @@ function GetTeachersList()
     global $pdo;
 
     $stmt = $pdo->prepare(" 
-        SELECT tl.*, t.contact, t.id AS teacher_id, tl.teacher_id AS tloginId,
-        CONCAT(t.lname, ' ', t.mname, ' ', t.fname) AS teacher_name
-        
-        FROM teacher_login tl 
-        INNER JOIN teachers t ON tl.teacher_id = t.id
+        SELECT *, CONCAT(lname, ' ', mname, ' ', fname) AS teacher_name FROM teachers
     ");
     try {
         $stmt->execute();

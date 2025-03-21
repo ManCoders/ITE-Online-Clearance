@@ -302,6 +302,10 @@ if (isset($_GET['subject_id'])) {
                                                     program="<?php echo $subject['program_id']; ?>" class="delete_subject">
                                                     <i class="fa fa-trash"></i>
                                                 </button>
+                                                <button subject="<?php echo $subject['id']; ?>"
+                                                    program="<?php echo $subject['program_id']; ?>" class="edit_subject">
+                                                    <i class="fa fa-edit"></i>
+                                                </button>
                                             </td>
                                         </tr>
                                     <?php }
@@ -348,6 +352,10 @@ if (isset($_GET['subject_id'])) {
                                                     program="<?php echo $subject['program_id']; ?>" class="delete_subject">
                                                     <i class="fa fa-trash"></i>
                                                 </button>
+                                                <button subject="<?php echo $subject['id']; ?>"
+                                                    program="<?php echo $subject['program_id']; ?>" class="edit_subject">
+                                                    <i class="fa fa-edit"></i>
+                                                </button>
                                             </td>
                                         </tr>
                                     <?php }
@@ -358,7 +366,7 @@ if (isset($_GET['subject_id'])) {
                         </table>
 
                     </div>
-                    <p class="semester">New Subjects</p>
+                    <p class="semester" id="semester_label">New Subjects</p>
                     <?php if (isset($_GET['error'])) { ?>
                         <p style="color: red;"><?php echo $_GET['error']; ?></p>
                     <?php } elseif (isset($_GET['success'])) { ?>
@@ -421,6 +429,8 @@ if (isset($_GET['subject_id'])) {
 
 
         document.addEventListener("DOMContentLoaded", function () {
+
+
             document.querySelectorAll(".delete_subject").forEach(button => {
                 button.addEventListener("click", function (event) {
                     event.preventDefault();
@@ -444,6 +454,41 @@ if (isset($_GET['subject_id'])) {
                 });
             });
 
+
+            /* START HERE THE UPDATE */
+
+
+            document.querySelectorAll(".edit_subject").forEach(button => {
+                button.addEventListener("click", function (event) {
+                    event.preventDefault();
+                    let subject_id = this.getAttribute("subject");
+                    let program_id = this.getAttribute("program");
+
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "This subject will be permanently updated!",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#d33",
+                        cancelButtonColor: "#3085d6",
+                        confirmButtonText: "Yes, Update Subject!"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Change button text
+                            this.textContent = "Updating...";
+
+                            // Change label text
+                            document.getElementById("semester_label").textContent = "Editing Subject";
+
+                            // Disable "Add Subject" button
+                            document.getElementById("add-subject").disabled = true;
+                        }
+                    });
+                });
+            });
+
+
+            /* END HERE THE UPDATE */
 
             const urlParams = new URLSearchParams(window.location.search);
 

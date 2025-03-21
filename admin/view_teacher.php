@@ -258,16 +258,18 @@ if (isset($_GET['subject_id'])) {
                 <div class="modal-content">
 
                     <span class="close" onclick="window.location.href = './teachers.php'">&times;</span>
-                    <!--  -->
-                    <!-- <h2 id="programTitle"><?php if (isset($_GET['teacher_name'])) {
+
+                    <h2 id="programTitle"><?php if (isset($_GET['teacher_name'])) {
                         echo $_GET['teacher_name'];
                     } ?></h2>
-                    <span id="sy">Student ID: <?php if (isset($_GET['employee_id'])) {
+                    <span id="sy">Employee ID : <?php if (isset($_GET['employee_id'])) {
                         echo $_GET['employee_id'];
-                    } ?></span><br><span id="course">Course:
-                        <?php if (isset($_GET['specialization']) && isset($_GET['profession'])) {
-                            echo $_GET['profession'] . ' - ' . $_GET['specialization'];
-                        } ?></span> -->
+                    } ?></span><br>
+
+                    <span id="course">Profession :
+                        <?php if (isset($_GET['specialized']) && isset($_GET['profession'])) {
+                            echo $_GET['profession'] . ' - ' . $_GET['specialized'];
+                        } ?></span>
 
 
                     <p class="semester">1st Semester</p>
