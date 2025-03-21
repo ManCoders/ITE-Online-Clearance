@@ -525,21 +525,21 @@ function InsertNewStudent($student_id, $lname, $fname, $mname, $contact, $email,
 
 
 
-function InsertNewTeacher($student_id, $lname, $fname, $mname, $contact, $email, $program, $course, $sy)
+function InsertNewTeacher($employee_id, $lname, $fname, $mname, $contact, $email, $profession, $specialization, $schoolyear)
 {
     global $pdo;
     try {
-        $stmt = $pdo->prepare("SELECT * FROM teacher WHERE teacher_code = ? AND email = ? AND contact = ?");
-        $stmt->execute([$student_id, $email, $contact]);
+        $stmt = $pdo->prepare("SELECT * FROM teachers WHERE teacher_code = ? AND email = ? AND contact = ?");
+        $stmt->execute([$employee_id, $email, $contact]);
         if ($stmt->fetchColumn() > 0) {
             header("Location: teachers.php?error=Teachers Already Exists");
             return false;
         } else {
-            $query = "INSERT INTO teacher ( teacher_code, lname, fname, mname, contact, email, 	profession, course ,school_year) 
+            $query = "INSERT INTO teachers ( teacher_code, lname, fname, mname, contact, email, profession, specialized , school_year) 
                                        VALUES ( ?,?,?,?,?,?,?,?,?)";
             $stmt = $pdo->prepare($query);
-            if ($stmt->execute([$student_id, $lname, $fname, $mname, $contact, $email, $program, $course, $sy])) {
-                header("Location: teachers.php?success=teacher Added Successfully");
+            if ($stmt->execute([$employee_id, $lname, $fname, $mname, $contact, $email, $profession, $specialization, $schoolyear])) {
+                header("Location: teachers.php?success=Teacher Added Successfully");
                 return true;
             } else {
                 header("Location: teachers.php?error=Failed to Add teachers");

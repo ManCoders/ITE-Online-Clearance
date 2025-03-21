@@ -11,23 +11,23 @@ if (!isset($_SESSION['admin_id'])) {
 
 $adminid = $_SESSION['admin_id'];
 
-if (isset($_POST['new_student'])) {
-    $student_id = $_POST['student_id'];
+if (isset($_POST['add_employee'])) {
+    $employee_id = $_POST['employee_id'];
     $lname = $_POST['lname'];
     $fname = $_POST['fname'];
     $mname = $_POST['mname'];
     $contact = $_POST['contact'];
     $email = $_POST['email'];
-    $program = $_POST['program'];
-    $course = $_POST['course'];
-    $SY = $_POST['schoolYear'];
+    $profession = $_POST['profession'];
+    $specialization = $_POST['specialization'];
+    $schoolyear = $_POST['schoolYear'];
 
-    if (empty($SY) || empty($student_id) || empty($lname) || empty($fname) || empty($mname) || empty($contact) || empty($email) || empty($program) || empty($course)) {
+    if (empty($schoolyear) || empty($employee_id) || empty($lname) || empty($fname) || empty($mname) || empty($contact) || empty($email) || empty($profession) || empty($specialization)) {
         header('location: ?error=Please fill in all fields');
         exit();
     }
 
-    InsertNewTeacher($student_id, $lname, $fname, $mname, $contact, $email, $program, $course, $SY);
+    InsertNewTeacher($employee_id, $lname, $fname, $mname, $contact, $email, $profession, $specialization, $schoolyear);
 
 }
 
@@ -258,10 +258,7 @@ if (isset($_GET['delete_program'])) {
         </div>
         <div class="sidebar-item">
             <a href="./Program.php"><i class="fas fa-calendar-alt"></i> Programs</a>
-        </div><!-- 
-        <div class="sidebar-item">
-            <a href="./subjects.php"><i class="fas fa-book"></i> Subjects</a>
-        </div> -->
+        </div>
         <div class="sidebar-item">
             <a href="./students.php"><i class="fas fa-chalkboard-teacher"></i> Students</a>
         </div>
@@ -287,12 +284,15 @@ if (isset($_GET['delete_program'])) {
                     <p style="color: green;"><?php echo $_GET['success']; ?></p>
                 <?php endif; ?>
 
+
+                <!-- STARTING SUBMITTING HERE -->
+
                 <form action="" method="post">
                     <!-- <input type="text" name="id" value="<? $_GET['program_id'] ?>" hidden> -->
 
-                    <label for="student_id" style="margin: 2px; ;">Employee ID:</label>
-                    <input type="text" name="student_id" id="student_id" required>
-                    <label style="margin: 2px;" for="program_id">Emplo yee Name:</label>
+                    <label for="employee_id" style="margin: 2px; ;">Employee ID:</label>
+                    <input type="text" name="employee_id" id="employee_id" required>
+                    <label style="margin: 2px;" for="name">Emplo yee Name:</label>
                     <div style="display: flex; gap:5px;">
                         <input type="text" name="lname" placeholder="Enter Last Name">
                         <input type="text" name="mname" placeholder="Enter Middle Name">
@@ -330,7 +330,7 @@ if (isset($_GET['delete_program'])) {
                             </select>
                             <select
                                 style="padding: 5px;  width: 100%; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;"
-                                name="schoolYear" id="schoolYear">
+                                name="specialization" id="specialization">
                                 <option value="">Select School Year</option>
                                 <?php
                                 $years = teacher_profession();
@@ -342,7 +342,7 @@ if (isset($_GET['delete_program'])) {
 
                             <select
                                 style="padding: 5px;  width: 100%; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;"
-                                name="program" id="program">
+                                name="profession" id="profession">
                                 <option value="">Select Profession</option>
                                 <?php
                                 $years = teacher_profession();
@@ -353,10 +353,13 @@ if (isset($_GET['delete_program'])) {
                             </select>
                         </div>
                     </div>
-                    <input type="submit" name="new_student" value="Add Program">
+                    <input type="submit" name="add_employee" value="Add Program">
                 </form>
             </div>
+            <!-- SUBMITTING INFO HERE -->
 
+
+            <!-- Filtering here structured -->
             <div class="card">
                 <h2>Searching</h2>
 
@@ -427,7 +430,7 @@ if (isset($_GET['delete_program'])) {
 
                 </script>
             </div>
-
+            <!-- End Filtering structured -->
             <div class="card-table" id="tableNone"
                 style="width: 100%; color: #ccc; border: 1px solid #ccc; height: 10rem; background-color: #8B0000; overflow-y: scroll;">
                 <div class="tables-content" style=" background-color: #8B0000; display: flex; color: white;">
@@ -446,6 +449,7 @@ if (isset($_GET['delete_program'])) {
                         </thead>
                         <tbody>
                             <!-- PHP CODE FERI -->
+                             <?php $get_teacher = GetTeachers(); ?>
                         </tbody>
                     </table>
                 </div>
