@@ -32,7 +32,7 @@ if (isset($_POST['Updating_form'])) {
     $program_id = $_POST['program_id'];
     $subject_name = $_POST['subject_name'];
     $subject_code = $_POST['subject_code'];
-    $semester = $_POST['semester'];
+    $semester = $_POST['semester_id'];
     $teacher_name = $_POST['teacher_name'];
 
     editSubjectById($subject_id, $program_id, $subject_name, $subject_code, $semester, $teacher_name);
@@ -325,7 +325,7 @@ if (isset($_POST['Updating_form'])) {
                                                 <a style="color: white;" class="fa fa-trash"
                                                     href="./view_program.php?action=delete&program_id=<?php echo $subject['program_id']; ?>&subject_id=<?php echo $subject['id']; ?>"
                                                     onclick="return confirm('Are you sure you want to delete this subject?')"></a>
-                                                <a style="color: white;" class="fa fa-edit" id="editform"
+                                                <a style="color: white;" class="fa fa-edit"
                                                     href="./view_program.php?action=edit&program_id=<?php echo $subject['program_id']; ?>&subject_id=<?php echo $subject['id']; ?>&subject_code=<?php echo $subject['subject_code']; ?>&subject_name=<?php echo $subject['subject_name']; ?>&teacher_name=<?php echo $subject['teacher_name']; ?>&semester=<?php echo $subject['semester']; ?>"></a>
                                             </td>
                                         </tr>
@@ -369,12 +369,18 @@ if (isset($_POST['Updating_form'])) {
                                                 <?php echo $subject['subject_name']; ?>
                                             </td>
                                             <td><?php echo $subject['teacher_name']; ?></td>
-                                            <td>
-                                                <a style="color: white;" class="fa fa-trash"
-                                                    href="./view_program.php?action=delete&program_id=<?php echo $subject['program_id']; ?>&subject_id=<?php echo $subject['id']; ?>"
-                                                    onclick="return confirm('Are you sure you want to delete this subject?')"></a>
-                                                <a style="color: white;" class="fa fa-edit" onclick="displayEdit()"
-                                                    href="./view_program.php?action=edit&program_id=<?php echo $subject['program_id']; ?>&subject_id=<?php echo $subject['id']; ?>&subject_code=<?php echo $subject['subject_code']; ?>&subject_name=<?php echo $subject['subject_name']; ?>&teacher_name=<?php echo $subject['teacher_name']; ?>&semester=<?php echo $subject['semester']; ?>"></a>
+                                            <td style="display: flex; justify-content: center; gap: 5px; ">
+                                                <div id="deleteBtn">
+                                                    <a style="color: white;" class="fa fa-trash"
+                                                        href="./view_program.php?action=delete&program_id=<?php echo $subject['program_id']; ?>&subject_id=<?php echo $subject['id']; ?>"
+                                                        onclick="return confirm('Are you sure you want to delete this subject?')"></a>
+                                                </div>
+                                                <div id="editBtn">
+                                                    <a style="color: white;" class="fa fa-edit"
+                                                        href="./view_program.php?action=edit&program_id=<?php echo $subject['program_id']; ?>&subject_id=<?php echo $subject['id']; ?>&subject_code=<?php echo $subject['subject_code']; ?>&subject_name=<?php echo $subject['subject_name']; ?>&teacher_name=<?php echo $subject['teacher_name']; ?>&semester=<?php echo $subject['semester']; ?>"
+                                                        id="editform"></a>
+                                                </div>
+
                                             </td>
                                         </tr>
                                     <?php }
@@ -406,10 +412,10 @@ if (isset($_POST['Updating_form'])) {
                                     name="subject_name" placeholder="Enter Subject Name" required>
 
                                 <select style="height: 2.4rem; margin-top:5px;" name="semester_id" required>
-                                    <?php $teacher = GetSemester(); ?>
                                     <option value="">Select Semester</option>
-                                    <?php foreach ($teacher as $t) { ?>
-                                        <option value="<?php echo $t['semester']; ?>"><?php echo $t['semester']; ?>
+                                    <?php $semester = GetSemester(); ?>
+                                    <?php foreach ($semester as $s) { ?>
+                                        <option value="<?php echo $s['id']; ?>"><?php echo $s['semester']; ?>
                                         </option>
                                     <?php } ?>
                                 </select>
@@ -434,30 +440,30 @@ if (isset($_POST['Updating_form'])) {
                         </div>
                     </form>
 
-                    <form action="" id="edit_form" hidden method="post">
+                    <form action="" id="popid" style="display: block;" method="post">
                         <div class="add_subject">
 
                             <div style="gap: 2px; display: flex;">
 
-                                <input type="text" name="program_id" value="<?php echo $_GET['program_id']; ?>"
+                                <input type="text" name="program_id"
+                                    value="<?php echo isset($_GET['program_id']) ? $_GET['program_id'] : ''; ?>"
                                     style="display: none;">
                                 <input type="text" hidden name="subject_id" value="<?php echo $_GET['subject_id']; ?>">
-                                <input style="height: 2.4rem; margin-top:5px; width:20rem;" type="text"
+                                <input style="height: 2.4rem; margin-top:5px; width:100%;" type="text"
                                     name="subject_code" placeholder="Update Subject Code"
                                     value="<?php echo (isset($_GET['subject_code'])) ? $_GET['subject_code'] : ''; ?>">
 
-                                <input style="height: 2.4rem; margin-top:5px; width:20rem;" type="text"
+                                <input style="height: 2.4rem; margin-top:5px; width:100%;" type="text"
                                     name="subject_name"
                                     value="<?php echo (isset($_GET['subject_name'])) ? $_GET['subject_name'] : ''; ?>"
                                     placeholder="Update Subject Name" required>
 
                                 <select style="height: 2.4rem; margin-top:5px;" name="semester_id" required>
-                                    <?php $teacher = GetSemester(); ?>
                                     <option value="">Select Semester</option>
-                                    <?php foreach ($teacher as $t) { ?>
-                                        <option value="<?php echo $t['id']; ?>" <?php if (isset($_GET['semester']) && $_GET['semester'] == $t['id'])
-                                               echo 'selected'; ?>>
-                                            <?php echo $t['semester']; ?>
+                                    <?php $semester = GetSemester(); ?>
+                                    <?php foreach ($semester as $s) { ?>
+                                        <option value="<?php echo $s['id']; ?>" <?php if (isset($_GET['semester']) && $_GET['semester'] == $s['id'])
+                                               echo 'selected'; ?>><?php echo $s['semester']; ?>
                                         </option>
                                     <?php } ?>
                                 </select>
@@ -490,12 +496,7 @@ if (isset($_POST['Updating_form'])) {
 
     <script src="../assets/libs/sweetalert2/sweetalert2.all.min.js"></script>
     <script src="../assets/bootstrap/bootstrap.bundle.min.js"></script>
-    <script>
-        function displayEdit() {
-            document.getElementById("#submitting_form").style.display = "none";
-            document.getElementById("#edit_form").style.display = "block";
-        }
-    </script>
+
 
 </body>
 

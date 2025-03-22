@@ -411,7 +411,7 @@ function deleteSubjectbyId($subject_id, $program_id)
         $sql = "DELETE FROM subject_with_program_id WHERE id = ? AND program_id = ?";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$subject_id, $program_id]);
-        header("Location: view_program.php?program_id=" . $program_id . "&success=Subject deleted successfully");
+        header("Location: view_program.php?subject_id=" . $subject_id . "&program_id=" . $program_id . "&status=success&message=Subject deleted successfully");
         return true;
     } catch (PDOException $e) {
         return $e->getMessage();
@@ -427,9 +427,17 @@ function editSubjectById($subject_id, $program_id, $subject_name, $subject_code,
         ?, teacher_name = ? WHERE id = ? AND program_id = ?";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$subject_name, $subject_code, $semester, $teacher_name, $subject_id, $program_id]);
-        header("Location: view_program.php?program_id=" . $program_id . "&success= Subject updated successfully");
+
+        $sql = "UPDATE student_with_subjects SET subject_name = ?, subject_code = ?, semester =
+        ?, teacher_name = ? WHERE subject_id = ?";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$subject_name, $subject_code, $semester, $teacher_name, $subject_id]);
+
+
+        header("Location: view_program.php?subject_id=" . $subject_id . "&program_id=" . $program_id . "&status = success&message = Subject updated successfully");
         return true;
     } catch (PDOException $e) {
+
         return $e->getMessage();
     }
 
