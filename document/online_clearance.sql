@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 21, 2025 at 06:34 AM
+-- Generation Time: Mar 22, 2025 at 04:25 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -453,6 +453,7 @@ CREATE TABLE `teachers` (
   `lname` varchar(50) NOT NULL,
   `profile` varchar(100) NOT NULL,
   `profession` varchar(100) NOT NULL,
+  `specialized` varchar(100) NOT NULL,
   `contact` varchar(50) NOT NULL,
   `email` varchar(100) NOT NULL,
   `course` varchar(100) NOT NULL,
@@ -464,10 +465,9 @@ CREATE TABLE `teachers` (
 -- Dumping data for table `teachers`
 --
 
-INSERT INTO `teachers` (`id`, `teacher_code`, `fname`, `mname`, `lname`, `profile`, `profession`, `contact`, `email`, `course`, `school_year`, `verify`) VALUES
-(41, '12312', 'mutmut', 'M', 'Daligdig', '', '', '096951965020', '', '', 'DT-3C', ''),
-(43, '123123', 'vanesa', 'E', 'Dela cruz', '', '', '09695196522', '', '', '', ''),
-(46, '435345', '123', 'werr', 'werwe', '', '', 'rwerw', '', '', 'DT-3A', '');
+INSERT INTO `teachers` (`id`, `teacher_code`, `fname`, `mname`, `lname`, `profile`, `profession`, `specialized`, `contact`, `email`, `course`, `school_year`, `verify`) VALUES
+(47, '2001', 'Belyn', 'Ber', 'Gregorio', '', 'Associate Professor', 'Software Engineering', '096951965202', 'gregoriob@gmail.com', '', '2025-2026', ''),
+(48, '2001', 'Roy', 'Rex', 'Penas', '', 'Instructor', 'Cybersecurity', '09695965210', 'penas@gmail.com', '', '2025-2026', '');
 
 -- --------------------------------------------------------
 
@@ -488,30 +488,31 @@ CREATE TABLE `teacher_login` (
 --
 
 INSERT INTO `teacher_login` (`id`, `email`, `contact`, `password`, `teacher_id`) VALUES
-(32, 'tet1@gmail.com', '', '$2y$10$oJJSCVFuaJB8GA2dShbdleBzvjb8Q9JAMM.4FsgdU9Db//iZCkGYe', 41),
-(33, 'RJ@GMAIL.COM', '', '$2y$10$OatiBfreDxHgLH4LxT4kx.jxctMhJD7L6Yl3s.Xoa/VzTQSEVKjAG', NULL),
-(34, 'VANE@GMAIL.COM', '', '$2y$10$UOYmdSBkDns7D5vgOR7DFeK6NYSUTwrucGwzmWZCtB49obgLAnBg6', 43);
+(35, 'penas@gmail.com', '', '$2y$10$.qaQgbaikoWqB7kAPx4E/e8Yyw/uLAH9qAoTrBWdGIymjBFAF6izu', 47);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `teacher_subjects`
+-- Table structure for table `teacher_profession`
 --
 
-CREATE TABLE `teacher_subjects` (
+CREATE TABLE `teacher_profession` (
   `id` int(11) NOT NULL,
-  `subject_id` int(11) DEFAULT NULL,
-  `teacher_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+  `profession` varchar(100) NOT NULL,
+  `Specialized` varchar(100) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `teacher_subjects`
+-- Dumping data for table `teacher_profession`
 --
 
-INSERT INTO `teacher_subjects` (`id`, `subject_id`, `teacher_id`) VALUES
-(75, NULL, NULL),
-(76, NULL, NULL),
-(77, NULL, NULL);
+INSERT INTO `teacher_profession` (`id`, `profession`, `Specialized`, `created_at`) VALUES
+(1, 'Professor', 'Computer Science', '2025-03-21 23:47:20'),
+(2, 'Associate Professor', 'Cybersecurity', '2025-03-21 23:47:20'),
+(3, 'Instructor', 'Software Engineering', '2025-03-21 23:47:20'),
+(4, 'Senior Lecturer', 'Data Science', '2025-03-21 23:47:20'),
+(5, 'Lecturer', 'Network Administration 2', '2025-03-21 23:47:20');
 
 --
 -- Indexes for dumped tables
@@ -674,12 +675,10 @@ ALTER TABLE `teacher_login`
   ADD KEY `teacher_id_key` (`teacher_id`);
 
 --
--- Indexes for table `teacher_subjects`
+-- Indexes for table `teacher_profession`
 --
-ALTER TABLE `teacher_subjects`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_subject_key_id` (`subject_id`),
-  ADD KEY `teacher_id` (`teacher_id`);
+ALTER TABLE `teacher_profession`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -803,19 +802,19 @@ ALTER TABLE `subject_year`
 -- AUTO_INCREMENT for table `teachers`
 --
 ALTER TABLE `teachers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `teacher_login`
 --
 ALTER TABLE `teacher_login`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
--- AUTO_INCREMENT for table `teacher_subjects`
+-- AUTO_INCREMENT for table `teacher_profession`
 --
-ALTER TABLE `teacher_subjects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
+ALTER TABLE `teacher_profession`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Constraints for dumped tables
@@ -860,12 +859,6 @@ ALTER TABLE `subject_year`
 --
 ALTER TABLE `teacher_login`
   ADD CONSTRAINT `teacher_id_key` FOREIGN KEY (`teacher_id`) REFERENCES `teachers` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
-
---
--- Constraints for table `teacher_subjects`
---
-ALTER TABLE `teacher_subjects`
-  ADD CONSTRAINT `teacher_subjects_ibfk_1` FOREIGN KEY (`subject_id`) REFERENCES `subjects` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
