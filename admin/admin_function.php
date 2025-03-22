@@ -404,19 +404,36 @@ function update_subject($sy, $subject_id, $subject_name, $subject_code, $semeste
     }
 }
 
-function deleteSubjectbyId($id)
+function deleteSubjectbyId($subject_id, $program_id)
 {
     global $pdo;
     try {
-        $sql = "DELETE FROM subject_with_program_id WHERE id = ?";
+        $sql = "DELETE FROM subject_with_program_id WHERE id = ? AND program_id = ?";
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([$id]);
+        $stmt->execute([$subject_id, $program_id]);
+        header("Location: view_program.php?program_id=" . $program_id . "&success=Subject deleted successfully");
         return true;
     } catch (PDOException $e) {
         return $e->getMessage();
     }
 }
 
+
+function editSubjectById($subject_id, $program_id, $subject_name, $subject_code, $semester, $teacher_name)
+{
+    global $pdo;
+    try {
+        $sql = "UPDATE subject_with_program_id SET subject_name = ?, subject_code = ?, semester =
+        ?, teacher_name = ? WHERE id = ? AND program_id = ?";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$subject_name, $subject_code, $semester, $teacher_name, $subject_id, $program_id]);
+        header("Location: view_program.php?program_id=" . $program_id . "&success= Subject updated successfully");
+        return true;
+    } catch (PDOException $e) {
+        return $e->getMessage();
+    }
+
+}
 
 
 function GetProgramList()
@@ -468,20 +485,20 @@ function getSubjectById($id)
 {
     try {
         global $pdo;
-        $query = "SELECT * FROM subject_with_program_id WHERE program_id = ?";
+        $query = "SELECT DISTINCT subject_name, semester,  teacher_name,program_id, id, subject_code FROM subject_with_program_id WHERE program_id = ?";
         $stmt = $pdo->prepare($query);
         $stmt->execute([$id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
         error_log("Database Error: " . $e->getMessage()); // Logs the error
-        return []; // Return an empty array on failure
+        return [];
     }
 }
 
 function getSubject1($id)
 {
     global $pdo;
-    $sql = "SELECT DISTINCT * FROM student_with_subjects WHERE student_id = ?";
+    $sql = "SELECT DISTINCT  subject_code, subject_name, teacher_name, id, program_id FROM student_with_subjects WHERE student_id = ?";
     try {
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$id]);
@@ -645,15 +662,26 @@ function InsertNewSubject2($teacher_id, $semester_id, $subject_name, $subject_co
     }
 }
 
+function getProgramById($program_id)
+{
+    global $pdo;
+    try {
+        $stmt3 = $pdo->prepare("Select * from programs_with_subjects WHERE id = ?");
+        $stmt3->execute([$program_id]);
+        $row = $stmt3->fetch();
+        return $row;
+    } catch (PDOException $e) {
+        return false;
+    }
+}
 
-
-function InsertNewSubjectByAdmin($teacher_id, $semester_id, $subject_name, $subject_code, $id)
+function InsertNewSubjectByAdmin($teacher_name, $semester_id, $subject_name, $subject_code, $id)
 {
     global $pdo;
 
     try {
-        $stmt = $pdo->prepare("SELECT * FROM subject_with_program_id WHERE subject_name = ? AND subject_code = ? AND teacher_name = ?");
-        $stmt->execute([$subject_name, $subject_code, $teacher_id]);
+        $stmt = $pdo->prepare("SELECT * FROM subject_with_program_id WHERE semester=? AND program_id=? AND subject_name = ? AND subject_code = ? AND teacher_name = ?");
+        $stmt->execute([$semester_id, $id, $subject_name, $subject_code, $teacher_name]);
         $exists = $stmt->fetchColumn();
         if ($exists > 0) {
             header('Location: view_program.php?error=Duplicate Error, Please Use Unique Subject Name and Code&program_id=' . $id);
@@ -662,7 +690,7 @@ function InsertNewSubjectByAdmin($teacher_id, $semester_id, $subject_name, $subj
             $stmt = $pdo->prepare("INSERT INTO subject_with_program_id ( teacher_name, semester, subject_name, subject_code, program_id ) 
                                    VALUES ( ?,?,?,?,?)");
             $stmt->execute([
-                $teacher_id,
+                $teacher_name,
                 $semester_id,
                 $subject_name,
                 $subject_code,
@@ -678,6 +706,8 @@ function InsertNewSubjectByAdmin($teacher_id, $semester_id, $subject_name, $subj
         return false;
     }
 }
+
+
 /* function GetCourse()
 {
     global $pdo;
@@ -705,6 +735,10 @@ function InsertNewPrograms($program_course, $department_program, $schoolyear)
         } else {
             $stmt = $pdo->prepare("INSERT INTO programs_with_subjects (program_course, department_program, school_year ) VALUES (?, ?, ?)");
             if ($stmt->execute([$program_course, $department_program, $schoolyear])) {
+                $_SESSION["program_course"] = $program_course;
+                $_SESSION["department_program"] = $department_program;
+                $_SESSION["school_year"] = $schoolyear;
+
                 header('location: program.php?success=Programs added successfully');
                 exit();
             } else {
@@ -724,15 +758,15 @@ function GetProgramsById($id)
     global $pdo;
 
     try {
-        $stmt = $pdo->prepare("SELECT * FROM programs WHERE id = ?");
+        $stmt = $pdo->prepare("SELECT * FROM programs_with_subjects WHERE id = ?");
         $stmt->execute([$id]);
         $result = $stmt->fetch();
-        return $result;
+        return $result ?: [];
     } catch (PDOException $e) {
-        return false;
+        error_log("Database Error: " . $e->getMessage()); // Logs the error
+        return [];
     }
 }
-
 
 function updateSubject($subject_name, $subject_code, $teacher_name, $id)
 {

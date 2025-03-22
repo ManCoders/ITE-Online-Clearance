@@ -285,7 +285,7 @@ if (isset($_GET['subject_id'])) {
                                 <th>Remark</th>
                                 <th>Final</th>
                                 <th>Instructor</th>
-                                <th>Actions</th>
+                                <!-- <th>Actions</th> -->
                             </tr>
                             <tbody id="subjectList1">
                                 <?php $subject = getSubject1($_GET['program_id']) ?>
@@ -319,8 +319,8 @@ if (isset($_GET['subject_id'])) {
                                 <th>Remark</th>
                                 <th>Final</th>
                                 <th>Instructor</th>
-
-                                <th>Actions</th>
+                                <!-- 
+                                <th>Actions</th> -->
                             </tr>
 
                             <tbody id="subjectList2">
