@@ -44,4 +44,6 @@ soon the teacher feature here are posted
 Teacher Features
 ![alt text](doc/image-13.png)
 
+![alt text](doc/image-14.png)
+
 <!-- ..... -->
