@@ -41,4 +41,7 @@ Teacher Dashboard
 ![alt text](doc/image12.png)
 soon the teacher feature here are posted
 
+Teacher Features
+![alt text](doc/image-13.png)
+
 <!-- ..... -->
