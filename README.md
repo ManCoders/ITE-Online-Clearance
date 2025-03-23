@@ -37,6 +37,8 @@ Student Account View
 student where their load their subject under of their degree course
 ![alt text](doc/image-11.png)
 
+Teacher Dashboard
+![alt text](doc/image12.png)
 soon the teacher feature here are posted
 
 <!-- ..... -->
