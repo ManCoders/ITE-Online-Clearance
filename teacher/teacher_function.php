@@ -119,6 +119,21 @@ function getTeacherById($id)
     }
 }
 
+function getStudentDetailsById($id)
+{
+    global $pdo;
+    try {
+        $stmt = $pdo->prepare("SELECT CONCAT(lname, ' ', mname, ' ', fname) AS student_name, email, course FROM students WHERE id = ?");
+        $stmt->execute([$id]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result !== false ? $result : [];
+    } catch (PDOException $e) {
+        error_log("Database Error: " . $e->getMessage()); // Logs the error
+        return [];
+    }
+}
+
+
 
 function updateStudent($subject_id, $remark, $status, $final)
 {

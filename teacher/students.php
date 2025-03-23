@@ -286,10 +286,6 @@ $teacher_id = $_SESSION['teacher_id'];
                                                     </a>
 
 
-                                                    <a href="index.php?teacher_id=<?php echo $teacher_id; ?>&action=delete">
-                                                        <i style="color: aliceblue;" class="fa fa-trash"></i>
-                                                    </a>
-
                                                 </div>
                                             </td>
 
@@ -335,9 +331,6 @@ $teacher_id = $_SESSION['teacher_id'];
 
 
 
-                                                    <a href="index.php?teacher_id=<?php echo $teacher_id; ?>&action=delete">
-                                                        <i style="color: aliceblue;" class="fa fa-trash"></i>
-                                                    </a>
 
                                                 </div>
                                             </td>
