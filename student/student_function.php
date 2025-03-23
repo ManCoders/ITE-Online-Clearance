@@ -94,7 +94,7 @@ function InsertStudentSubject($program, $student_id, $year, $subject_code, $subj
 
     try {
         // Check if the subject already exists for the student
-        $sql = "SELECT * FROM student_with_subjects WHERE student_id = ? AND subject_code = ? AND school_year = ? AND teacher_name = ? AND semester=?";
+        $sql = "SELECT * FROM student_with_subjects WHERE student_id = ? AND subject_code = ? AND school_year = ? AND teacher_id = ? AND semester=?";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$student_id, $subject_code, $year, $teacher_name, $semester]);
 
@@ -123,6 +123,20 @@ function InsertStudentSubject($program, $student_id, $year, $subject_code, $subj
         exit();
     }
 }
+
+function getTeacherById($id)
+{
+    global $pdo;
+    try {
+        $stmt = $pdo->prepare(" SELECT id, CONCAT(lname, ' ',mname, ' ',fname) AS teacher_name FROM teachers WHERE id = ? ");
+        $stmt->execute([$id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        error_log("Database Error: " . $e->getMessage()); // Logs the error
+        return [];
+    }
+}
+
 
 
 function GetSchoolCourse()

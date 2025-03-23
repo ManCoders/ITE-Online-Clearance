@@ -59,30 +59,12 @@ function StudentNonAct()
     }
 }
 
-function GetTeachersList()
-{
-    global $pdo;
 
-    $stmt = $pdo->prepare(" 
-        SELECT *, CONCAT(lname, ' ', mname, ' ', fname) AS teacher_name FROM teachers
-    ");
-    try {
-        $stmt->execute();
-        $result = $stmt->fetchAll();
-
-        // Return an empty array instead of `true`
-        return $result ?: [];
-    } catch (PDOException $e) {
-        error_log("Database Error: " . $e->getMessage()); // Logs the error
-        return []; // Return an empty array on failure
-    }
-}
-
-function TeacherNonAct()
+function TeacherList()
 {
     global $pdo;
     try {
-        $stmt = $pdo->prepare("SELECT * FROM teachers");
+        $stmt = $pdo->prepare("SELECT id, CONCAT(fname, ' ', mname, ' ', lname) AS teacher_name FROM teachers");
         $stmt->execute();
         return $teachers = $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
@@ -271,7 +253,7 @@ function getTeacherById($id)
 {
     global $pdo;
     try {
-        $stmt = $pdo->prepare(" SELECT * FROM teacher_subjects WHERE id = ? ");
+        $stmt = $pdo->prepare(" SELECT id, CONCAT(lname, ' ',mname, ' ',fname) AS teacher_name FROM teachers WHERE id = ? ");
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
@@ -419,7 +401,7 @@ function deleteSubjectbyId($subject_id, $program_id)
 }
 
 
-function editSubjectById($subject_id, $program_id, $subject_name, $subject_code, $semester, $teacher_name)
+function editSubjectById($teacher_id, $subject_id, $program_id, $subject_name, $subject_code, $semester)
 {
     global $pdo;
     try {
@@ -432,14 +414,14 @@ function editSubjectById($subject_id, $program_id, $subject_name, $subject_code,
 
 
 
-        $sql = "UPDATE student_with_subjects SET teacher_name = ? WHERE subject_name = ? AND subject_code = ? AND semester = ?";
+        $sql = "UPDATE student_with_subjects SET teacher_id = ?,  teacher_name = ? WHERE subject_name = ? AND subject_code = ? AND semester = ?";
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([$teacher_name_update, $subject_name, $subject_code, $semester]);
+        $stmt->execute([$teacher_id, $teacher_name_update, $subject_name, $subject_code, $semester]);
 
-        $sql = "UPDATE subject_with_program_id SET subject_name = ?, subject_code = ?, semester =
+        $sql = "UPDATE subject_with_program_id SET teacher_id = ?, subject_name = ?, subject_code = ?, semester =
         ?, teacher_name = ? WHERE id = ? AND program_id = ?";
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([$subject_name, $subject_code, $semester, $teacher_name, $subject_id, $program_id]);
+        $stmt->execute([$teacher_id, $subject_name, $subject_code, $semester, $teacher_name, $subject_id, $program_id]);
         $subject_ids = $pdo->lastInsertId();
 
 
@@ -525,7 +507,7 @@ function getSubjectById($id)
 {
     try {
         global $pdo;
-        $query = "SELECT DISTINCT subject_name, semester,  teacher_name,program_id, id, subject_code FROM subject_with_program_id WHERE program_id = ?";
+        $query = "SELECT  subject_name, semester, teacher_name, teacher_id, program_id, id, subject_code FROM subject_with_program_id WHERE program_id = ?";
         $stmt = $pdo->prepare($query);
         $stmt->execute([$id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

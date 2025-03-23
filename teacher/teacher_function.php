@@ -106,7 +106,7 @@ function getEmailByStudentId($student_id)
     }
 }
 
-function GetTeacherById($teacher_id)
+function GetTeacherById2($teacher_id)
 {
     global $pdo;
 

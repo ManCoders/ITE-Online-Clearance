@@ -457,7 +457,7 @@ if (isset($_GET['delete_program'])) {
                                         <td>
                                             <div style="color: aliceblue;">
                                                 <a
-                                                    href="view_program.php?program_id=<?php echo $_SESSION['program_id'] = $program['id']; ?>&program_name=<?php echo urlencode($program['department_program']); ?>&course_name=<?php echo urlencode($program['program_course']); ?>&school_year=<?php echo urlencode($program['school_year']); ?>&subject_name=<?php echo urlencode($program['subject_name']); ?>">
+                                                    href="view_program.php?program_id=<?php echo $_SESSION['program_id'] = $program['id']; ?>&program_name=<?php echo urlencode($program['department_program']); ?>&course_name=<?php echo urlencode($program['program_course']); ?>&school_year=<?php echo urlencode($program['school_year']); ?>">
                                                     <i style="color: aliceblue;" class="fa fa-eye"></i>
                                                 </a>
                                                 <!-- <a class="edit-program" section="<?php echo $program['id']; ?>"><i

@@ -28,14 +28,14 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['progra
 
 
 if (isset($_POST['Updating_form'])) {
+    $teacher_id = $_POST['teacher_id'];
     $subject_id = $_POST['subject_id'];
     $program_id = $_POST['program_id'];
     $subject_name = $_POST['subject_name'];
     $subject_code = $_POST['subject_code'];
     $semester = $_POST['semester_id'];
-    $teacher_name = $_POST['teacher_name'];
 
-    editSubjectById($subject_id, $program_id, $subject_name, $subject_code, $semester, $teacher_name);
+    editSubjectById($teacher_id, $subject_id, $program_id, $subject_name, $subject_code, $semester);
 }
 ?>
 
@@ -299,13 +299,15 @@ if (isset($_POST['Updating_form'])) {
                                 <th>Actions</th>
                             </tr>
                             <tbody id="subjectList1">
+
                                 <?php
                                 if (!isset($_SESSION['program_id'])) {
-                                    echo '<tr><td colspan="4">No programs found.</td></tr>';
+                                    echo '<tr><td colspan="5">No programs found.</td></tr>';
                                 }
 
                                 $subjects = getSubjectById($_GET['program_id']);
                                 $index = 1;
+
                                 foreach ($subjects as $subject) {
                                     if ($subject['semester'] == 1) { ?>
                                         <tr>
@@ -318,7 +320,8 @@ if (isset($_POST['Updating_form'])) {
                                             <td>
                                                 <?php echo $subject['subject_name']; ?>
                                             </td>
-                                            <td><?php echo $subject['teacher_name']; ?></td>
+                                            <?php $teacher = getTeacherById($subject['teacher_id']); ?>
+                                            <td><?php echo $teacher['teacher_name']; ?></td>
 
                                             <?php $program = getProgramById($subject['program_id']) ?>
                                             <td>
@@ -326,11 +329,12 @@ if (isset($_POST['Updating_form'])) {
                                                     href="./view_program.php?action=delete&program_id=<?php echo $subject['program_id']; ?>&subject_id=<?php echo $subject['id']; ?>"
                                                     onclick="return confirm('Are you sure you want to delete this subject?')"></a>
                                                 <a style="color: white;" class="fa fa-edit" id="editform"
-                                                    href="./view_program.php?action=edit&program_id=<?php echo $subject['program_id']; ?>&subject_id=<?php echo $subject['id']; ?>&subject_code=<?php echo $subject['subject_code']; ?>&subject_name=<?php echo $subject['subject_name']; ?>&teacher_name=<?php echo $subject['teacher_name']; ?>&semester=<?php echo $subject['semester']; ?>"></a>
+                                                    href="./view_program.php?action=edit&program_id=<?php echo $subject['program_id']; ?>&teacher_id=<?php echo $subject['teacher_id']; ?>&subject_id=<?php echo $subject['id']; ?>&subject_code=<?php echo $subject['subject_code']; ?>&subject_name=<?php echo $subject['subject_name']; ?>&teacher_name=<?php echo $subject['teacher_name']; ?>&semester=<?php echo $subject['semester']; ?>"></a>
                                             </td>
                                         </tr>
                                     <?php }
                                 } ?>
+
                             </tbody>
                         </table>
                     </div>
@@ -354,9 +358,10 @@ if (isset($_POST['Updating_form'])) {
                                         echo '<tr><td colspan="5">No programs found.</td></tr>';
                                     }
 
-                                    $subject2 = getSubjectById($_GET['program_id']);
+                                    $subjects = getSubjectById($_GET['program_id']);
                                     $index = 1;
-                                    foreach ($subject2 as $subject) {
+
+                                    foreach ($subjects as $subject) {
                                         if ($subject['semester'] == 2) { ?>
                                         <tr>
                                             <td>
@@ -368,19 +373,16 @@ if (isset($_POST['Updating_form'])) {
                                             <td>
                                                 <?php echo $subject['subject_name']; ?>
                                             </td>
-                                            <td><?php echo $subject['teacher_name']; ?></td>
-                                            <td style="display: flex; justify-content: center; gap: 5px; ">
-                                                <div id="deleteBtn">
-                                                    <a style="color: white;" class="fa fa-trash"
-                                                        href="./view_program.php?action=delete&program_id=<?php echo $subject['program_id']; ?>&subject_id=<?php echo $subject['id']; ?>"
-                                                        onclick="return confirm('Are you sure you want to delete this subject?')"></a>
-                                                </div>
-                                                <div id="editBtn">
-                                                    <a style="color: white;" class="fa fa-edit"
-                                                        href="./view_program.php?action=edit&program_id=<?php echo $subject['program_id']; ?>&subject_id=<?php echo $subject['id']; ?>&subject_code=<?php echo $subject['subject_code']; ?>&subject_name=<?php echo $subject['subject_name']; ?>&teacher_name=<?php echo $subject['teacher_name']; ?>&semester=<?php echo $subject['semester']; ?>"
-                                                        id="editform"></a>
-                                                </div>
+                                            <?php $teacher = getTeacherById($subject['teacher_id']); ?>
+                                            <td><?php echo $teacher['teacher_name']; ?></td>
 
+                                            <?php $program = getProgramById($subject['program_id']) ?>
+                                            <td>
+                                                <a style="color: white;" class="fa fa-trash"
+                                                    href="./view_program.php?action=delete&program_id=<?php echo $subject['program_id']; ?>&subject_id=<?php echo $subject['id']; ?>"
+                                                    onclick="return confirm('Are you sure you want to delete this subject?')"></a>
+                                                <a style="color: white;" class="fa fa-edit" id="editform"
+                                                    href="./view_program.php?action=edit&program_id=<?php echo $subject['program_id']; ?>&teacher_id=<?php echo $subject['teacher_id']; ?>&subject_id=<?php echo $subject['id']; ?>&subject_code=<?php echo $subject['subject_code']; ?>&subject_name=<?php echo $subject['subject_name']; ?>&teacher_name=<?php echo $subject['teacher_name']; ?>&semester=<?php echo $subject['semester']; ?>"></a>
                                             </td>
                                         </tr>
                                     <?php }
@@ -420,7 +422,7 @@ if (isset($_POST['Updating_form'])) {
                                     <?php } ?>
                                 </select>
 
-                                <?php $teacher = GetTeachersList(); ?>
+                                <?php $teacher = TeacherList(); ?>
                                 <select style="height: 2.4rem; margin-top:5px;" name="teacher_name" id="teacher">
                                     <option value="">Select Teacher</option>
                                     <?php foreach ($teacher as $t) { ?>
@@ -470,11 +472,11 @@ if (isset($_POST['Updating_form'])) {
                                 </select>
 
 
-                                <select style="height: 2.4rem; margin-top:5px;" name="teacher_name" id="teacher">
-                                    <?php $teacher = GetTeachersList(); ?>
+                                <select style="height: 2.4rem; margin-top:5px;" name="teacher_id" id="teacher">
+                                    <?php $teacher = TeacherList(); ?>
                                     <option value="">Select Teacher</option>
                                     <?php foreach ($teacher as $t) { ?>
-                                        <option value="<?php echo $t['teacher_name']; ?>" <?php if (isset($_GET['teacher_name']) && $_GET['teacher_name'] == $t['teacher_name'])
+                                        <option value="<?php echo $t['id']; ?>" <?php if (isset($_GET['teacher_id']) && $_GET['teacher_id'] == $t['id'])
                                                echo 'selected'; ?>><?php echo $t['teacher_name']; ?></option>
                                     <?php } ?>
                                 </select>

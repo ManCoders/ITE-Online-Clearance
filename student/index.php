@@ -276,7 +276,8 @@ $student_id = $_SESSION['student_id'];
                                             <td><?php echo $row['status']; ?></td>
                                             <td><?php echo $row['remark']; ?></td>
                                             <td><?php echo $row['final']; ?></td>
-                                            <td><?php echo $row['teacher_name']; ?></td>
+                                            <?php $teacher = getTeacherById($row['teacher_id']); ?>
+                                            <td><?php echo $teacher['teacher_name']; ?></td>
                                         </tr>
                                     <?php }
                                     } ?>
@@ -311,7 +312,9 @@ $student_id = $_SESSION['student_id'];
                                             <td><?php echo $row['status']; ?></td>
                                             <td><?php echo $row['remark']; ?></td>
                                             <td><?php echo $row['final']; ?></td>
-                                            <td><?php echo $row['teacher_name']; ?></td>
+                                            <?php $teacher = getTeacherById($row['teacher_id']); ?>
+                                            <td><?php echo $teacher['teacher_name']; ?></td>
+
                                         </tr>
                                     <?php }
                                     } ?>

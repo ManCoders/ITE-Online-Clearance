@@ -331,7 +331,7 @@ if (isset($_GET['delete_program'])) {
                     </div>
 
 
-                    <div style="display: flex; margin: 5px;">
+                    <div style="display: none; margin: 5px;">
                         <label style="width: 8rem; margin: 5px;" for="teacher_name">Instructor</label>
                         <select name="teacher_name" id="teacher" disabled
                             style="width: 100%; border: 1px solid #ccc; border-radius: 5px;">
@@ -634,8 +634,9 @@ if (isset($_GET['delete_program'])) {
                                         echo '2nd Semester';
                                     } ?>
                                     </td>
-                                    <td><?php echo $value['teacher_name'] ?>
-                                    </td>
+
+                                    <?php $teacher = getTeacherById($value['teacher_id']); ?>
+                                    <td><?php echo $teacher['teacher_name']; ?></td>
 
                                     <td style="margin: 5px; text-align: center;"><a class="fa fa-trash"
                                             style="cursor: pointer;"></a></td>

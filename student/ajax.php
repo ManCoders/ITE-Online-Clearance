@@ -110,7 +110,7 @@ if (isset($_POST['action'])) {
             foreach ($teachers as $teacher) {
 
 
-                echo "<option  value='{$teacher['teacher_id']}'>{$teacher['teacher_id']}</option>";
+                echo "<option selected value='{$teacher['teacher_id']}'>{$teacher['teacher_id']}</option>";
             }
         } else {
             echo "<option value=''>No teachers found for this subject</option>";

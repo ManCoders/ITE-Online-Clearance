@@ -296,7 +296,6 @@ if (isset($_GET['subject_id'])) {
                                         <td><?php echo $index + 1 ?></td>
                                         <td><?php echo $subject['subject_code']; ?></td>
                                         <td><?php echo $subject['subject_name']; ?></td>
-                                        <td><?php echo $subject['student_count']; ?></td>
                                         <!-- 
                                         <td><?php echo $subject['student_enrolled']; ?></td>
                                         <td><?php echo $subject['failed']; ?></td>
