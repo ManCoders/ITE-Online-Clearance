@@ -261,9 +261,9 @@ $teacher_id = $_SESSION['teacher_id'];
                                 <th>Course Code</th>
                                 <th>Course Title</th>
 
-                                <th>Failed</th>
-                                <th>Passed</th>
-                                <th>Total Student</th>
+                                <th>Stutus</th>
+                                <th>Remark</th>
+                                <th>Final Result</th>
                                 <th>Action</th>
                             </tr>
                             <tbody id="subjectList1">
@@ -285,7 +285,8 @@ $teacher_id = $_SESSION['teacher_id'];
                                                         <i style="color: aliceblue;" class="fa fa-eye"></i>
                                                     </a>
 
-                                                    <a href="index.php?teacher_id=<?php echo $teacher_id; ?>">
+
+                                                    <a href="index.php?teacher_id=<?php echo $teacher_id; ?>&action=delete">
                                                         <i style="color: aliceblue;" class="fa fa-trash"></i>
                                                     </a>
 
@@ -307,9 +308,9 @@ $teacher_id = $_SESSION['teacher_id'];
                                 <th>Course Code</th>
                                 <th>Course Title</th>
 
-                                <th>Failed</th>
-                                <th>Passed</th>
-                                <th>Total Student</th>
+                                <th>Stutus</th>
+                                <th>Remark</th>
+                                <th>Final Result</th>
                                 <th>Action</th>
                             </tr>
 
@@ -332,7 +333,9 @@ $teacher_id = $_SESSION['teacher_id'];
                                                         <i style="color: aliceblue;" class="fa fa-eye"></i>
                                                     </a>
 
-                                                    <a href="index.php?teacher_id=<?php echo $teacher_id; ?>">
+
+
+                                                    <a href="index.php?teacher_id=<?php echo $teacher_id; ?>&action=delete">
                                                         <i style="color: aliceblue;" class="fa fa-trash"></i>
                                                     </a>
 

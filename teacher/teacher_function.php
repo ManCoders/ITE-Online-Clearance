@@ -118,6 +118,22 @@ function getTeacherById($id)
         return [];
     }
 }
+
+
+function updateStudent($subject_id, $remark, $status, $final)
+{
+    global $pdo;
+    try {
+        $stmt = $pdo->prepare("UPDATE student_with_subjects SET remark = ?, status = ?, final = ?  WHERE id = ?");
+        $stmt->execute([$remark, $status, $final, $subject_id]);
+        header("Location: students.php?success=Record updated successfully.");
+        exit();
+    } catch (PDOException $e) {
+        error_log("Database Error: " . $e->getMessage()); // Logs the error
+        header("Location: update_student.php?error=Database error: " . $e->getMessage());
+        exit();
+    }
+}
 function getMyId2($id)
 {
     global $pdo;
@@ -180,7 +196,7 @@ function GetStudentByTeacherId($teacher_id)
 function getStudentSubjectByid($teacher_id, $subject_id, $student_id)
 {
     global $pdo;
-    $sql = "SELECT * FROM student_with_subjects WHERE teacher_id = ? AND subject_code = ? AND student_id = ?";
+    $sql = "SELECT * FROM student_with_subjects WHERE teacher_id = ? AND id = ? AND student_id = ?";
     try {
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$teacher_id, $subject_id, $student_id]);
@@ -190,6 +206,8 @@ function getStudentSubjectByid($teacher_id, $subject_id, $student_id)
         return [];
     }
 }
+
+
 
 function getSubjectById2($id)
 {

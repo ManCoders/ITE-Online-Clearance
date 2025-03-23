@@ -330,7 +330,7 @@ $totals = [
 
     <div class="right-content">
         <?php foreach ($sampleData as $category => $items): ?>
-            <div id="list-<?php echo $category; ?>" class="list-container" style="display: none;">
+            <div id="list-<?php echo $category; ?>" class="list-container" style="display: block;">
                 <span class="close-btn" onclick="hideList('<?php echo $category; ?>')">&times;</span>
                 <h3><?php echo ucfirst($category); ?> List</h3>
                 <ul class="ul-items">

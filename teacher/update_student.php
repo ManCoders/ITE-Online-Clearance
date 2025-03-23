@@ -13,18 +13,14 @@ $teacher_id = $_SESSION['teacher_id'];
 $subject_id = isset($_GET['subject_id']) ? $_GET['subject_id'] : '';
 $students_id = isset($_GET['student_id']) ? $_GET['student_id'] : '';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $student_id = $_POST['student_id'];
+if (isset($_POST['submit'])) {
+
+    $subject_id = $_POST['subject_id'];
     $status = $_POST['status'];
     $remark = $_POST['remark'];
-    $final_remark = $_POST['final_remark'];
+    $final_remark = $_POST['final'];
 
-    // Update student status in the database
-    $stmt = $pdo->prepare("UPDATE student_subjects SET status = ?, remark = ?, finalterm = ? WHERE student_id = ? AND teacher_id = ? AND subject_id = ?");
-    $stmt->execute([$status, $remark, $final_remark, $student_id, $teacher_id, $subject_id]);
-
-    header("Location: update_student.php?subject_id=$subject_id&success=Student status updated successfully.");
-    exit();
+    updateStudent($subject_id, $remark, $status, $final_remark);
 }
 
 ?>
@@ -62,91 +58,141 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 <div class="modal-content">
 
-                    <h2>Master List</h2>
-                    <div class="table_content" style="text-align:center;">
-                        <table>
-                            <tr>
-                                <th>#</th>
-                                <th>Subject Name</th>
-                                <th>Student Name</th>
-                                <th>Email</th>
-                                <th>Status</th>
-                                <th>Remark</th>
-                                <th>Final Remark</th>
-                                <th>Action</th>
-                            </tr>
-                            <tbody>
-                                <?php 
-                                $students = GetStudentByTeacherId($teacher_id, $subject_id); // Fetch all students for the teacher under the subject
+                    <div style="border-radius: 10px;">
+                        <?php $get_student = getStudentSubjectByid($teacher_id, $subject_id, $students_id) ?>
+                        <?php foreach ($get_student as $index => $students) { ?>
+                            <form id="update_remark" style="text-align: center;  display: flex; justify-content:center;"
+                                action="" method="post">
 
 
-                                if (empty($students)) {
-                                    echo "<tr><td colspan='8'>No students found for this teacher.</td></tr>";
-                                } else {
-                                    foreach ($students as $index => $row) { 
-                                        $student_info = getStudentById($row['student_id']);
-                                        if (!$student_info) {
-                                            $error_message = "Student information could not be retrieved.";
-                                        }
-                                ?>
+
+                                <input type="hidden" name="teacher_id" value="<?php echo $teacher_id; ?>">
+                                <input type="hidden" name="student_id" value="<?php echo $student['id']; ?>">
+                                <input type="hidden" name="subject_id" value="<?php echo $subject_id; ?>">
+
+                                <div style=" color: #FFFFFF; padding: 2rem; background-color: #8B0000; width:50%;">
+
+                                    <?php if (isset($_GET['error'])) { ?>
+                                        <p style="color: red;"><?php echo $_GET['error']; ?>
+                                        </p>
+                                    <?php } elseif (isset($_GET['success'])) { ?>
+                                        <p style="color: green;">
+                                            <?php echo $_GET['success']; ?>
+                                        </p>
+                                    <?php } ?>
+                                    <div>
+                                        <label style="margin:5px" for="subject_name">Student Name</label>
+                                        <input style=" text-align: center; " type="text"
+                                            value=" <?php echo $students['student_id']; ?>" name="student_name"
+                                            id="subject_name">
+                                        <label style="margin:5px" for="subject_name">Subject </label>
+                                        <input style=" text-align: center; " type="text"
+                                            value=" <?php echo $students['subject_name']; ?>">
+                                    </div>
+                                    <div style=" margin: 5px; display: flex; gap:6.5rem;">
+                                        <label for="status">Status</label>
+                                        <label for="Remark">Remark</label>
+                                        <label for="Final">Final</label>
+
+                                    </div>
+                                    <div style=" margin:5px; gap: 10px;">
+                                        <select name="status" id="">
+                                            <option value="">SELECT STATUS</option>
+                                            <option value="Completed">Completed</option>
+                                            <option value="Drop">Drop</option>
+                                            <option value="INC">INC</option>
+                                        </select>
+                                        <select name="remark" id="">
+                                            <option value="">SELECT REMARK</option>
+                                            <option value="Completed">Completed</option>
+                                            <option value="Lack of Requirements">Lack of Requirements</option>
+                                            <option value="Not Attending">Not Attending</option>
+                                            <option value="Drop out">Drop out</option>
+                                        </select>
+                                        <select name="final" id="">
+                                            <option value="">SELECT FINAL</option>
+                                            <option value="Passed">Passed</option>
+                                            <option value="Failed">Failed</option>
+                                        </select>
+                                    </div>
+
+
+
+                                    <div>
+                                        <input type="submit" name="submit" value="Save" style="width: 30%; color: #FFFFFF;">
+                                        <input type="button" style="width: 30%; color: #FFFFFF;" value="Back"
+                                            onclick="history.back()">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+
+                        <div class="table_content" style="text-align:center; margin-top: 1rem;">
+                            <table>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Subject Name</th>
+                                    <th>Student Name</th>
+                                    <th>Email</th>
+                                    <th>Status</th>
+                                    <th>Remark</th>
+                                    <th>Final Remark</th>
+                                </tr>
+                                <tbody>
+
                                     <tr>
-                                        <td><?php echo $index + 1; ?></td>
-                                        <td><?php echo $row['subject_code']; ?></td>
-                                        <td><?php echo $student_info['student_name']; ?></td>
-                                        <td><?php echo $student_info['email']; ?></td>
-                                        <td><?php echo $row['status']; ?></td>
-                                        <td><?php echo $row['remark']; ?></td>
-                                        <td><?php echo $row['final']; ?></td>
                                         <td>
-                                            <form method="POST" action="">
-                                                <input type="hidden" name="student_id" value="<?php echo $row['student_id']; ?>">
-                                                <select name="status">
-                                                    <option value="completed">Completed</option>
-                                                    <option value="incomplete">Incomplete</option>
-                                                    <option value="drop">Drop</option>
-                                                </select>
-                                                <select name="remark">
-                                                    <option value="lack of requirement">Lack of Requirement</option>
-                                                    <option value="no attending class">No Attending Class</option>
-                                                    <option value="drop">Drop</option>
-                                                </select>
-                                                <select name="final_remark">
-                                                    <option value="passed">Passed</option>
-                                                    <option value="failed">Failed</option>
-                                                </select>
-                                                <input type="submit" value="Update">
-                                            </form>
+                                            <?php echo $index + 1; ?>
                                         </td>
+                                        <td>
+                                            <?php echo $students['subject_name']; ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $students['student_id']; ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $students['student_id']; ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $students['status']; ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $students['remark']; ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $students['final']; ?>
+                                        </td>
+
                                     </tr>
-                                <?php 
-                                    } 
-                                } ?>
-                            </tbody>
-                        </table>
+
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                    <form>
-                        <input type="button"
-                            style="width: 20%; margin-top:5px; cursor: pointer; padding: 6px; border-radius: 5px; color: #FFFFFF; background-color: #ff3d00; border: none;"
-                            value="Back" onclick="history.back()">
-                    </form>
-
-                </div>
-
+                <?php } ?>
             </div>
 
         </div>
+
 </body>
 
 </html>
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset=" UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Panel - Dashboard</title>
     <script src="../assets/libs/sweetalert2/sweetalert2.all.min.js"></script>
     <script src="../assets/bootstrap/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css">
     <style>
+        form select {
+            padding: 5px;
+            width: 32%;
+
+        }
+
         /* General Reset */
         * {
             margin: 0;
@@ -250,6 +296,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         form input[type="button"] {
             background-color: #ff3d00;
             width: 100%;
+            padding: 10px;
             margin: 5px;
             border: 1px solid #ccc;
             border-radius: 5px;
@@ -301,7 +348,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         .table_content {
-            height: 10rem;
+            height: 12rem;
             background-color: #6E1313;
             overflow: hidden;
             overflow-y: scroll;

@@ -252,7 +252,7 @@ $teacher_id = $_SESSION['teacher_id'];
 
                     <?php } ?>
 
-                    <p style="margin-top: 1.5rem;" class="semester">Subject Table</p>
+                    <p style="margin-top: 1.5rem;" class="semester">All Subject Hundle</p>
 
                     <div class="table_content" style="text-align:center;">
                         <table>

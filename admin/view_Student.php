@@ -298,7 +298,8 @@ if (isset($_GET['subject_id'])) {
                                             <td><?php echo $row['status']; ?></td>
                                             <td><?php echo $row['remark']; ?></td>
                                             <td><?php echo $row['final']; ?></td>
-                                            <td><?php echo $row['teacher_name']; ?></td>
+                                            <?php $teacher = getTeacherById($row['teacher_id']); ?>
+                                            <td><?php echo $teacher['teacher_name']; ?></td>
                                         </tr>
                                     <?php }
                                 } ?>
@@ -338,7 +339,8 @@ if (isset($_GET['subject_id'])) {
                                             <td><?php echo $row['status']; ?></td>
                                             <td><?php echo $row['remark']; ?></td>
                                             <td><?php echo $row['final']; ?></td>
-                                            <td><?php echo $row['teacher_name']; ?></td>
+                                            <?php $teacher = getTeacherById($row['teacher_id']); ?>
+                                            <td><?php echo $teacher['teacher_name']; ?></td>
                                         </tr>
                                     <?php }
                                     } ?>
@@ -352,49 +354,7 @@ if (isset($_GET['subject_id'])) {
                     <?php } elseif (isset($_GET['success'])) { ?>
                         <p style="color: green;"><?php echo $_GET['success']; ?></p>
                     <?php } ?>
-                    <!-- <form action="" method="post">
-                        <div class="add_subject">
 
-                            <div style="gap: 2px; display: flex;">
-
-                                <input type="text" name="program_id" value="<?php echo $_GET['program_id']; ?>"
-                                    style="display: none;">
-                                <input style="height: 2.4rem; margin-top:5px; width:20rem;" type="text"
-                                    name="subject_code" placeholder="Enter Subject Code" required>
-
-                                <input style="height: 2.4rem; margin-top:5px; width:20rem;" type="text"
-                                    name="subject_name" placeholder="Enter Subject Name" required>
-
-                                <select style="height: 2.4rem; margin-top:5px;" name="semester_id" required>
-                                    <?php $teacher = GetSemester(); ?>
-                                    <option value="">Select Semester</option>
-                                    <?php foreach ($teacher as $t) { ?>
-                                        <option value="<?php echo $t['semester']; ?>"><?php echo $t['semester']; ?>
-                                        </option>
-                                    <?php } ?>
-                                </select>
-
-                                <?php $teacher = GetTeachersList(); ?>
-                                <select style="height: 2.4rem; margin-top:5px;" name="teacher_name" id="teacher"
-                                    required>
-                                    <option value="">Select Teacher</option>
-                                    <?php foreach ($teacher as $t) { ?>
-                                        <option value="<?php echo $t['teacher_name']; ?>"><?php echo $t['teacher_name']; ?>
-                                        </option>
-                                    <?php } ?>
-                                </select>
-
-                                <input section=".<?php echo $_GET['program_id'] ?>."
-                                    style="height: 2.4rem; width:100%; margin-top:5px;" type="submit" name="add-subject"
-                                    id="add-subject" value="Add" class="btn btn-primary add-subject">
-
-                                <input type="button" onclick="window.location.href = './students.php'" value="Back"
-                                    class="btn btn-secondary">
-
-                            </div>
-
-                        </div>
-                    </form> -->
                     <input
                         style="height: 2.4rem; width:20%; margin-top:5px; border: none; border-radius: 5px; color: #FFFFFF; background-color: #ff3d00;"
                         type="button" onclick="window.location.href = './students.php'" value="Back"
