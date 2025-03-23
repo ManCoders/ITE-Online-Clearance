@@ -123,7 +123,7 @@ function getStudentDetailsById($id)
 {
     global $pdo;
     try {
-        $stmt = $pdo->prepare("SELECT CONCAT(lname, ' ', mname, ' ', fname) AS student_name, email, course FROM students WHERE id = ?");
+        $stmt = $pdo->prepare("SELECT *,CONCAT(lname, ' ', mname, ' ', fname) AS student_name FROM students WHERE id = ?");
         $stmt->execute([$id]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result !== false ? $result : [];
@@ -132,6 +132,7 @@ function getStudentDetailsById($id)
         return [];
     }
 }
+
 
 
 
