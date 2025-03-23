@@ -267,10 +267,9 @@ $teacher_id = $_SESSION['teacher_id'];
                                 <th>Action</th>
                             </tr>
                             <tbody id="subjectList1">
-                                <tr class="programRow">
-                                    <?php $subject = getSubject2($teacher_id) ?>
-                                    <?php foreach ($subject as $index => $row) { ?>
-                                        <?php if ($row['semester'] == 1) { ?>
+                                <?php $subject = getSubjectTeacher($teacher_id) ?>
+                                <?php foreach ($subject as $index => $row) { ?>
+                                    <?php if ($row['semester'] == 1) { ?>
                                         <tr>
                                             <td><?php echo $index + 1; ?></td>
                                             <td><?php echo $row['subject_code']; ?></td>
@@ -281,7 +280,8 @@ $teacher_id = $_SESSION['teacher_id'];
                                             <td>
                                                 <div style="color: aliceblue; text-align:center;">
                                                     <?php $teacher = getSubjectById2($teacher_id) ?>
-                                                    <a href="update_student.php?teacher_id=<?php echo $teacher_id; ?>">
+                                                    <a
+                                                        href="update_student.php?action=list&teacher_id=<?php echo $teacher_id; ?>&student_id=<?php echo $row['student_id']; ?>&subject_id=<?php echo $row['id']; ?>">
                                                         <i style="color: aliceblue;" class="fa fa-eye"></i>
                                                     </a>
 
@@ -294,8 +294,7 @@ $teacher_id = $_SESSION['teacher_id'];
 
                                         </tr>
                                     <?php }
-                                    } ?>
-                                </tr>
+                                } ?>
                             </tbody>
                         </table>
                     </div>
@@ -315,10 +314,9 @@ $teacher_id = $_SESSION['teacher_id'];
                             </tr>
 
                             <tbody id="subjectList2">
-                                <tr class="programRow">
-                                    <?php $subject = getSubject2($teacher_id) ?>
-                                    <?php foreach ($subject as $index => $row) { ?>
-                                        <?php if ($row['semester'] == 2) { ?>
+                                <?php $subject = getSubjectTeacher($teacher_id) ?>
+                                <?php foreach ($subject as $index => $row) { ?>
+                                    <?php if ($row['semester'] == 2) { ?>
                                         <tr>
                                             <td><?php echo $index + 1; ?></td>
                                             <td><?php echo $row['subject_code']; ?></td>
@@ -326,26 +324,24 @@ $teacher_id = $_SESSION['teacher_id'];
                                             <td><?php echo $row['status']; ?></td>
                                             <td><?php echo $row['remark']; ?></td>
                                             <td><?php echo $row['final']; ?></td>
-                                            <!-- <?php $teacher = getTeacherById($row['teacher_id']); ?>
-                                            <td><?php echo $teacher['teacher_name']; ?></td> -->
-                                        <?php }
-                                    } ?>
-                                    <td>
-                                        <div style="color: aliceblue; text-align:center;">
-                                            <?php $teacher = getSubjectById2($teacher_id) ?>
-                                            <a href="update_student.php?teacher_id=<?php echo $teacher_id; ?>">
-                                                <i style="color: aliceblue;" class="fa fa-eye"></i>
-                                            </a>
+                                            <td>
+                                                <div style="color: aliceblue; text-align:center;">
+                                                    <?php $teacher = getSubjectById2($teacher_id) ?>
+                                                    <a
+                                                        href="update_student.php?action=list&teacher_id=<?php echo $teacher_id; ?>&student_id=<?php echo $row['student_id']; ?>&subject_id=<?php echo $row['id']; ?>">
+                                                        <i style="color: aliceblue;" class="fa fa-eye"></i>
+                                                    </a>
 
-                                            <a href="index.php?teacher_id=<?php echo $teacher_id; ?>">
-                                                <i style="color: aliceblue;" class="fa fa-trash"></i>
-                                            </a>
+                                                    <a href="index.php?teacher_id=<?php echo $teacher_id; ?>">
+                                                        <i style="color: aliceblue;" class="fa fa-trash"></i>
+                                                    </a>
 
-                                        </div>
-                                    </td>
-                                </tr>
+                                                </div>
+                                            </td>
 
-                                </tr>
+                                        </tr>
+                                    <?php }
+                                } ?>
                             </tbody>
                         </table>
 
@@ -356,69 +352,7 @@ $teacher_id = $_SESSION['teacher_id'];
 
             </div>
 
-
-
-
         </div>
-
-
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                document.querySelectorAll(".delete_subject").forEach(button => {
-                    button.addEventListener("click", function (event) {
-                        event.preventDefault();
-                        let subject_id = this.getAttribute("subject");
-                        let program_id = this.getAttribute("program");
-
-                        Swal.fire({
-                            title: "Are you sure?",
-                            text: "This subject will be permanently deleted!",
-                            icon: "warning",
-                            showCancelButton: true,
-                            confirmButtonColor: "#d33",
-                            cancelButtonColor: "#3085d6",
-                            confirmButtonText: "Yes, delete it!"
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-
-                                window.location.href = "?subject_id=" + subject_id + "&program_id=" + program_id;
-                            }
-                        });
-                    });
-                });
-
-
-                const urlParams = new URLSearchParams(window.location.search);
-
-                if (urlParams.has("subject_id")) {
-                    Swal.fire({
-                        icon: "success",
-                        title: "Deleted!",
-                        text: "The program was successfully deleted.",
-                        showConfirmButton: false,
-                        timer: 2500
-                    });
-                    const newURL = window.location.origin + window.location.pathname;
-                    window.history.replaceState({}, document.title, newURL);
-
-                }
-
-                if (urlParams.has("success")) {
-                    Swal.fire({
-                        icon: "success",
-                        title: "Successfully added!",
-                        text: "The program was successfully Added!.",
-                        showConfirmButton: false,
-                        timer: 2500
-                    });
-                    const newURL = window.location.origin + window.location.pathname;
-                    window.history.replaceState({}, document.title, newURL);
-
-                }
-            });
-
-        </script>
-    </div>
 </body>
 
 </html>

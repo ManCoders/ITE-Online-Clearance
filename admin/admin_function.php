@@ -386,6 +386,20 @@ function update_subject($sy, $subject_id, $subject_name, $subject_code, $semeste
     }
 }
 
+
+function deleteSubjectbyId231($subject_id)
+{
+    global $pdo;
+    try {
+        $sql = "DELETE FROM subject_with_program_id WHERE id = ? ";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$subject_id]);
+        header("Location: view_program.php?subject_id=" . $subject_id . "&status=success&message=Subject deleted successfully");
+        return true;
+    } catch (PDOException $e) {
+        return $e->getMessage();
+    }
+}
 function deleteSubjectbyId($subject_id, $program_id)
 {
     global $pdo;

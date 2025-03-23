@@ -10,11 +10,134 @@ if (!isset($_SESSION['teacher_id'])) {
 }
 
 $teacher_id = $_SESSION['teacher_id'];
+$subject_id = isset($_GET['subject_id']) ? $_GET['subject_id'] : '';
+$students_id = isset($_GET['student_id']) ? $_GET['student_id'] : '';
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $student_id = $_POST['student_id'];
+    $status = $_POST['status'];
+    $remark = $_POST['remark'];
+    $final_remark = $_POST['final_remark'];
+
+    // Update student status in the database
+    $stmt = $pdo->prepare("UPDATE student_subjects SET status = ?, remark = ?, finalterm = ? WHERE student_id = ? AND teacher_id = ? AND subject_id = ?");
+    $stmt->execute([$status, $remark, $final_remark, $student_id, $teacher_id, $subject_id]);
+
+    header("Location: update_student.php?subject_id=$subject_id&success=Student status updated successfully.");
+    exit();
+}
 
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
+<body>
+
+    <div class="sidebar">
+        <div class="profile-info">
+            <img src="../images/ITE.png" alt="Profile Icon" class="profile-icon">
+        </div>
+        <div class="sidebar-item">
+            <a href="./index.php"> <i class="fas fa-chart-bar"></i>Dashboard</a>
+        </div>
+        <div class="sidebar-item" style="background-color: maroon;">
+            <a href="./students.php"><i class="fas fa-chalkboard-teacher"></i> Subjects </a>
+        </div>
+        <div class="sidebar-item">
+            <a href="./logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="dashboard-container">
+            <script src="../assets/bootstrap/bootstrap.bundle.min.js"></script>
+
+            <?php $student = getMyId2($teacher_id) ?>
+
+            <div class="modal">
+                <?php if (isset($error_message)) { ?>
+                    <div class="error-message"><?php echo $error_message; ?></div>
+                <?php } ?>
+
+                <div class="modal-content">
+
+                    <h2>Master List</h2>
+                    <div class="table_content" style="text-align:center;">
+                        <table>
+                            <tr>
+                                <th>#</th>
+                                <th>Subject Name</th>
+                                <th>Student Name</th>
+                                <th>Email</th>
+                                <th>Status</th>
+                                <th>Remark</th>
+                                <th>Final Remark</th>
+                                <th>Action</th>
+                            </tr>
+                            <tbody>
+                                <?php 
+                                $students = GetStudentByTeacherId($teacher_id, $subject_id); // Fetch all students for the teacher under the subject
+
+
+                                if (empty($students)) {
+                                    echo "<tr><td colspan='8'>No students found for this teacher.</td></tr>";
+                                } else {
+                                    foreach ($students as $index => $row) { 
+                                        $student_info = getStudentById($row['student_id']);
+                                        if (!$student_info) {
+                                            $error_message = "Student information could not be retrieved.";
+                                        }
+                                ?>
+                                    <tr>
+                                        <td><?php echo $index + 1; ?></td>
+                                        <td><?php echo $row['subject_code']; ?></td>
+                                        <td><?php echo $student_info['student_name']; ?></td>
+                                        <td><?php echo $student_info['email']; ?></td>
+                                        <td><?php echo $row['status']; ?></td>
+                                        <td><?php echo $row['remark']; ?></td>
+                                        <td><?php echo $row['final']; ?></td>
+                                        <td>
+                                            <form method="POST" action="">
+                                                <input type="hidden" name="student_id" value="<?php echo $row['student_id']; ?>">
+                                                <select name="status">
+                                                    <option value="completed">Completed</option>
+                                                    <option value="incomplete">Incomplete</option>
+                                                    <option value="drop">Drop</option>
+                                                </select>
+                                                <select name="remark">
+                                                    <option value="lack of requirement">Lack of Requirement</option>
+                                                    <option value="no attending class">No Attending Class</option>
+                                                    <option value="drop">Drop</option>
+                                                </select>
+                                                <select name="final_remark">
+                                                    <option value="passed">Passed</option>
+                                                    <option value="failed">Failed</option>
+                                                </select>
+                                                <input type="submit" value="Update">
+                                            </form>
+                                        </td>
+                                    </tr>
+                                <?php 
+                                    } 
+                                } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                    <form>
+                        <input type="button"
+                            style="width: 20%; margin-top:5px; cursor: pointer; padding: 6px; border-radius: 5px; color: #FFFFFF; background-color: #ff3d00; border: none;"
+                            value="Back" onclick="history.back()">
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+</body>
+
+</html>
 
 <head>
     <meta charset="UTF-8">
@@ -104,7 +227,6 @@ $teacher_id = $_SESSION['teacher_id'];
             gap: 15px;
         }
 
-
         form input[type="text"] {
             width: 100%;
             padding: 10px;
@@ -142,7 +264,6 @@ $teacher_id = $_SESSION['teacher_id'];
             background-color: #cc2c00;
         }
 
-
         .modal {
             width: 100rem;
             height: auto;
@@ -171,7 +292,7 @@ $teacher_id = $_SESSION['teacher_id'];
         .modal table {
             width: 100%;
             padding: .5rem;
-            border: 1px solidrgb(122, 122, 122)
+            border: 1px solid rgb(122, 122, 122)
         }
 
         .modal th {
@@ -212,152 +333,3 @@ $teacher_id = $_SESSION['teacher_id'];
         }
     </style>
 </head>
-
-<body>
-
-    <div class="sidebar">
-        <div class="profile-info">
-            <img src="../images/ITE.png" alt="Profile Icon" class="profile-icon">
-        </div>
-        <div class="sidebar-item">
-            <a href="./index.php"> <i class="fas fa-chart-bar"></i>Dashboard</a>
-        </div>
-        <div class="sidebar-item" style="background-color: maroon;">
-            <a href="./students.php"><i class="fas fa-chalkboard-teacher"></i> Subjects </a>
-        </div>
-        <div class="sidebar-item">
-            <a href="./logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
-        </div>
-    </div>
-
-
-
-    <div class="content">
-        <div class="dashboard-container">
-            <script src="../assets/bootstrap/bootstrap.bundle.min.js"></script>
-
-            <?php $student = getMyId2($teacher_id) ?>
-
-            <div class="modal">s
-                <div class="modal-content">
-
-
-                    <p class="semester">1st Semester</p>
-
-                    <div class="table_content" style="text-align:center;">
-                        <table>
-                            <tr>
-                                <th>#</th>
-                                <th>Student Name</th>
-                                <th>Course</th>
-
-                                <th>Email</th>
-                                <th>Contact</th>
-                                <th>Passed</th>
-                                <th>Total Student</th>
-                                <th>Action</th>
-                            </tr>
-                            <tbody>
-                                <tr>
-                                    <?php $subject = getStudentSubjectByid($teacher_id, ) ?>
-
-                                    <?php foreach ($subject as $index => $row) { ?>
-                                        <?php if ($row['semester'] == 1) { ?>
-                                        <tr>
-                                            <?php $student_info = getStudentById($row['student_id']) ?>
-                                            <td><?php echo $index + 1; ?></td>
-                                            <td><?php echo $student_info['student_name']; ?></td>
-                                            <?php ?>
-                                            <td><?php echo $student_info['course']; ?></td>
-                                            <td><?php echo $student_info['email']; ?></td>
-                                            <td><?php echo $student_info['contact']; ?></td>
-                                            <td><?php echo $row['status']; ?></td>
-                                            <td><?php echo $row['remark']; ?></td>
-                                            <td><?php echo $row['final']; ?></td>
-                                            <td>
-                                                <div style="color: aliceblue; text-align:center;">
-                                                    <?php $teacher = getSubjectById2($teacher_id) ?>
-                                                    <a href="update_student.php?teacher_id=<?php echo $teacher_id; ?>">
-                                                        <i style="color: aliceblue;" class="fa fa-eye"></i>
-                                                    </a>
-
-                                                    <a href="index.php?teacher_id=<?php echo $teacher_id; ?>">
-                                                        <i style="color: aliceblue;" class="fa fa-trash"></i>
-                                                    </a>
-
-                                                </div>
-                                            </td>
-
-                                        </tr>
-                                    <?php }
-                                    } ?>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-
-                </div>
-            </div>
-
-
-            <script>
-                document.addEventListener("DOMContentLoaded", function () {
-                    document.querySelectorAll(".delete_subject").forEach(button => {
-                        button.addEventListener("click", function (event) {
-                            event.preventDefault();
-                            let subject_id = this.getAttribute("subject");
-                            let program_id = this.getAttribute("program");
-
-                            Swal.fire({
-                                title: "Are you sure?",
-                                text: "This subject will be permanently deleted!",
-                                icon: "warning",
-                                showCancelButton: true,
-                                confirmButtonColor: "#d33",
-                                cancelButtonColor: "#3085d6",
-                                confirmButtonText: "Yes, delete it!"
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-
-                                    window.location.href = "?subject_id=" + subject_id + "&program_id=" + program_id;
-                                }
-                            });
-                        });
-                    });
-
-
-                    const urlParams = new URLSearchParams(window.location.search);
-
-                    if (urlParams.has("subject_id")) {
-                        Swal.fire({
-                            icon: "success",
-                            title: "Deleted!",
-                            text: "The program was successfully deleted.",
-                            showConfirmButton: false,
-                            timer: 2500
-                        });
-                        const newURL = window.location.origin + window.location.pathname;
-                        window.history.replaceState({}, document.title, newURL);
-
-                    }
-
-                    if (urlParams.has("success")) {
-                        Swal.fire({
-                            icon: "success",
-                            title: "Successfully added!",
-                            text: "The program was successfully Added!.",
-                            showConfirmButton: false,
-                            timer: 2500
-                        });
-                        const newURL = window.location.origin + window.location.pathname;
-                        window.history.replaceState({}, document.title, newURL);
-
-                    }
-                });
-
-            </script>
-        </div>
-</body>
-
-</html>

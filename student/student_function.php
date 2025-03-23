@@ -38,7 +38,7 @@ function getStudentByIds($id)
 function getSubject2($id)
 {
     global $pdo;
-    $sql = "SELECT DISTINCT * FROM student_with_subjects WHERE student_id = ?";
+    $sql = "SELECT * FROM student_with_subjects WHERE student_id = ?";
     try {
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$id]);
@@ -58,6 +58,20 @@ function GetSchoolYearOnProgram()
     $stmt->execute();
 
     return $stmt->fetchAll();
+}
+
+
+function deleteStudentSubjectbyId22($subject_id)
+{
+    global $pdo;
+    try {
+        $stmt = $pdo->prepare("DELETE FROM student_with_subjects WHERE id = ?");
+        $stmt->execute([$subject_id]);
+        return $stmt->rowCount();
+    } catch (PDOException $e) {
+
+        echo 'Error: ' . $e->getMessage();
+    }
 }
 
 function GetSchoolProgram()

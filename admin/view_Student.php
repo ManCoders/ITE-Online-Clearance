@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["add-subject"])) {
 
 if (isset($_GET['subject_id'])) {
     $subject_id = $_GET['subject_id'];
-    deleteSubjectbyId($subject_id);
+    deleteSubjectbyId231($subject_id);
 }
 ?>
 

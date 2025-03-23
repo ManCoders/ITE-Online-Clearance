@@ -26,8 +26,9 @@ if (isset($_POST['new_subject'])) {
     }
 }
 
-if (isset($_GET['delete_program'])) {
-
+if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['subject_id'])) {
+    $subject_id = $_GET['subject_id'];
+    deleteStudentSubjectbyId22($subject_id);
 }
 
 ?>
@@ -638,8 +639,10 @@ if (isset($_GET['delete_program'])) {
                                     <?php $teacher = getTeacherById($value['teacher_id']); ?>
                                     <td><?php echo $teacher['teacher_name']; ?></td>
 
-                                    <td style="margin: 5px; text-align: center;"><a class="fa fa-trash"
-                                            style="cursor: pointer;"></a></td>
+                                    <td style="margin: 5px; text-align: center; color: #FFFFFF; ">
+                                        <a href="subject_load.php?action=delete&subject_id=<?php echo $value['id'] ?>&student_id=<?php echo $value['student_id'] ?>"
+                                            class="fa fa-trash" style="cursor: pointer; color: #FFFFFF;"></a>
+                                    </td>
                                 </tr>
                             <?php } ?>
                         </tbody>

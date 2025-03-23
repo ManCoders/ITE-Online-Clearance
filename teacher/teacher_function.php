@@ -127,15 +127,17 @@ function getMyId2($id)
         $sql = "SELECT s.*,
         CONCAT(s.lname, ' ', s.mname, ' ', s.fname) AS teacher_name
         
-        FROM teachers s WHERE id = ?";
+        FROM teachers s WHERE s.id = ?";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$id]);
-        return $stmt->fetch();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
-        echo 'Error: ' . $e->getMessage();
+        error_log("Database Error: " . $e->getMessage()); // Logs the error
         return [];
     }
 }
+
+
 
 function GetTeacherById2($teacher_id)
 {
@@ -163,7 +165,8 @@ function GetStudentByTeacherId($teacher_id)
         FROM student_subjects ss
         INNER JOIN students s ON ss.student_id = s.id
         INNER JOIN subject_year sy ON ss.subject_id = sy.id
-        WHERE ss.teacher_id = ?
+        WHERE ss.teacher_id = ? AND ss.subject_id = ?
+
         ");
 
         $stmt->execute([$teacher_id]);
@@ -174,13 +177,13 @@ function GetStudentByTeacherId($teacher_id)
 }
 
 
-function getStudentSubjectByid($teacher_id)
+function getStudentSubjectByid($teacher_id, $subject_id, $student_id)
 {
     global $pdo;
-    $sql = "SELECT * FROM student_with_subjects WHERE teacher_id = ?";
+    $sql = "SELECT * FROM student_with_subjects WHERE teacher_id = ? AND subject_code = ? AND student_id = ?";
     try {
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([$teacher_id]);
+        $stmt->execute([$teacher_id, $subject_id, $student_id]);
         return $stmt->fetchAll();
     } catch (PDOException $e) {
         echo 'Error: ' . $e->getMessage();
@@ -202,10 +205,45 @@ function getSubjectById2($id)
     }
 }
 
-function getSubject2($id)
+
+function getTotalStudentByTeacherIdansStudentId($teacher_id)
 {
     global $pdo;
-    $sql = "SELECT DISTINCT subject_name, subject_code, semester, status, remark, final FROM student_with_subjects WHERE teacher_id = ?";
+    $sql = "SELECT DISTINCT  COUNT(sws.student_id) as student_count
+            FROM student_with_subjects sws 
+            WHERE sws.teacher_id = ?";
+    try {
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$teacher_id]);
+        echo $stmt->fetchColumn();
+        return $stmt->fetch();
+    } catch (PDOException $e) {
+        echo 'Error: ' . $e->getMessage();
+        return [];
+    }
+}
+function getSubjectTeacherDashboard($id)
+{
+    global $pdo;
+    $sql = "SELECT DISTINCT sws.subject_code, sws.subject_name
+        FROM student_with_subjects sws 
+        WHERE sws.teacher_id = ?";
+    try {
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$id]);
+        return $stmt->fetchAll();
+    } catch (PDOException $e) {
+        echo 'Error: ' . $e->getMessage();
+        return [];
+    }
+}
+
+function getSubjectTeacher($id)
+{
+    global $pdo;
+    $sql = "SELECT DISTINCT sws.*
+            FROM student_with_subjects sws 
+            WHERE sws.teacher_id = ?";
     try {
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$id]);
@@ -240,7 +278,7 @@ function getStudentById($id)
     global $pdo;
     try {
         $stmt = $pdo->prepare("
-        SELECT DISTINCT CONCAT(lname, ' ', mname, ' ', fname) AS student_name , email, course, contact FROM students WHERE id = ?
+        SELECT DISTINCT CONCAT(lname, ' ', mname, ' ', fname) AS student_name , email, course FROM students WHERE id = ?
         ");
         $stmt->execute([$id]);
         return $stmt->fetch();

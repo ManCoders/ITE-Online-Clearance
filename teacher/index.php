@@ -252,7 +252,7 @@ $teacher_id = $_SESSION['teacher_id'];
 
                     <?php } ?>
 
-                    <p class="semester">1st Semester</p>
+                    <p style="margin-top: 1.5rem;" class="semester">Subject Table</p>
 
                     <div class="table_content" style="text-align:center;">
                         <table>
@@ -261,95 +261,34 @@ $teacher_id = $_SESSION['teacher_id'];
                                 <th>Course Code</th>
                                 <th>Course Title</th>
 
-                                <th>Failed</th>
-                                <th>Passed</th>
-                                <th>Total Student</th>
                                 <th>Action</th>
                             </tr>
-                            <tbody id="subjectList1">
-                                <tr class="programRow">
-                                    <?php $subject = getSubject2($teacher_id) ?>
-                                    <?php foreach ($subject as $index => $row) { ?>
-                                        <?php if ($row['semester'] == 1) { ?>
-                                        <tr>
-                                            <td><?php echo $index + 1; ?></td>
-                                            <td><?php echo $row['subject_code']; ?></td>
-                                            <td><?php echo $row['subject_name']; ?></td>
-                                            <td><?php echo $row['status']; ?></td>
-                                            <td><?php echo $row['remark']; ?></td>
-                                            <td><?php echo $row['final']; ?></td>
-                                            <td>
-                                                <div style="color: aliceblue; text-align:center;">
-                                                    <?php $teacher = getSubjectById2($teacher_id) ?>
-                                                    <a href="students.php?teacher_id=<?php echo $teacher_id; ?>">
-                                                        <i style="color: aliceblue;" class="fa fa-eye"></i>
-                                                    </a>
+                            <tbody>
+                                <?php $subject = getSubjectTeacherDashboard($teacher_id) ?>
+                                <?php foreach ($subject as $index => $row) { ?>
+                                    <tr>
+                                        <td><?php echo $index + 1; ?></td>
+                                        <td><?php echo $row['subject_code']; ?></td>
+                                        <td><?php echo $row['subject_name']; ?></td>
 
-                                                    <a href="index.php?teacher_id=<?php echo $teacher_id; ?>">
-                                                        <i style="color: aliceblue;" class="fa fa-trash"></i>
-                                                    </a>
 
-                                                </div>
-                                            </td>
-
-                                        </tr>
-                                    <?php }
-                                    } ?>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <p class="semester">2nd Semester</p>
-                    <div class="table_content" style="text-align:center;">
-                        <table>
-
-                            <tr>
-                                <th>#</th>
-                                <th>Course Code</th>
-                                <th>Course Title</th>
-
-                                <th>Failed</th>
-                                <th>Passed</th>
-                                <th>Total Student</th>
-                                <th>Action</th>
-                            </tr>
-
-                            <tbody id="subjectList2">
-                                <tr class="programRow">
-                                    <?php $subject = getSubject2($teacher_id) ?>
-                                    <?php foreach ($subject as $index => $row) { ?>
-                                        <?php if ($row['semester'] == 2) { ?>
-                                        <tr>
-                                            <td><?php echo $index + 1; ?></td>
-                                            <td><?php echo $row['subject_code']; ?></td>
-                                            <td><?php echo $row['subject_name']; ?></td>
-                                            <td><?php echo $row['status']; ?></td>
-                                            <td><?php echo $row['remark']; ?></td>
-                                            <td><?php echo $row['final']; ?></td>
-                                            <!-- <?php $teacher = getTeacherById($row['teacher_id']); ?>
-                                            <td><?php echo $teacher['teacher_name']; ?></td> -->
-                                        <?php }
-                                    } ?>
-                                    <td>
-                                        <div style="color: aliceblue; text-align:center;">
-                                            <?php $teacher = getSubjectById2($teacher_id) ?>
-                                            <a href="index.php?teacher_id=<?php echo $teacher_id; ?>">
-                                                <i style="color: aliceblue;" class="fa fa-eye"></i>
+                                        <td>
+                                            <a href="#?teacher_id=<?php echo $teacher_id; ?>&action=print">
+                                                <i style="color: aliceblue;" class="fa fa-print"></i>
                                             </a>
-
-                                            <a href="index.php?teacher_id=<?php echo $teacher_id; ?>">
-                                                <i style="color: aliceblue;" class="fa fa-trash"></i>
-                                            </a>
-
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                </tr>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
                             </tbody>
                         </table>
 
                     </div>
+
+                    <div style="margin:8px;">
+                        <h1>Total Students: <?php echo getTotalStudentByTeacherIdansStudentId($teacher_id) ?></h1>
+
+                    </div>
+
 
 
                 </div>
@@ -361,7 +300,7 @@ $teacher_id = $_SESSION['teacher_id'];
 
         </div>
 
-
+        <!-- 
         <script>
             document.addEventListener("DOMContentLoaded", function () {
                 document.querySelectorAll(".delete_subject").forEach(button => {
@@ -417,7 +356,7 @@ $teacher_id = $_SESSION['teacher_id'];
                 }
             });
 
-        </script>
+        </script> -->
     </div>
 </body>
 

@@ -324,7 +324,11 @@ $student_id = $_SESSION['student_id'];
 
                     </div>
 
-
+                    <div
+                        style="padding: 5px; background-color: #ff3d00; width: 10%; margin: 5px; border-radius: 5px; text-align: center; ">
+                        <a style="color: #FFFFFF;" href="http://" target="_blank" rel="noopener noreferrer"><i
+                                class="fa fa-print"></i></a>
+                    </div>
                 </div>
 
             </div>
