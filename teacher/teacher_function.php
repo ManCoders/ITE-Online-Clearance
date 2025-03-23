@@ -174,10 +174,24 @@ function GetStudentByTeacherId($teacher_id)
 }
 
 
+function getStudentSubjectByid($teacher_id)
+{
+    global $pdo;
+    $sql = "SELECT * FROM student_with_subjects WHERE teacher_id = ?";
+    try {
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$teacher_id]);
+        return $stmt->fetchAll();
+    } catch (PDOException $e) {
+        echo 'Error: ' . $e->getMessage();
+        return [];
+    }
+}
+
 function getSubjectById2($id)
 {
     global $pdo;
-    $sql = "SELECT student_id FROM student_with_subjects WHERE teacher_id = ?";
+    $sql = "SELECT DISTINCT teacher_id, student_id FROM student_with_subjects WHERE teacher_id = ?";
     try {
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$id]);
@@ -226,7 +240,7 @@ function getStudentById($id)
     global $pdo;
     try {
         $stmt = $pdo->prepare("
-        SELECT * FROM students WHERE id = ?
+        SELECT DISTINCT CONCAT(lname, ' ', mname, ' ', fname) AS student_name , email, course, contact FROM students WHERE id = ?
         ");
         $stmt->execute([$id]);
         return $stmt->fetch();

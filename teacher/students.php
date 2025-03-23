@@ -281,7 +281,7 @@ $teacher_id = $_SESSION['teacher_id'];
                                             <td>
                                                 <div style="color: aliceblue; text-align:center;">
                                                     <?php $teacher = getSubjectById2($teacher_id) ?>
-                                                    <a href="students.php?teacher_id=<?php echo $teacher_id; ?>">
+                                                    <a href="update_student.php?teacher_id=<?php echo $teacher_id; ?>">
                                                         <i style="color: aliceblue;" class="fa fa-eye"></i>
                                                     </a>
 
@@ -333,7 +333,7 @@ $teacher_id = $_SESSION['teacher_id'];
                                     <td>
                                         <div style="color: aliceblue; text-align:center;">
                                             <?php $teacher = getSubjectById2($teacher_id) ?>
-                                            <a href="index.php?teacher_id=<?php echo $teacher_id; ?>">
+                                            <a href="update_student.php?teacher_id=<?php echo $teacher_id; ?>">
                                                 <i style="color: aliceblue;" class="fa fa-eye"></i>
                                             </a>
 

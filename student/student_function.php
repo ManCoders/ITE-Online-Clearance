@@ -49,6 +49,7 @@ function getSubject2($id)
     }
 }
 
+
 function GetSchoolYearOnProgram()
 {
     global $pdo;
