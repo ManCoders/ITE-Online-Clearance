@@ -419,9 +419,9 @@ function editSubjectById($teacher_id, $subject_id, $program_id, $subject_name, $
         $stmt->execute([$teacher_id, $teacher_name_update, $subject_name, $subject_code, $semester]);
 
         $sql = "UPDATE subject_with_program_id SET teacher_id = ?, subject_name = ?, subject_code = ?, semester =
-        ?, WHERE id = ? AND program_id = ?";
+        ?, teacher_name = ? WHERE id = ? AND program_id = ?";
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([$teacher_id, $subject_name, $subject_code, $semester, $subject_id, $program_id]);
+        $stmt->execute([$teacher_id, $subject_name, $subject_code, $semester, $teacher_name_update, $subject_id, $program_id]);
         $subject_ids = $pdo->lastInsertId();
 
 

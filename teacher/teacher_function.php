@@ -106,6 +106,37 @@ function getEmailByStudentId($student_id)
     }
 }
 
+function getTeacherById($id)
+{
+    global $pdo;
+    try {
+        $stmt = $pdo->prepare(" SELECT id, CONCAT(lname, ' ',mname, ' ',fname) AS teacher_name FROM teachers WHERE id = ? ");
+        $stmt->execute([$id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        error_log("Database Error: " . $e->getMessage()); // Logs the error
+        return [];
+    }
+}
+function getMyId2($id)
+{
+    global $pdo;
+    $id = intval($id);
+
+    try {
+        $sql = "SELECT s.*,
+        CONCAT(s.lname, ' ', s.mname, ' ', s.fname) AS teacher_name
+        
+        FROM teachers s WHERE id = ?";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$id]);
+        return $stmt->fetch();
+    } catch (PDOException $e) {
+        echo 'Error: ' . $e->getMessage();
+        return [];
+    }
+}
+
 function GetTeacherById2($teacher_id)
 {
     global $pdo;
@@ -142,6 +173,34 @@ function GetStudentByTeacherId($teacher_id)
     }
 }
 
+
+function getSubjectById2($id)
+{
+    global $pdo;
+    $sql = "SELECT student_id FROM student_with_subjects WHERE teacher_id = ?";
+    try {
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$id]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        error_log("Database Error: " . $e->getMessage()); // Logs the error
+        return [];
+    }
+}
+
+function getSubject2($id)
+{
+    global $pdo;
+    $sql = "SELECT DISTINCT subject_name, subject_code, semester, status, remark, final FROM student_with_subjects WHERE teacher_id = ?";
+    try {
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$id]);
+        return $stmt->fetchAll();
+    } catch (PDOException $e) {
+        echo 'Error: ' . $e->getMessage();
+        return [];
+    }
+}
 
 function getSubjectList($teacher_id)
 {
