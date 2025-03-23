@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 22, 2025 at 04:25 AM
+-- Generation Time: Mar 23, 2025 at 05:17 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -189,8 +189,7 @@ CREATE TABLE `programs_with_subjects` (
 --
 
 INSERT INTO `programs_with_subjects` (`id`, `program_course`, `department_program`, `school_year`, `subject_name`, `subject_code`, `semester`, `created_at`, `teacher_name`) VALUES
-(67, 'ELECTRICAL ENGINEERING', 'DT', '2025-2026', '', '', 0, '2025-03-20 22:59:54', ''),
-(68, 'ELECTRONIC ENGINEERING', 'DT', '2025-2026', '', '', 0, '2025-03-20 23:00:13', '');
+(73, 'AUTOMOTIVE ENGINEERING', 'TITE', '2025-2026', '', '', 0, '2025-03-23 21:10:35', '');
 
 -- --------------------------------------------------------
 
@@ -269,8 +268,8 @@ CREATE TABLE `semesters` (
 --
 
 INSERT INTO `semesters` (`id`, `semester`) VALUES
-(3, '1st Semester'),
-(4, '2nd Semester');
+(1, '1st Semester'),
+(2, '2nd Semester');
 
 -- --------------------------------------------------------
 
@@ -298,9 +297,8 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`id`, `student_code`, `fname`, `mname`, `lname`, `profile`, `school_year`, `program`, `course`, `contact`, `email`, `verify`) VALUES
-(77, '1001', 'Manuel', 'E', 'Daligdig', '', '2025-2026', 'DT', 'ELECTRONIC ENGINEERING', '969519652088', 'student1@gmail.com', ''),
-(79, '1003', 'LING', 'A', 'John', '', '2024-2025', 'DT', 'ELECTRICAL ENGINEERING', '09695196525', 'daligdig.Ling@gmail.com', ''),
-(80, '1005', 'Gregorio', 'E ', 'Florentino', '', '2024-2025', 'DT', 'ELECTRICAL ENGINEERING', '096951965555', 'gregorio@gmail.com', '');
+(82, '1006', 'Ewayan', 'D', 'Man', '', '2025-2026', 'TTIC', 'AUTOMOTIVE ENGINEERING', '09691265655', 'man@gmail.com', ''),
+(83, '1007', 'Ewayan', 'D', 'Max', '', '2025-2026', 'DT', 'FOOD TECHNOLOGY', '096912656552', 'max@gmail.com', '');
 
 -- --------------------------------------------------------
 
@@ -321,7 +319,8 @@ CREATE TABLE `student_login` (
 --
 
 INSERT INTO `student_login` (`id`, `email`, `contact`, `password`, `student_id`) VALUES
-(78, 'student1@gmail.com', '', '$2y$10$fVX1jsCq2VaITvBIX0rZpe42.P8kA4fghXqA8AHr0tz8ZtNXYikee', 77);
+(81, 'man@gmail.com', '', '$2y$10$CMCyRzU0WGFHoG/jDYli1OvtVcVuzkBQW58UJRwg5ka5VRtFBzWzq', 82),
+(82, 'max@gmail.com', '', '$2y$10$LnIV.gYhfNW8miIuOJ/jZ.fv73pyWfntPtF2rZNoYuK17ITeloPWK', 83);
 
 -- --------------------------------------------------------
 
@@ -351,6 +350,9 @@ CREATE TABLE `student_subjects` (
 CREATE TABLE `student_with_subjects` (
   `id` int(11) NOT NULL,
   `student_id` int(11) NOT NULL,
+  `teacher_id` int(100) NOT NULL,
+  `semester` int(11) NOT NULL,
+  `program_id` varchar(10) NOT NULL,
   `school_year` varchar(100) NOT NULL,
   `subject_code` varchar(100) NOT NULL,
   `subject_name` varchar(100) NOT NULL,
@@ -359,19 +361,23 @@ CREATE TABLE `student_with_subjects` (
   `status` varchar(100) NOT NULL,
   `remark` varchar(100) NOT NULL,
   `final` varchar(100) NOT NULL,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
-  `semester` int(11) NOT NULL
+  `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `student_with_subjects`
 --
 
-INSERT INTO `student_with_subjects` (`id`, `student_id`, `school_year`, `subject_code`, `subject_name`, `teacher_name`, `grade`, `status`, `remark`, `final`, `created_at`, `semester`) VALUES
-(14, 77, '2025-2026', 'ITDC 101', 'SOFTWARE ENGINEER 1', 'Daligdig M mutmut', 0, '', '', '', '2025-03-21 13:03:48', 1),
-(15, 77, '2025-2026', 'ITPP 104', 'COMPUTER PROGRAMMING 4', 'Dela cruz E vanesa', 0, '', '', '', '2025-03-21 13:04:46', 2),
-(17, 77, '2025-2026', 'ITPP 103', 'COMPUTER PROGRAMMING 3', 'Dela cruz E vanesa', 0, '', '', '', '2025-03-21 13:13:11', 2),
-(18, 77, '2025-2026', 'ITPC 105', 'SOFTWARE ENGINEER 2', 'Daligdig M mutmut', 0, '', '', '', '2025-03-21 13:19:54', 1);
+INSERT INTO `student_with_subjects` (`id`, `student_id`, `teacher_id`, `semester`, `program_id`, `school_year`, `subject_code`, `subject_name`, `teacher_name`, `grade`, `status`, `remark`, `final`, `created_at`) VALUES
+(53, 77, 51, 1, 'DT', '2025-2026', 'ETHICS', 'ETHICAL', '', 0, 'Drop', 'Not Attending', 'Failed', '2025-03-23 15:55:15'),
+(54, 77, 51, 2, 'DT', '2025-2026', 'ITPC 101', 'PROGRAMMING 1', '', 0, 'Drop', 'Lack of Requirements', 'Passed', '2025-03-23 15:55:20'),
+(55, 77, 51, 2, 'DT', '2025-2026', 'ITPC 102', 'COMPUTER PROGRAMMING 2', '', 0, 'Drop', 'Lack of Requirements', 'Failed', '2025-03-23 15:55:24'),
+(63, 82, 51, 2, 'TTIC', '2025-2026', 'ITPC 102', 'PROGRAMMING 1', '', 0, 'Drop', 'Lack of Requirements', 'Failed', '2025-03-23 21:11:31'),
+(64, 82, 51, 1, 'TTIC', '2025-2026', 'ITPC 106', 'COMPUTER PROGRAMMING 2', '', 0, 'Completed', 'Completed', 'Passed', '2025-03-23 21:11:38'),
+(65, 82, 51, 1, 'TTIC', '2025-2026', 'ITPC 105', 'COMPUTER PROGRAMMING 5', '', 0, 'Drop', 'Lack of Requirements', 'Failed', '2025-03-23 21:11:50'),
+(66, 83, 51, 1, 'DT', '2025-2026', 'ITPC 106', 'COMPUTER PROGRAMMING 2', '', 0, 'Drop', 'Not Attending', 'Passed', '2025-03-23 21:20:04'),
+(67, 83, 51, 2, 'DT', '2025-2026', 'ITPC 102', 'PROGRAMMING 1', '', 0, 'Drop', 'Lack of Requirements', 'Failed', '2025-03-23 21:20:14'),
+(68, 83, 51, 1, 'DT', '2025-2026', 'ITPC 105', 'COMPUTER PROGRAMMING 5', '', 0, 'Completed', 'Completed', 'Passed', '2025-03-23 21:20:19');
 
 -- --------------------------------------------------------
 
@@ -400,6 +406,7 @@ CREATE TABLE `subjects` (
 CREATE TABLE `subject_with_program_id` (
   `id` int(11) NOT NULL,
   `program_id` int(11) NOT NULL,
+  `teacher_id` int(11) NOT NULL,
   `school_year` varchar(100) NOT NULL,
   `subject_name` varchar(100) NOT NULL,
   `subject_code` varchar(100) NOT NULL,
@@ -412,14 +419,10 @@ CREATE TABLE `subject_with_program_id` (
 -- Dumping data for table `subject_with_program_id`
 --
 
-INSERT INTO `subject_with_program_id` (`id`, `program_id`, `school_year`, `subject_name`, `subject_code`, `teacher_name`, `semester`, `created_at`) VALUES
-(60, 67, '', 'SOFTWARE ENGINEER 1', 'ITDC 101', 'Daligdig M mutmut', 1, '2025-03-20 23:00:24'),
-(61, 67, '', 'COMPUTER PROGRAMMING 2', 'ITPP 102', 'Dela cruz E vanesa', 1, '2025-03-20 23:00:35'),
-(62, 67, '', 'COMPUTER PROGRAMMING 3', 'ITPP 103', 'Dela cruz E vanesa', 2, '2025-03-20 23:00:54'),
-(63, 67, '', 'COMPUTER PROGRAMMING 4', 'ITPP 104', 'Daligdig M mutmut', 2, '2025-03-20 23:01:05'),
-(64, 67, '', 'SOFTWARE ENGINEER 2', 'ITPC 105', 'Daligdig M mutmut', 1, '2025-03-20 23:32:30'),
-(65, 79, '', 'COMPUTER PROGRAMMING 2', 'ITPC 106', 'Daligdig M mutmut', 1, '2025-03-20 23:52:57'),
-(66, 68, '', 'COMPUTER PROGRAMMING 4', 'ITPP 104', 'Dela cruz E vanesa', 2, '2025-03-21 00:24:03');
+INSERT INTO `subject_with_program_id` (`id`, `program_id`, `teacher_id`, `school_year`, `subject_name`, `subject_code`, `teacher_name`, `semester`, `created_at`) VALUES
+(158, 73, 51, '', 'COMPUTER PROGRAMMING 2', 'ITPC 106', '', 1, '2025-03-23 21:10:46'),
+(159, 73, 51, '', 'COMPUTER PROGRAMMING 5', 'ITPC 105', '', 1, '2025-03-23 21:11:09'),
+(160, 73, 51, '', 'PROGRAMMING 1', 'ITPC 102', '', 2, '2025-03-23 21:11:18');
 
 -- --------------------------------------------------------
 
@@ -467,7 +470,8 @@ CREATE TABLE `teachers` (
 
 INSERT INTO `teachers` (`id`, `teacher_code`, `fname`, `mname`, `lname`, `profile`, `profession`, `specialized`, `contact`, `email`, `course`, `school_year`, `verify`) VALUES
 (47, '2001', 'Belyn', 'Ber', 'Gregorio', '', 'Associate Professor', 'Software Engineering', '096951965202', 'gregoriob@gmail.com', '', '2025-2026', ''),
-(48, '2001', 'Roy', 'Rex', 'Penas', '', 'Instructor', 'Cybersecurity', '09695965210', 'penas@gmail.com', '', '2025-2026', '');
+(48, '2001', 'Roy', 'Rex', 'Penas', '', 'Instructor', 'Cybersecurity', '09695965210', 'penas@gmail.com', '', '2025-2026', ''),
+(51, '2007', 'Sansons', 'lim', 'Bogard', '', 'Associate Professor', 'Network Administration 2', '09695196555', 'lim@gmail.com', '', '2025-2026', '');
 
 -- --------------------------------------------------------
 
@@ -488,7 +492,8 @@ CREATE TABLE `teacher_login` (
 --
 
 INSERT INTO `teacher_login` (`id`, `email`, `contact`, `password`, `teacher_id`) VALUES
-(35, 'penas@gmail.com', '', '$2y$10$.qaQgbaikoWqB7kAPx4E/e8Yyw/uLAH9qAoTrBWdGIymjBFAF6izu', 47);
+(35, 'penas@gmail.com', '', '$2y$10$.qaQgbaikoWqB7kAPx4E/e8Yyw/uLAH9qAoTrBWdGIymjBFAF6izu', 47),
+(37, 'lim@gmail.com', '', '$2y$10$8G5/yNQD6cKpDvuscvROSeHoUALflSMYvROqH8JtTfG1a2HAz0Mba', 51);
 
 -- --------------------------------------------------------
 
@@ -730,7 +735,7 @@ ALTER TABLE `programs`
 -- AUTO_INCREMENT for table `programs_with_subjects`
 --
 ALTER TABLE `programs_with_subjects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 
 --
 -- AUTO_INCREMENT for table `room`
@@ -754,19 +759,19 @@ ALTER TABLE `sections`
 -- AUTO_INCREMENT for table `semesters`
 --
 ALTER TABLE `semesters`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
 
 --
 -- AUTO_INCREMENT for table `student_login`
 --
 ALTER TABLE `student_login`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
 
 --
 -- AUTO_INCREMENT for table `student_subjects`
@@ -778,7 +783,7 @@ ALTER TABLE `student_subjects`
 -- AUTO_INCREMENT for table `student_with_subjects`
 --
 ALTER TABLE `student_with_subjects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT for table `subjects`
@@ -790,7 +795,7 @@ ALTER TABLE `subjects`
 -- AUTO_INCREMENT for table `subject_with_program_id`
 --
 ALTER TABLE `subject_with_program_id`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=161;
 
 --
 -- AUTO_INCREMENT for table `subject_year`
@@ -802,13 +807,13 @@ ALTER TABLE `subject_year`
 -- AUTO_INCREMENT for table `teachers`
 --
 ALTER TABLE `teachers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT for table `teacher_login`
 --
 ALTER TABLE `teacher_login`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `teacher_profession`

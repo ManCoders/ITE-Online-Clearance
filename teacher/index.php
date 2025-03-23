@@ -18,6 +18,99 @@ $teacher_id = $_SESSION['teacher_id'];
 <!DOCTYPE html>
 <html lang="en">
 
+
+
+<body>
+
+    <div class="sidebar">
+        <div class="profile-info">
+            <img src="../images/ITE.png" alt="Profile Icon" class="profile-icon">
+        </div>
+        <div class="sidebar-item" style="background-color: maroon;">
+            <a href="./index.php"> <i class="fas fa-chart-bar"></i>Dashboard</a>
+        </div>
+        <div class="sidebar-item">
+            <a href="./students.php"><i class="fas fa-chalkboard-teacher"></i> Subjects </a>
+        </div>
+        <div class="sidebar-item">
+            <a href="./logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </div>
+
+
+
+    <div class="content">
+        <div class="dashboard-container">
+            <script src="../assets/bootstrap/bootstrap.bundle.min.js"></script>
+
+            <?php $student = getMyId2($teacher_id) ?>
+            <?php if ($student) { ?>
+                <div class="modal">
+                    <div class="modal-content">
+                        <h2 id="programTitle"><?php echo htmlspecialchars($student['teacher_name']) ?></h2>
+                        <span id="sy">Employee ID: <?php echo $student['teacher_code']; ?></span><br>
+                        <span id="course">Specialization: <?php echo $student['specialized']; ?><br />
+                        </span>
+                        <span id="course">Profession : <?php echo $student['profession']; ?></span><br>
+                        <span id="course"><i><?php echo $student['contact']; ?> -
+                                <?php echo $student['email']; ?></i></span>
+
+                    <?php } ?>
+
+                    <p style="margin-top: 1.5rem;" class="semester">All Subject Hundle</p>
+
+                    <div class="table_content" style="text-align:center;">
+                        <table>
+                            <tr>
+                                <th>#</th>
+                                <th>Course Code</th>
+                                <th>Course Title</th>
+
+                                <th>Action</th>
+                            </tr>
+                            <tbody>
+                                <?php $subject = getSubjectTeacherDashboard($teacher_id) ?>
+                                <?php foreach ($subject as $index => $row) { ?>
+                                    <tr>
+                                        <td><?php echo $index + 1; ?></td>
+                                        <td><?php echo $row['subject_code']; ?></td>
+                                        <td><?php echo $row['subject_name']; ?></td>
+
+
+                                        <td>
+                                            <a href="#?teacher_id=<?php echo $teacher_id; ?>&action=print">
+                                                <i style="color: aliceblue;" class="fa fa-print"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    <div style="margin:8px;">
+                        <h1>Total Students: <?php echo getTotalStudentByTeacherIdansStudentId($teacher_id) ?></h1>
+
+                    </div>
+
+
+
+                </div>
+
+            </div>
+
+
+
+
+        </div>
+
+    </div>
+</body>
+
+</html>
+
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -214,150 +307,3 @@ $teacher_id = $_SESSION['teacher_id'];
         }
     </style>
 </head>
-
-<body>
-
-    <div class="sidebar">
-        <div class="profile-info">
-            <img src="../images/ITE.png" alt="Profile Icon" class="profile-icon">
-        </div>
-        <div class="sidebar-item" style="background-color: maroon;">
-            <a href="./index.php"> <i class="fas fa-chart-bar"></i>Dashboard</a>
-        </div>
-        <div class="sidebar-item">
-            <a href="./students.php"><i class="fas fa-chalkboard-teacher"></i> Subjects </a>
-        </div>
-        <div class="sidebar-item">
-            <a href="./logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
-        </div>
-    </div>
-
-
-
-    <div class="content">
-        <div class="dashboard-container">
-            <script src="../assets/bootstrap/bootstrap.bundle.min.js"></script>
-
-            <?php $student = getMyId2($teacher_id) ?>
-            <?php if ($student) { ?>
-                <div class="modal">
-                    <div class="modal-content">
-                        <h2 id="programTitle"><?php echo htmlspecialchars($student['teacher_name']) ?></h2>
-                        <span id="sy">Employee ID: <?php echo $student['teacher_code']; ?></span><br>
-                        <span id="course">Specialization: <?php echo $student['specialized']; ?><br />
-                        </span>
-                        <span id="course">Profession : <?php echo $student['profession']; ?></span><br>
-                        <span id="course"><i><?php echo $student['contact']; ?> -
-                                <?php echo $student['email']; ?></i></span>
-
-                    <?php } ?>
-
-                    <p style="margin-top: 1.5rem;" class="semester">All Subject Hundle</p>
-
-                    <div class="table_content" style="text-align:center;">
-                        <table>
-                            <tr>
-                                <th>#</th>
-                                <th>Course Code</th>
-                                <th>Course Title</th>
-
-                                <th>Action</th>
-                            </tr>
-                            <tbody>
-                                <?php $subject = getSubjectTeacherDashboard($teacher_id) ?>
-                                <?php foreach ($subject as $index => $row) { ?>
-                                    <tr>
-                                        <td><?php echo $index + 1; ?></td>
-                                        <td><?php echo $row['subject_code']; ?></td>
-                                        <td><?php echo $row['subject_name']; ?></td>
-
-
-                                        <td>
-                                            <a href="#?teacher_id=<?php echo $teacher_id; ?>&action=print">
-                                                <i style="color: aliceblue;" class="fa fa-print"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                <?php } ?>
-                            </tbody>
-                        </table>
-
-                    </div>
-
-                    <div style="margin:8px;">
-                        <h1>Total Students: <?php echo getTotalStudentByTeacherIdansStudentId($teacher_id) ?></h1>
-
-                    </div>
-
-
-
-                </div>
-
-            </div>
-
-
-
-
-        </div>
-
-        <!-- 
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                document.querySelectorAll(".delete_subject").forEach(button => {
-                    button.addEventListener("click", function (event) {
-                        event.preventDefault();
-                        let subject_id = this.getAttribute("subject");
-                        let program_id = this.getAttribute("program");
-
-                        Swal.fire({
-                            title: "Are you sure?",
-                            text: "This subject will be permanently deleted!",
-                            icon: "warning",
-                            showCancelButton: true,
-                            confirmButtonColor: "#d33",
-                            cancelButtonColor: "#3085d6",
-                            confirmButtonText: "Yes, delete it!"
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-
-                                window.location.href = "?subject_id=" + subject_id + "&program_id=" + program_id;
-                            }
-                        });
-                    });
-                });
-
-
-                const urlParams = new URLSearchParams(window.location.search);
-
-                if (urlParams.has("subject_id")) {
-                    Swal.fire({
-                        icon: "success",
-                        title: "Deleted!",
-                        text: "The program was successfully deleted.",
-                        showConfirmButton: false,
-                        timer: 2500
-                    });
-                    const newURL = window.location.origin + window.location.pathname;
-                    window.history.replaceState({}, document.title, newURL);
-
-                }
-
-                if (urlParams.has("success")) {
-                    Swal.fire({
-                        icon: "success",
-                        title: "Successfully added!",
-                        text: "The program was successfully Added!.",
-                        showConfirmButton: false,
-                        timer: 2500
-                    });
-                    const newURL = window.location.origin + window.location.pathname;
-                    window.history.replaceState({}, document.title, newURL);
-
-                }
-            });
-
-        </script> -->
-    </div>
-</body>
-
-</html>
