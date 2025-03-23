@@ -82,11 +82,11 @@ if (isset($_POST['submit'])) {
                                     <?php } ?>
                                     <div>
                                         <label style="margin:5px" for="subject_name">Student Name</label>
-                                        <input style=" text-align: center; " type="text"
+                                        <input style=" text-align: center; " type="text" readonly
                                             value=" <?php echo $students['student_id']; ?>" name="student_name"
                                             id="subject_name">
                                         <label style="margin:5px" for="subject_name">Subject </label>
-                                        <input style=" text-align: center; " type="text"
+                                        <input style=" text-align: center; " type="text" readonly
                                             value=" <?php echo $students['subject_name']; ?>">
                                     </div>
                                     <div style=" margin: 5px; display: flex; gap:6.5rem;">
@@ -96,20 +96,20 @@ if (isset($_POST['submit'])) {
 
                                     </div>
                                     <div style=" margin:5px; gap: 10px;">
-                                        <select name="status" id="">
+                                        <select name="status" id="" required>
                                             <option value="">SELECT STATUS</option>
                                             <option value="Completed">Completed</option>
                                             <option value="Drop">Drop</option>
                                             <option value="INC">INC</option>
                                         </select>
-                                        <select name="remark" id="">
+                                        <select name="remark" id="" required>
                                             <option value="">SELECT REMARK</option>
                                             <option value="Completed">Completed</option>
                                             <option value="Lack of Requirements">Lack of Requirements</option>
                                             <option value="Not Attending">Not Attending</option>
                                             <option value="Drop out">Drop out</option>
                                         </select>
-                                        <select name="final" id="">
+                                        <select name="final" id="" required>
                                             <option value="">SELECT FINAL</option>
                                             <option value="Passed">Passed</option>
                                             <option value="Failed">Failed</option>
