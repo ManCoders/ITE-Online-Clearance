@@ -70,7 +70,7 @@ if ($teachers_result->rowCount() > 0) {
 }
 
 $totals = [
-    'sections' => count($sampleData['sections']),
+
     'programs' => count($sampleData['programs']),
     'subjects' => count($sampleData['subjects']),
     'students' => count($sampleData['students']),

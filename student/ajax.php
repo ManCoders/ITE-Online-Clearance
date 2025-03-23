@@ -102,18 +102,50 @@ if (isset($_POST['action'])) {
             exit;
         }
 
-        $stmt = $pdo->prepare('SELECT DISTINCT teacher_name FROM subject_with_program_id WHERE subject_name = ? AND subject_code = ?');
+        $stmt = $pdo->prepare('SELECT DISTINCT teacher_id FROM subject_with_program_id WHERE subject_name = ? AND subject_code = ?');
         $stmt->execute([$subject_name, $subject_code]);
         $teachers = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         if ($teachers) {
             foreach ($teachers as $teacher) {
-                echo "<option  value='{$teacher['teacher_name']}'>{$teacher['teacher_name']}</option>";
+
+
+                echo "<option  value='{$teacher['teacher_id']}'>{$teacher['teacher_id']}</option>";
             }
         } else {
             echo "<option value=''>No teachers found for this subject</option>";
         }
     }
 
+
+    if (isset($_POST['action']) && $_POST['action'] == 'getSubjectId') {
+        global $pdo;
+
+        $semester = $_POST['semester'];
+        $teacher = $_POST['teacher'];
+        $subject_code = $_POST['subject_code'];
+        $subject_name = $_POST['subject_name'];
+
+        try {
+            $stmt = $pdo->prepare("SELECT id FROM subject_with_program_id 
+            WHERE subject_code = ? AND subject_name = ? AND teacher_name = ?");
+            $stmt->execute([$subject_code, $subject_name, $teacher]);
+            $subject = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($subject) {
+                echo '<option value="' . $subject['id'] . '">' . $subject['id'] . '</option>';
+            } else {
+                echo '<option value="">No subjects found</option>';
+            }
+        } catch (PDOException $e) {
+            echo '<option value="">Database Error: ' . $e->getMessage() . '</option>';
+        }
+    }
+
 }
+
+
+
+
+
 ?>

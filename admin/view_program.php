@@ -325,7 +325,7 @@ if (isset($_POST['Updating_form'])) {
                                                 <a style="color: white;" class="fa fa-trash"
                                                     href="./view_program.php?action=delete&program_id=<?php echo $subject['program_id']; ?>&subject_id=<?php echo $subject['id']; ?>"
                                                     onclick="return confirm('Are you sure you want to delete this subject?')"></a>
-                                                <a style="color: white;" class="fa fa-edit"
+                                                <a style="color: white;" class="fa fa-edit" id="editform"
                                                     href="./view_program.php?action=edit&program_id=<?php echo $subject['program_id']; ?>&subject_id=<?php echo $subject['id']; ?>&subject_code=<?php echo $subject['subject_code']; ?>&subject_name=<?php echo $subject['subject_name']; ?>&teacher_name=<?php echo $subject['teacher_name']; ?>&semester=<?php echo $subject['semester']; ?>"></a>
                                             </td>
                                         </tr>
@@ -424,7 +424,7 @@ if (isset($_POST['Updating_form'])) {
                                 <select style="height: 2.4rem; margin-top:5px;" name="teacher_name" id="teacher">
                                     <option value="">Select Teacher</option>
                                     <?php foreach ($teacher as $t) { ?>
-                                        <option value="<?php echo $t['teacher_name']; ?>"><?php echo $t['teacher_name']; ?>
+                                        <option value="<?php echo $t['id']; ?>"><?php echo $t['teacher_name']; ?>
                                         </option>
                                     <?php } ?>
                                 </select>
@@ -443,12 +443,13 @@ if (isset($_POST['Updating_form'])) {
                     <form action="" id="popid" style="display: block;" method="post">
                         <div class="add_subject">
 
-                            <div style="gap: 2px; display: flex;">
+                            <div style="gap: 2px; display: flex; width: 99%;">
 
                                 <input type="text" name="program_id"
                                     value="<?php echo isset($_GET['program_id']) ? $_GET['program_id'] : ''; ?>"
                                     style="display: none;">
-                                <input type="text" hidden name="subject_id" value="<?php echo $_GET['subject_id']; ?>">
+                                <input type="text" hidden name="subject_id"
+                                    value="<?php echo isset($_GET['subject_id']) ? $_GET['subject_id'] : ''; ?>">
                                 <input style="height: 2.4rem; margin-top:5px; width:100%;" type="text"
                                     name="subject_code" placeholder="Update Subject Code"
                                     value="<?php echo (isset($_GET['subject_code'])) ? $_GET['subject_code'] : ''; ?>">
@@ -481,13 +482,33 @@ if (isset($_POST['Updating_form'])) {
                                 <input style="height: 2.4rem; width:100%; margin-top:5px; color: #FFFFFF;" type="submit"
                                     name="Updating_form" id="Updating_form" value="Update" class="btn btn-primary">
 
-                                <input type="button" onclick="window.location.href = './program.php'" value="Back"
-                                    class="btn" style="color: #FFFFFF;">
+                                <input id="back-update" type="button" onclick="window.location.href = './program.php'"
+                                    value="Back" class="btn" style="color: #FFFFFF;">
                             </div>
 
                         </div>
                     </form>
 
+                    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                    <script>
+                        /*  $(document).ready(function () {
+                             $('.fa-edit').on('click', function (e) {
+                                 e.preventDefault();
+ 
+                                 $('#submitting_form').hide();
+                                 $('#popid').show();
+ 
+ 
+                                 $('#semester_label').text('Updating form');
+ 
+ 
+                                 $('#Updating_form').val('Update');
+                             });
+ 
+ 
+                         }); */
+
+                    </script>
                 </div>
             </div>
         </div>

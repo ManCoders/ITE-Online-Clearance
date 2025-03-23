@@ -3,7 +3,7 @@ session_start();
 include "../db_connect.php";
 include "./student_function.php";
 
-// Ensure the user is logged in
+
 if (!isset($_SESSION['student_id'])) {
     header('location: ../index.php');
     exit();
@@ -12,13 +12,14 @@ if (!isset($_SESSION['student_id'])) {
 $student_id = $_SESSION['student_id'];
 
 if (isset($_POST['new_subject'])) {
-    $year = $_POST['year'];
+    $year = $_POST['schoolyear'];
     $subject_code = $_POST['subject_code'];
     $subject_name = $_POST['subject_name'];
     $semester = $_POST['semester'];
     $teacher_name = $_POST['teacher_name'];
-    if (!empty($year) && !empty($subject_code) && !empty($subject_name) && !empty($semester) && !empty($teacher_name)) {
-        InsertStudentSubject($student_id, $year, $subject_code, $subject_name, $semester, $teacher_name);
+    $program = $_POST['program'];
+    if (!empty($year) && !empty($year) && !empty($subject_code) && !empty($subject_name) && !empty($semester) && !empty($teacher_name)) {
+        InsertStudentSubject($program, $student_id, $year, $subject_code, $subject_name, $semester, $teacher_name);
     } else {
         header('location: ./subject_load.php?error=Please fill in all fields');
         exit();
@@ -281,7 +282,7 @@ if (isset($_GET['delete_program'])) {
 
                     <div style="display: flex; margin: 5px;">
                         <label style="width: 8rem; margin: 5px;" for="program">School Year</label>
-                        <select name="year" id="schoolyear"
+                        <select name="schoolyear" id="schoolyear"
                             style="width: 100%; border: 1px solid #ccc; border-radius: 5px;">
                             <option value="">Select School Year</option>
 
@@ -338,6 +339,10 @@ if (isset($_GET['delete_program'])) {
                         </select>
                     </div>
 
+                    <select name="subject_id" hidden id="subject_id">
+                        <option value="">Select subjec_id</option>
+                    </select>
+
 
 
                     <input type="submit" name="new_subject" value="Load">
@@ -385,7 +390,6 @@ if (isset($_GET['delete_program'])) {
 
 
 
-
                     // Fetch subjects when semester is selected
                     $('#semester').change(function () {
                         var semester = $(this).val();
@@ -427,6 +431,7 @@ if (isset($_GET['delete_program'])) {
                         var subject_code = $('#subject_code').val();
                         var subject_name = $('#subject_name').val();
 
+
                         if (subject_name !== "" || subject_code !== "") {
                             $.ajax({
                                 url: "ajax.php",
@@ -440,7 +445,13 @@ if (isset($_GET['delete_program'])) {
                         } else {
                             $('#teacher').prop("disabled", true).html('<option value="">Select Assigned Teacher</option>');
                         }
+
+
                     });
+
+
+
+
 
                 });
 
@@ -608,7 +619,7 @@ if (isset($_GET['delete_program'])) {
                             </tr>
                         </thead>
                         <tbody>
-                            <?php $subject = getStudentSubject();
+                            <?php $subject = getStudentSubject($student_id);
 
                             foreach ($subject as $key => $value) { ?>
                                 <tr>

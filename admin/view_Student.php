@@ -290,7 +290,7 @@ if (isset($_GET['subject_id'])) {
                             <tbody id="subjectList1">
                                 <?php $subject = getSubject1($_GET['program_id']) ?>
                                 <?php foreach ($subject as $index => $row) { ?>
-                                    <?php if ($row['semester'] == 1) { ?>
+                                    <?php if ($row['semester'] == '1') { ?>
                                         <tr>
                                             <td><?php echo $index + 1; ?></td>
                                             <td><?php echo $row['subject_code']; ?></td>
@@ -326,9 +326,11 @@ if (isset($_GET['subject_id'])) {
                             <tbody id="subjectList2">
                                 <tr class="programRow">
 
-                                    <?php $subject = getSubject1($_GET['program_id']) ?>
+                                    <?php
+                                    $program_id = isset($_GET['program_id']) ? $_GET['program_id'] : '';
+                                    $subject = getSubject1($program_id) ?>
                                     <?php foreach ($subject as $index => $row) { ?>
-                                        <?php if ($row['semester'] == 2) { ?>
+                                        <?php if ($row['semester'] == '2') { ?>
                                         <tr>
                                             <td><?php echo $index + 1; ?></td>
                                             <td><?php echo $row['subject_code']; ?></td>
@@ -344,13 +346,13 @@ if (isset($_GET['subject_id'])) {
                         </table>
 
                     </div>
-                    <p class="semester">New Subjects</p>
+                    <!-- <p class="semester">New Subjects</p> -->
                     <?php if (isset($_GET['error'])) { ?>
                         <p style="color: red;"><?php echo $_GET['error']; ?></p>
                     <?php } elseif (isset($_GET['success'])) { ?>
                         <p style="color: green;"><?php echo $_GET['success']; ?></p>
                     <?php } ?>
-                    <form action="" method="post">
+                    <!-- <form action="" method="post">
                         <div class="add_subject">
 
                             <div style="gap: 2px; display: flex;">
@@ -388,10 +390,15 @@ if (isset($_GET['subject_id'])) {
 
                                 <input type="button" onclick="window.location.href = './students.php'" value="Back"
                                     class="btn btn-secondary">
+
                             </div>
 
                         </div>
-                    </form>
+                    </form> -->
+                    <input
+                        style="height: 2.4rem; width:20%; margin-top:5px; border: none; border-radius: 5px; color: #FFFFFF; background-color: #ff3d00;"
+                        type="button" onclick="window.location.href = './students.php'" value="Back"
+                        class="btn btn-secondary">
                 </div>
             </div>
         </div>

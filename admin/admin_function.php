@@ -423,15 +423,26 @@ function editSubjectById($subject_id, $program_id, $subject_name, $subject_code,
 {
     global $pdo;
     try {
+        $sql = "SELECT teacher_name FROM student_with_subjects WHERE program_id=?";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$program_id]);
+
+        $teacher_name_update = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
+
+
+        $sql = "UPDATE student_with_subjects SET teacher_name = ? WHERE subject_name = ? AND subject_code = ? AND semester = ?";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$teacher_name_update, $subject_name, $subject_code, $semester]);
+
         $sql = "UPDATE subject_with_program_id SET subject_name = ?, subject_code = ?, semester =
         ?, teacher_name = ? WHERE id = ? AND program_id = ?";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$subject_name, $subject_code, $semester, $teacher_name, $subject_id, $program_id]);
+        $subject_ids = $pdo->lastInsertId();
 
-        $sql = "UPDATE student_with_subjects SET subject_name = ?, subject_code = ?, semester =
-        ?, teacher_name = ? WHERE subject_id = ?";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([$subject_name, $subject_code, $semester, $teacher_name, $subject_id]);
+
 
 
         header("Location: view_program.php?subject_id=" . $subject_id . "&program_id=" . $program_id . "&status = success&message = Subject updated successfully");
@@ -476,6 +487,27 @@ function DeleteStudentByID($student_code)
     }
 }
 
+function DeleteTeacherWithId($student_code)
+{
+    global $pdo;
+
+    try {
+
+        $stmt = $pdo->prepare("DELETE FROM teacher_login WHERE teacher_id = ?");
+        $stmt->execute([$student_code]);
+
+
+        $stmt3 = $pdo->prepare("DELETE FROM teachers WHERE id = ?");
+        $stmt3->execute([$student_code]);
+
+        header("Location: teachers.php?success=Student Deleted Successfully");
+        exit();
+    } catch (PDOException $e) {
+        header("Location: teachers.php?error=Failed to Delete Student");
+        exit();
+    }
+}
+
 function DeleteMinorByID($minorid)
 {
     global $pdo;
@@ -503,10 +535,25 @@ function getSubjectById($id)
     }
 }
 
+
+function getTeacherWithSubject($teacher_name, $semester)
+{
+    global $pdo;
+    $sql = "SELECT subject_code, subject_name, COUNT(student_id) AS student_count  FROM student_with_subjects WHERE teacher_id = ? AND semester = ? GROUP BY subject_code, subject_name";
+    try {
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$teacher_name, $semester]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        error_log("Database Error: " . $e->getMessage()); // Logs the error
+        return [];
+    }
+}
+
 function getSubject1($id)
 {
     global $pdo;
-    $sql = "SELECT DISTINCT  subject_code, subject_name, teacher_name, id, program_id FROM student_with_subjects WHERE student_id = ?";
+    $sql = "SELECT * FROM student_with_subjects WHERE student_id = ?";
     try {
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$id]);
@@ -516,6 +563,9 @@ function getSubject1($id)
         return [];
     }
 }
+
+
+
 
 function InsertNewStudent($student_id, $lname, $fname, $mname, $contact, $email, $program, $course, $sy)
 {
@@ -688,14 +738,14 @@ function InsertNewSubjectByAdmin($teacher_name, $semester_id, $subject_name, $su
     global $pdo;
 
     try {
-        $stmt = $pdo->prepare("SELECT * FROM subject_with_program_id WHERE semester=? AND program_id=? AND subject_name = ? AND subject_code = ? AND teacher_name = ?");
+        $stmt = $pdo->prepare("SELECT * FROM subject_with_program_id WHERE semester=? AND program_id=? AND subject_name = ? AND subject_code = ? AND teacher_id = ?");
         $stmt->execute([$semester_id, $id, $subject_name, $subject_code, $teacher_name]);
         $exists = $stmt->fetchColumn();
         if ($exists > 0) {
             header('Location: view_program.php?error=Duplicate Error, Please Use Unique Subject Name and Code&program_id=' . $id);
             exit();
         } else {
-            $stmt = $pdo->prepare("INSERT INTO subject_with_program_id ( teacher_name, semester, subject_name, subject_code, program_id ) 
+            $stmt = $pdo->prepare("INSERT INTO subject_with_program_id ( teacher_id, semester, subject_name, subject_code, program_id ) 
                                    VALUES ( ?,?,?,?,?)");
             $stmt->execute([
                 $teacher_name,

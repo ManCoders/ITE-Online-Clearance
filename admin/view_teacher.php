@@ -284,23 +284,26 @@ if (isset($_GET['subject_id'])) {
                                 <th>Failed</th>
                                 <th>Passed</th>
                                 <th>Drop</th>
-                                <th>Actions</th>
                             </tr>
                             <tbody id="subjectList1">
-                                <!-- <?php $subject = getSubject1($_GET['program_id']) ?>
-                                <?php foreach ($subject as $index => $row) { ?>
-                                    <?php if ($row['semester'] == 1) { ?>
-                                        <tr>
-                                            <td><?php echo $index + 1; ?></td>
-                                            <td><?php echo $row['subject_code']; ?></td>
-                                            <td><?php echo $row['subject_name']; ?></td>
-                                            <td><?php echo $row['status']; ?></td>
-                                            <td><?php echo $row['remark']; ?></td>
-                                            <td><?php echo $row['final']; ?></td>
-                                            <td><?php echo $row['teacher_name']; ?></td>
-                                        </tr>
-                                    <?php }
-                                } ?> -->
+                                <?php
+                                $teacher = $_GET['teacher_id'];
+                                $semester_id = 1;
+                                $getTeacher = getTeacherWithSubject($teacher, $semester_id);
+                                foreach ($getTeacher as $index => $subject) {
+                                    ?>
+                                    <tr class="programRow">
+                                        <td><?php echo $index + 1 ?></td>
+                                        <td><?php echo $subject['subject_code']; ?></td>
+                                        <td><?php echo $subject['subject_name']; ?></td>
+                                        <td><?php echo $subject['student_count']; ?></td>
+                                        <!-- 
+                                        <td><?php echo $subject['student_enrolled']; ?></td>
+                                        <td><?php echo $subject['failed']; ?></td>
+                                        <td><?php echo $subject['passed']; ?></td>
+                                        <td><?php echo $subject['drop']; ?></td> -->
+                                    </tr>
+                                <?php } ?>
                             </tbody>
                         </table>
 
@@ -318,26 +321,25 @@ if (isset($_GET['subject_id'])) {
                                 <th>Failed</th>
                                 <th>Passed</th>
                                 <th>Drop</th>
-                                <th>Actions</th>
                             </tr>
 
                             <tbody id="subjectList2">
-                                <tr class="programRow">
-
-                                    <!-- <?php $subject = getSubject1($_GET['program_id']) ?>
-                                    <?php foreach ($subject as $index => $row) { ?>
-                                        <?php if ($row['semester'] == 2) { ?>
-                                        <tr>
-                                            <td><?php echo $index + 1; ?></td>
-                                            <td><?php echo $row['subject_code']; ?></td>
-                                            <td><?php echo $row['subject_name']; ?></td>
-                                            <td><?php echo $row['status']; ?></td>
-                                            <td><?php echo $row['remark']; ?></td>
-                                            <td><?php echo $row['final']; ?></td>
-                                            <td><?php echo $row['teacher_name']; ?></td>
-                                        </tr>
-                                    <?php }
-                                    } ?> -->
+                                <?php
+                                $teacher = $_GET['teacher_id'];
+                                $semester_id = 2;
+                                $getTeacher = getTeacherWithSubject($teacher, $semester_id);
+                                foreach ($getTeacher as $index => $subject) {
+                                    ?>
+                                    <tr class="programRow">
+                                        <td><?php echo $index + 1 ?></td>
+                                        <td><?php echo $subject['subject_code']; ?></td>
+                                        <td><?php echo $subject['subject_name']; ?></td>
+                                        <td><?php echo $subject['student_count']; ?></td>
+                                        <!-- <td><?php echo $subject['failed']; ?></td>
+                                        <td><?php echo $subject['passed']; ?></td>
+                                        <td><?php echo $subject['drop']; ?></td> -->
+                                    </tr>
+                                <?php } ?>
                             </tbody>
                         </table>
 
