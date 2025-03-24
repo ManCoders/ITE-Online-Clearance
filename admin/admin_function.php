@@ -447,7 +447,6 @@ function editSubjectById($teacher_id, $subject_id, $program_id, $subject_name, $
 
         return $e->getMessage();
     }
-
 }
 
 

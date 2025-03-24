@@ -80,16 +80,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <h2>Create Account</h2>
 
             <p align="center"><?php if (isset($_GET['success'])) {
-                echo '<div style="color: green;">' . $_GET['success'] . '</div>';
-            } elseif (isset($_GET['error'])) {
-                echo '<div style="color: red;">' . $_GET['error'] . '</div>';
-            } ?></p>
+                                    echo '<div style="color: green;">' . $_GET['success'] . '</div>';
+                                } elseif (isset($_GET['error'])) {
+                                    echo '<div style="color: red;">' . $_GET['error'] . '</div>';
+                                } ?></p>
 
             <form method="POST" action="">
                 <div class="form-group">
-                    <label for="studentId">Student ID</label>
+                    <label for="studentId"> ID NUMBER</label>
                     <input type="text" name="studentId" value="<?= htmlspecialchars($_POST['studentId'] ?? '') ?>"
-                        placeholder="Enter your Student ID" required>
+                        placeholder="Enter your  ID Number" required>
                 </div>
 
                 <!--  <div class="form-group">
@@ -134,166 +134,166 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 <style>
-    /* Global Styles */
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: "Poppins", sans-serif;
-    }
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
 
-    /* Full-Screen Background */
-    body {
-        background: #6E1313;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        overflow: hidden;
-    }
+/* Full-Screen Background */
+body {
+    background: #6E1313;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
 
-    .container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-    }
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
 
-    /* Signup Box */
-    .signup-box {
-        background: rgba(255, 255, 255, 0.15);
-        backdrop-filter: blur(15px);
-        padding: 30px;
-        border-radius: 15px;
-        text-align: center;
-        width: 360px;
-        box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.2);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        position: relative;
-    }
+/* Signup Box */
+.signup-box {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    width: 360px;
+    box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    position: relative;
+}
 
-    /* Logo Styling */
-    .logo img {
-        width: 90px;
-        height: 90px;
-        border-radius: 50%;
-        object-fit: cover;
-        display: block;
-        margin: -50px auto 10px;
-        /* Moves logo slightly outside the box */
-        border: 4px solid white;
-        background: rgba(255, 255, 255, 0.2);
-    }
+/* Logo Styling */
+.logo img {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    margin: -50px auto 10px;
+    /* Moves logo slightly outside the box */
+    border: 4px solid white;
+    background: rgba(255, 255, 255, 0.2);
+}
 
-    /* Title */
-    h2 {
-        color: black;
-        margin-bottom: 15px;
-        font-size: 22px;
-    }
+/* Title */
+h2 {
+    color: black;
+    margin-bottom: 15px;
+    font-size: 22px;
+}
 
-    /* Input Fields */
-    .form-group {
-        margin-bottom: 15px;
-        text-align: left;
-    }
+/* Input Fields */
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
 
-    .form-group label {
-        display: block;
-        color: black;
-        font-size: 14px;
-        margin-bottom: 5px;
+.form-group label {
+    display: block;
+    color: black;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    background: rgba(255, 255, 255, 0.2);
+    color: black;
+    outline: none;
+    transition: 0.3s;
+}
+
+.form-group input::placeholder {
+    color: black;
+}
+
+.form-group input:focus {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+/* Login Button */
+button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: #ff3d00;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-weight: bold;
+}
+
+button:hover {
+    background: #ff3d00;
+}
+
+/* Signup Link */
+.login-link {
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.login-link a {
+    color: #ffcccb;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
+
+.message {
+    text-align: center;
+    font-weight: bold;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+}
+
+.success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Responsive Design */
+@media (max-width: 400px) {
+    .login-box {
+        width: 90%;
+        padding: 20px;
     }
 
     .form-group input {
-        width: 100%;
-        padding: 12px;
-        border: none;
-        border-radius: 8px;
-        font-size: 16px;
-        background: rgba(255, 255, 255, 0.2);
-        color: black;
-        outline: none;
-        transition: 0.3s;
-    }
-
-    .form-group input::placeholder {
-        color: black;
-    }
-
-    .form-group input:focus {
-        background: rgba(255, 255, 255, 0.4);
-    }
-
-    /* Login Button */
-    button {
-        width: 100%;
-        padding: 12px;
-        border: none;
-        border-radius: 10px;
-        background: #ff3d00;
-        color: white;
-        font-size: 16px;
-        cursor: pointer;
-        transition: 0.3s;
-        font-weight: bold;
-    }
-
-    button:hover {
-        background: #ff3d00;
-    }
-
-    /* Signup Link */
-    .login-link {
-        margin-top: 10px;
         font-size: 14px;
+        padding: 10px;
     }
 
-    .login-link a {
-        color: #ffcccb;
-        font-weight: bold;
-        text-decoration: none;
+    button {
+        font-size: 14px;
+        padding: 10px;
     }
-
-    .login-link a:hover {
-        text-decoration: underline;
-    }
-
-    .message {
-        text-align: center;
-        font-weight: bold;
-        padding: 12px;
-        border-radius: 6px;
-        margin-bottom: 15px;
-    }
-
-    .success {
-        background: #d4edda;
-        color: #155724;
-        border: 1px solid #c3e6cb;
-    }
-
-    .error {
-        background: #f8d7da;
-        color: #721c24;
-        border: 1px solid #f5c6cb;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 400px) {
-        .login-box {
-            width: 90%;
-            padding: 20px;
-        }
-
-        .form-group input {
-            font-size: 14px;
-            padding: 10px;
-        }
-
-        button {
-            font-size: 14px;
-            padding: 10px;
-        }
-    }
+}
 </style>
