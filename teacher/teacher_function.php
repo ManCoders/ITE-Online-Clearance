@@ -312,11 +312,12 @@ function getStudentById($id)
     global $pdo;
     try {
         $stmt = $pdo->prepare("
-        SELECT DISTINCT CONCAT(lname, ' ', mname, ' ', fname) AS student_name , email, course FROM students WHERE id = ?
+        SELECT CONCAT(lname, ' ', mname, ' ', fname) AS student_name , email, course FROM students WHERE id = ?
         ");
         $stmt->execute([$id]);
-        return $stmt->fetch();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
+        error_log("Database Error: " . $e->getMessage()); // Logs the error
         return [];
     }
 }
@@ -439,9 +440,6 @@ function CheckStudentCode($studentId)
         echo "Error: " . $e->getMessage();
     }
     return false;
-
-
-
 }
 
 function StudentNonAct()
@@ -477,7 +475,6 @@ function InsertNewStudentByID($studentID, $lname, $mname, $fname, $contact)
     } catch (Throwable $th) {
         $_SESSION["error"] = "Failed Registration!";
     }
-
 }
 
 
@@ -512,10 +509,8 @@ function AutoStudentID()
         $stmt = $pdo->prepare("SELECT student_code FROM students WHERE student_code = ?");
         $stmt->execute([$studentID]);
         $exists = $stmt->fetchColumn();
-
     } while ($exists > 0);
     return $studentID;
-
 }
 
 
@@ -578,4 +573,3 @@ function getSubjectsById($student_id)
         return $e->getMessage();
     }
 }
-?>

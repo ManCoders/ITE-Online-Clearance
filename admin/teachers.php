@@ -28,7 +28,6 @@ if (isset($_POST['add_employee'])) {
     }
 
     InsertNewTeacher($employee_id, $lname, $fname, $mname, $contact, $email, $profession, $specialization, $schoolyear);
-
 }
 
 
@@ -309,8 +308,8 @@ if (isset($_GET['delete_program'])) {
                     </div>
                     <div style="display:flex; gap:3.9rem;">
                         <label for="">School Year</label>
-                        <label for="">Profession</label>
                         <label for="">Specialization</label>
+                        <label for="">Profession</label>
                     </div>
                     <div style="display: flex; gap: 15px; margin-top: 5px; width: 100%;">
 
@@ -420,14 +419,16 @@ if (isset($_GET['delete_program'])) {
                     document.getElementById('semester_id').addEventListener('input', handleInput);
 
                     function handleInput(event) {
-                        const { id, value } = event.target;
+                        const {
+                            id,
+                            value
+                        } = event.target;
                         console.log(`The current value of ${id} is: ${value}`);
                     }
 
                     function display() {
                         document.getElementById("tableNone").style.display = "block";
                     }
-
                 </script>
             </div>
             <!-- End Filtering structured -->
@@ -482,11 +483,11 @@ if (isset($_GET['delete_program'])) {
         <script src="../assets/libs/sweetalert2/sweetalert2.all.min.js"></script>
 
         <script>
-            document.addEventListener("DOMContentLoaded", function () {
+            document.addEventListener("DOMContentLoaded", function() {
 
                 // Deleting Program
                 document.querySelectorAll(".delete-program").forEach(button => {
-                    button.addEventListener("click", function (event) {
+                    button.addEventListener("click", function(event) {
                         event.preventDefault();
                         let programId = this.getAttribute("section");
 
@@ -508,7 +509,7 @@ if (isset($_GET['delete_program'])) {
                 });
 
                 document.querySelectorAll(".delete-section").forEach(button => {
-                    button.addEventListener("click", function (event) {
+                    button.addEventListener("click", function(event) {
                         event.preventDefault();
 
 

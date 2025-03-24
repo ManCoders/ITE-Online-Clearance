@@ -82,8 +82,9 @@ if (isset($_POST['submit'])) {
                                     <?php } ?>
                                     <div>
                                         <label style="margin:5px" for="subject_name">Student Name</label>
+                                        <?php $student2 =  getStudentById($students['student_id']) ?>
                                         <input style=" text-align: center; " type="text" readonly
-                                            value=" <?php echo $students['student_id']; ?>" name="student_name"
+                                            value="<?php echo $student2['student_name'] ?> " name="student_name"
                                             id="subject_name">
                                         <label style="margin:5px" for="subject_name">Subject </label>
                                         <input style=" text-align: center; " type="text" readonly
@@ -125,52 +126,51 @@ if (isset($_POST['submit'])) {
                                     </div>
                                 </div>
                             </form>
-                        </div>
-
-
-                        <div class="table_content" style="text-align:center; margin-top: 1rem;">
-                            <table>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Subject Name</th>
-                                    <th>Student Name</th>
-                                    <th>Email</th>
-                                    <th>Status</th>
-                                    <th>Remark</th>
-                                    <th>Final Remark</th>
-                                </tr>
-                                <tbody>
-
-                                    <tr>
-                                        <td>
-                                            <?php echo $index + 1; ?>
-                                        </td>
-                                        <td>
-                                            <?php echo $students['subject_name']; ?>
-                                        </td>
-                                        <td>
-                                            <?php echo $students['student_id']; ?>
-                                        </td>
-                                        <td>
-                                            <?php echo $students['student_id']; ?>
-                                        </td>
-                                        <td>
-                                            <?php echo $students['status']; ?>
-                                        </td>
-                                        <td>
-                                            <?php echo $students['remark']; ?>
-                                        </td>
-                                        <td>
-                                            <?php echo $students['final']; ?>
-                                        </td>
-
-                                    </tr>
-
-                                </tbody>
-                            </table>
-                        </div>
                     </div>
-                <?php } ?>
+
+
+                    <div class="table_content" style="text-align:center; margin-top: 1rem;">
+                        <table>
+                            <tr>
+                                <th>#</th>
+                                <th>Subject Name</th>
+                                <th>Student Name</th>
+                                <th>Email</th>
+                                <th>Status</th>
+                                <th>Remark</th>
+                                <th>Final Remark</th>
+                            </tr>
+                            <tbody>
+
+                                <tr>
+                                    <td>
+                                        <?php echo $index + 1; ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $students['subject_name']; ?>
+                                    </td>
+                                    <?php $student =  getStudentById($students['student_id']) ?>
+                                    <td><?php echo ($student['student_name']); ?></td>
+                                    <td>
+                                        <?php echo $students['student_id']; ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $students['status']; ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $students['remark']; ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $students['final']; ?>
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            <?php } ?>
             </div>
 
         </div>
