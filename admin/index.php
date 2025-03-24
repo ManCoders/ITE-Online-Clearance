@@ -9,7 +9,7 @@ if (!isset($_SESSION['admin_id'])) {
 }
 
 $sampleData = [
-    'sections' => [],
+
     'programs' => [],
     'subjects' => [],
     'students' => [],
@@ -18,14 +18,7 @@ $sampleData = [
 
 
 
-$sections_query = "SELECT * FROM sections";
-$section_result = $pdo->prepare($sections_query);
-$section_result->execute();
-if ($section_result->rowCount() > 0) {
-    while ($row = $section_result->fetch()) {
-        $sampleData['sections'][] = $row['section_name']; // Renamed key
-    }
-}
+
 
 
 $programs_query = "SELECT * FROM programs_with_subjects";
