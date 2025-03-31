@@ -136,12 +136,12 @@ function getStudentDetailsById($id)
 
 
 
-function updateStudent($subject_id, $remark, $status, $final)
+function updateStudent($subject_id, $remark, $status, $final, $grade)
 {
     global $pdo;
     try {
-        $stmt = $pdo->prepare("UPDATE student_with_subjects SET remark = ?, status = ?, final = ?  WHERE id = ?");
-        $stmt->execute([$remark, $status, $final, $subject_id]);
+        $stmt = $pdo->prepare("UPDATE student_with_subjects SET remark = ?, status = ?, final = ?, grade = ?  WHERE id = ?");
+        $stmt->execute([$remark, $status, $final,$grade, $subject_id]);
         header("Location: students.php?success=Record updated successfully.");
         exit();
     } catch (PDOException $e) {

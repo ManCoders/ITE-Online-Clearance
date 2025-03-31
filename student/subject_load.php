@@ -611,7 +611,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['subjec
                         <thead>
                             <tr>
                                 <th>No :</th>
-                                <th>Grade</th>
+                                
                                 <th>Course No</th>
                                 <th>Course Title</th>
                                 <th>Semester</th>
@@ -625,7 +625,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['subjec
                             foreach ($subject as $key => $value) { ?>
                                 <tr>
                                     <td style="text-align: center;"><?php echo $key + 1 ?></td>
-                                    <td style="text-align: center;"><?php echo $value['grade'] ?></td>
+                                    
                                     <td><?php echo $value['subject_code'] ?></td>
                                     <td><?php echo $value['subject_name'] ?>
                                     </td>

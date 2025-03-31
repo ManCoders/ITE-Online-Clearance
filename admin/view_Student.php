@@ -281,9 +281,10 @@ if (isset($_GET['subject_id'])) {
                                 <th>#</th>
                                 <th>Course Code</th>
                                 <th>Course Title</th>
+                                <th>Grade</th>
                                 <th>Status</th>
                                 <th>Remark</th>
-                                <th>Final</th>
+                                <th>Initial</th>
                                 <th>Instructor</th>
                                 <!-- <th>Actions</th> -->
                             </tr>
@@ -295,6 +296,7 @@ if (isset($_GET['subject_id'])) {
                                             <td><?php echo $index + 1; ?></td>
                                             <td><?php echo $row['subject_code']; ?></td>
                                             <td><?php echo $row['subject_name']; ?></td>
+                                            <td><?php echo $row['grade']; ?></td>
                                             <td><?php echo $row['status']; ?></td>
                                             <td><?php echo $row['remark']; ?></td>
                                             <td><?php echo $row['final']; ?></td>
@@ -316,9 +318,10 @@ if (isset($_GET['subject_id'])) {
                                 <th>#</th>
                                 <th>Course Code</th>
                                 <th>Course Title</th>
+                                <th>Grade</th>
                                 <th>Status</th>
                                 <th>Remark</th>
-                                <th>Final</th>
+                                <th>Initial</th>
                                 <th>Instructor</th>
                                 <!-- 
                                 <th>Actions</th> -->
@@ -336,6 +339,7 @@ if (isset($_GET['subject_id'])) {
                                             <td><?php echo $index + 1; ?></td>
                                             <td><?php echo $row['subject_code']; ?></td>
                                             <td><?php echo $row['subject_name']; ?></td>
+                                            <td><?php echo $row['grade']; ?></td>
                                             <td><?php echo $row['status']; ?></td>
                                             <td><?php echo $row['remark']; ?></td>
                                             <td><?php echo $row['final']; ?></td>

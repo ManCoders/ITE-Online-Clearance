@@ -264,9 +264,10 @@ $teacher_id = $_SESSION['teacher_id'];
                                 <th>Course Code</th>
                                 <th>Course Title</th>
                                 <th>Student Name</th>
+                                <th>Grade</th>
                                 <th>Status</th>
                                 <th>Remark</th>
-                                <th>Final Result</th>
+                                <th>Initial</th>
                                 <th>Action</th>
                             </tr>
                             <tbody id="subjectList1">
@@ -279,6 +280,7 @@ $teacher_id = $_SESSION['teacher_id'];
                                     <td><?php echo $row['subject_name']; ?></td>
                                     <?php $students =  getStudentById($row['student_id']) ?>
                                     <td><?php echo htmlspecialchars($students['student_name']); ?></td>
+                                    <td><?php echo $row['grade']; ?></td>
                                     <td><?php echo $row['status']; ?></td>
                                     <td><?php echo $row['remark']; ?></td>
                                     <td><?php echo $row['final']; ?></td>
@@ -310,10 +312,10 @@ $teacher_id = $_SESSION['teacher_id'];
                                 <th>#</th>
                                 <th>Course Code</th>
                                 <th>Course Title</th>
-                                <th>Student Name</th>
+                                <th>Student Name</th><th>Grade</th>
                                 <th>Status</th>
                                 <th>Remark</th>
-                                <th>Final Result</th>
+                                <th>Initial</th>
                                 <th>Action</th>
                             </tr>
                             <tbody id="subjectList2">
@@ -326,6 +328,7 @@ $teacher_id = $_SESSION['teacher_id'];
                                     <td><?php echo $row['subject_name']; ?></td>
                                     <?php $students =  getStudentById($row['student_id']) ?>
                                     <td><?php echo htmlspecialchars($students['student_name']); ?></td>
+                                    <td><?php echo $row['grade']; ?></td>
                                     <td><?php echo $row['status']; ?></td>
                                     <td><?php echo $row['remark']; ?></td>
                                     <td><?php echo $row['final']; ?></td>

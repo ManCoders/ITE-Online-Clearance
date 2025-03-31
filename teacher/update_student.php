@@ -18,9 +18,10 @@ if (isset($_POST['submit'])) {
     $subject_id = $_POST['subject_id'];
     $status = $_POST['status'];
     $remark = $_POST['remark'];
+    $grade = doubleval($_POST['grade']);
     $final_remark = $_POST['final'];
 
-    updateStudent($subject_id, $remark, $status, $final_remark);
+    updateStudent($subject_id, $remark, $status, $final_remark, $grade);
 }
 
 ?>
@@ -89,11 +90,13 @@ if (isset($_POST['submit'])) {
                                         <label style="margin:5px" for="subject_name">Subject </label>
                                         <input style=" text-align: center; " type="text" readonly
                                             value=" <?php echo $students['subject_name']; ?>">
+                                        <label for="grade">Grade</label>
+                                        <input style=" text-align: center; " type="text" name="grade" id="grade" value=" <?php echo $students['grade']; ?>" required>
                                     </div>
                                     <div style=" margin: 5px; display: flex; gap:6.5rem;">
                                         <label for="status">Status</label>
                                         <label for="Remark">Remark</label>
-                                        <label for="Final">Final</label>
+                                        <label for="Final">Initial</label>
 
                                     </div>
                                     <div style=" margin:5px; gap: 10px;">
@@ -108,12 +111,13 @@ if (isset($_POST['submit'])) {
                                             <option value="Completed">Completed</option>
                                             <option value="Lack of Requirements">Lack of Requirements</option>
                                             <option value="Not Attending">Not Attending</option>
+                                            <option value="No Examination">No Examination</option>
                                             <option value="Drop out">Drop out</option>
                                         </select>
                                         <select name="final" id="" required>
                                             <option value="">SELECT FINAL</option>
-                                            <option value="Passed">Passed</option>
-                                            <option value="Failed">Failed</option>
+                                            <option value="Not Cleared">Not Cleared</option>
+                                            <option value="Cleared">Cleared</option>
                                         </select>
                                     </div>
 
@@ -136,9 +140,11 @@ if (isset($_POST['submit'])) {
                                 <th>Subject Name</th>
                                 <th>Student Name</th>
                                 <th>Email</th>
+                                <th>Grade</th>
+                                
                                 <th>Status</th>
                                 <th>Remark</th>
-                                <th>Final Remark</th>
+                                <th>Initial</th>
                             </tr>
                             <tbody>
 
@@ -151,8 +157,12 @@ if (isset($_POST['submit'])) {
                                     </td>
                                     <?php $student =  getStudentById($students['student_id']) ?>
                                     <td><?php echo ($student['student_name']); ?></td>
+                                    
                                     <td>
-                                        <?php echo $students['student_id']; ?>
+                                        <?php echo $student['email']; ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $students['grade']; ?>
                                     </td>
                                     <td>
                                         <?php echo $students['status']; ?>
@@ -348,7 +358,7 @@ if (isset($_POST['submit'])) {
         }
 
         .table_content {
-            height: 12rem;
+            height: 9rem;
             background-color: #6E1313;
             overflow: hidden;
             overflow-y: scroll;

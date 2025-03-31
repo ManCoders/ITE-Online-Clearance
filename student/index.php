@@ -259,9 +259,10 @@ $student_id = $_SESSION['student_id'];
                                 <th>#</th>
                                 <th>Course Code</th>
                                 <th>Course Title</th>
+                                <th>Grade</th>
                                 <th>Status</th>
                                 <th>Remark</th>
-                                <th>Final</th>
+                                <th>Initial</th>
                                 <th>Instructor</th>
                             </tr>
                             <tbody id="subjectList1">
@@ -269,19 +270,20 @@ $student_id = $_SESSION['student_id'];
                                     <?php $subject = getSubject2($student_id) ?>
                                     <?php foreach ($subject as $index => $row) { ?>
                                         <?php if ($row['semester'] == 1) { ?>
-                                        <tr>
-                                            <td><?php echo $index + 1; ?></td>
-                                            <td><?php echo $row['subject_code']; ?></td>
-                                            <td><?php echo $row['subject_name']; ?></td>
-                                            <td><?php echo $row['status']; ?></td>
-                                            <td><?php echo $row['remark']; ?></td>
-                                            <td><?php echo $row['final']; ?></td>
-                                            <?php $teacher = getTeacherById($row['teacher_id']); ?>
-                                            <td><?php echo $teacher['teacher_name']; ?></td>
-                                        </tr>
-                                    <?php }
-                                    } ?>
+                                <tr>
+                                    <td><?php echo $index + 1; ?></td>
+                                    <td><?php echo $row['subject_code']; ?></td>
+                                    <td><?php echo $row['subject_name']; ?></td>
+                                    <td><?php echo $row['grade']; ?></td>
+                                    <td><?php echo $row['status']; ?></td>
+                                    <td><?php echo $row['remark']; ?></td>
+                                    <td><?php echo $row['final']; ?></td>
+                                    <?php $teacher = getTeacherById($row['teacher_id']); ?>
+                                    <td><?php echo $teacher['teacher_name']; ?></td>
                                 </tr>
+                        <?php }
+                                    } ?>
+                        </tr>
                             </tbody>
                         </table>
                     </div>
@@ -293,9 +295,10 @@ $student_id = $_SESSION['student_id'];
                                 <th>#</th>
                                 <th>Course Code</th>
                                 <th>Course Title</th>
+                                <th>Grade</th>
                                 <th>Status</th>
                                 <th>Remark</th>
-                                <th>Final</th>
+                                <th>Initial</th>
                                 <th>Instructor</th>
 
                             </tr>
@@ -305,20 +308,21 @@ $student_id = $_SESSION['student_id'];
                                     <?php $subject = getSubject2($student_id) ?>
                                     <?php foreach ($subject as $index => $row) { ?>
                                         <?php if ($row['semester'] == 2) { ?>
-                                        <tr>
-                                            <td><?php echo $index + 1; ?></td>
-                                            <td><?php echo $row['subject_code']; ?></td>
-                                            <td><?php echo $row['subject_name']; ?></td>
-                                            <td><?php echo $row['status']; ?></td>
-                                            <td><?php echo $row['remark']; ?></td>
-                                            <td><?php echo $row['final']; ?></td>
-                                            <?php $teacher = getTeacherById($row['teacher_id']); ?>
-                                            <td><?php echo $teacher['teacher_name']; ?></td>
+                                <tr>
+                                    <td><?php echo $index + 1; ?></td>
+                                    <td><?php echo $row['subject_code']; ?></td>
+                                    <td><?php echo $row['subject_name']; ?></td>
+                                    <td><?php echo $row['grade']; ?></td>
+                                    <td><?php echo $row['status']; ?></td>
+                                    <td><?php echo $row['remark']; ?></td>
+                                    <td><?php echo $row['final']; ?></td>
+                                    <?php $teacher = getTeacherById($row['teacher_id']); ?>
+                                    <td><?php echo $teacher['teacher_name']; ?></td>
 
-                                        </tr>
-                                    <?php }
-                                    } ?>
                                 </tr>
+                        <?php }
+                                    } ?>
+                        </tr>
                             </tbody>
                         </table>
 
@@ -326,23 +330,26 @@ $student_id = $_SESSION['student_id'];
 
                     <div
                         style="padding: 5px; background-color: #ff3d00; width: 10%; margin: 5px; border-radius: 5px; text-align: center; ">
-                        <a style="color: #FFFFFF;" href="http://" target="_blank" rel="noopener noreferrer"><i
+                        <a style="color: #FFFFFF;" href="./printpage.php?student_id=<?php echo $student_id ?>" target="./printpage.php" rel="noopener noreferrer"><i
                                 class="fa fa-print"></i></a>
                     </div>
+                    </div>
+
                 </div>
 
-            </div>
-
-
-
-
+        </div>
+        <div style="text-align: center; margin-top: 10px;">
+            <a href="download_pdf.php" class="btn" style="background-color: #ff3d00; color: white; padding: 10px; border-radius: 5px; text-decoration: none;">
+                <i class="fa fa-download"></i> Download PDF
+            </a>
         </div>
 
 
+
         <script>
-            document.addEventListener("DOMContentLoaded", function () {
+            document.addEventListener("DOMContentLoaded", function() {
                 document.querySelectorAll(".delete_subject").forEach(button => {
-                    button.addEventListener("click", function (event) {
+                    button.addEventListener("click", function(event) {
                         event.preventDefault();
                         let subject_id = this.getAttribute("subject");
                         let program_id = this.getAttribute("program");
@@ -393,7 +400,6 @@ $student_id = $_SESSION['student_id'];
 
                 }
             });
-
         </script>
 
 </body>
