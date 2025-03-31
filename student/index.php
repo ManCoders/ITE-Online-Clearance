@@ -215,7 +215,8 @@ $student_id = $_SESSION['student_id'];
     }
 
     .year_level {
-        margin: 10px;
+        padding: 10px;
+        font-size: 1.2rem;
     }
     </style>
 </head>
@@ -333,7 +334,7 @@ $student_id = $_SESSION['student_id'];
 
                     </div>
 
-                    <h2 class="">2nd year college</h2>
+                    <h2 class="year_level">2nd year college</h2>
                     <p class="semester">1st Semester</p>
 
                     <div class="table_content" style="text-align:center;">
@@ -411,7 +412,7 @@ $student_id = $_SESSION['student_id'];
 
                     </div>
 
-                    <h2 class="">3rd year college</h2>
+                    <h2 class="year_level">3rd year college</h2>
                     <p class="semester">1st Semester</p>
 
                     <div class="table_content" style="text-align:center;">
@@ -488,7 +489,7 @@ $student_id = $_SESSION['student_id'];
                         </table>
 
                     </div>
-                    <h2 class="">4th year college</h2>
+                    <h2 class="year_level">4th year college</h2>
                     <p class="semester">1st Semester</p>
 
                     <div class="table_content" style="text-align:center;">
