@@ -119,6 +119,15 @@ function getSection()
     }
 }
 
+function getCollegeLevel()
+{
+
+    global $pdo;
+    $stmt = $pdo->prepare("SELECT * FROM college_level");
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 function GetCourse()
 {
     global $pdo;
@@ -576,7 +585,7 @@ function getSubject1($id)
 
 
 
-function InsertNewStudent($student_id, $lname, $fname, $mname, $contact, $email, $program, $course, $sy, $section)
+function InsertNewStudent($student_id, $lname, $fname, $mname, $contact, $email, $program, $course, $sy, $level)
 {
     global $pdo;
     try {

@@ -141,7 +141,7 @@ function updateStudent($subject_id, $remark, $status, $final, $grade)
     global $pdo;
     try {
         $stmt = $pdo->prepare("UPDATE student_with_subjects SET remark = ?, status = ?, final = ?, grade = ?  WHERE id = ?");
-        $stmt->execute([$remark, $status, $final,$grade, $subject_id]);
+        $stmt->execute([$remark, $status, $final, $grade, $subject_id]);
         header("Location: students.php?success=Record updated successfully.");
         exit();
     } catch (PDOException $e) {
@@ -321,6 +321,7 @@ function getStudentById($id)
         return [];
     }
 }
+
 
 function getSection($section_id)
 {

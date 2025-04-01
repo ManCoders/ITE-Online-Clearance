@@ -21,16 +21,15 @@ if (isset($_POST['new_student'])) {
         $email = $_POST['email'];
         $program = $_POST['program'];
         $course = $_POST['course'];
-        $section = &$_POST['sections'];
+        $college_level = &$_POST['college_level'];
         $SY = $_POST['schoolYear'];
 
-        if (empty($section) ||empty($SY) || empty($student_id) || empty($lname) || empty($fname) || empty($mname) || empty($contact) || empty($email) || empty($program) || empty($course)) {
+        if (empty($college_level) || empty($SY) || empty($student_id) || empty($lname) || empty($fname) || empty($mname) || empty($contact) || empty($email) || empty($program) || empty($course)) {
             header('location: ?error=Please fill in all fields');
             exit();
         }
 
-        InsertNewStudent($student_id, $lname, $fname, $mname, $contact, $email, $program, $course, $SY . $section);
-
+        InsertNewStudent($student_id, $lname, $fname, $mname, $contact, $email, $program, $course, $SY, $college_level);
     }
 }
 
@@ -348,13 +347,13 @@ if (isset($_GET['delete_program'])) {
                             </option>
                             <?php } ?>
                         </select>
-                        <select style=" padding: 5px; width: 100%;" name="sections" id="sections">
-                            <option value="">Select Section</option>
+                        <select style=" padding: 5px; width: 100%;" name="college_level" id="college_level">
+                            <option value="">Select college level</option>
                             <?php
-                            $years = getSection();
+                            $level = getCollegeLevel();
 
-                            foreach ($years as $year) { ?>
-                            <option value="<?php echo $year['id']; ?>"><?php echo $year['section_name'] ?>
+                            foreach ($level as $levels) { ?>
+                            <option value="<?php echo $levels['id']; ?>"><?php echo $levels['year_level'] ?>
                             </option>
                             <?php } ?>
                         </select>
@@ -477,7 +476,7 @@ if (isset($_GET['delete_program'])) {
                                     (!isset($_GET['course']) || $_GET['course'] == '' || $_GET['course'] == $program['course'])
 
                                 ) {
-                                    ?>
+                            ?>
                             <tr style="text-align: center;">
                                 <td style="margin-left: 5px;">
                                     <?php echo $index + 1 ?>.
