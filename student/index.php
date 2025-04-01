@@ -218,6 +218,11 @@ $student_id = $_SESSION['student_id'];
         padding: 10px;
         font-size: 1.2rem;
     }
+
+    .line-box {
+        border: 2px rgb(0, 0, 0) solid;
+        margin-top: 10px;
+    }
     </style>
 </head>
 
@@ -256,332 +261,339 @@ $student_id = $_SESSION['student_id'];
                             <?php echo $student['email']; ?></i></span>
 
                     <?php } ?>
-                    <h2 class="year_level">1st year college</h2>
-                    <p class="semester">1st Semester</p>
-
-                    <div class="table_content" style="text-align:center;">
-                        <table>
-                            <tr>
-                                <th>#</th>
-                                <th>Course Code</th>
-                                <th>Course Title</th>
-                                <th>Grade</th>
-                                <th>Status</th>
-                                <th>Remark</th>
-                                <th>Initial</th>
-                                <th>Instructor</th>
-                            </tr>
-                            <tbody id="subjectList1">
-                                <tr class="programRow">
-                                    <?php $subject = getSubject2($student_id) ?>
-                                    <?php foreach ($subject as $index => $row) { ?>
-                                    <?php if ($row['semester'] == 1) { ?>
-                                <tr>
-                                    <td><?php echo $index + 1; ?></td>
-                                    <td><?php echo $row['subject_code']; ?></td>
-                                    <td><?php echo $row['subject_name']; ?></td>
-                                    <td><?php echo $row['grade']; ?></td>
-                                    <td><?php echo $row['status']; ?></td>
-                                    <td><?php echo $row['remark']; ?></td>
-                                    <td><?php echo $row['final']; ?></td>
-                                    <?php $teacher = getTeacherById($row['teacher_id']); ?>
-                                    <td><?php echo $teacher['teacher_name']; ?></td>
-                                </tr>
-                                <?php }
-                                    } ?>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <p class="semester">2nd Semester</p>
-                    <div class="table_content" style="text-align:center;">
-                        <table>
-
-                            <tr>
-                                <th>#</th>
-                                <th>Course Code</th>
-                                <th>Course Title</th>
-                                <th>Grade</th>
-                                <th>Status</th>
-                                <th>Remark</th>
-                                <th>Initial</th>
-                                <th>Instructor</th>
-
-                            </tr>
-
-                            <tbody id="subjectList2">
-                                <tr class="programRow">
-                                    <?php $subject = getSubject2($student_id) ?>
-                                    <?php foreach ($subject as $index => $row) { ?>
-                                    <?php if ($row['semester'] == 2) { ?>
-                                <tr>
-                                    <td><?php echo $index + 1; ?></td>
-                                    <td><?php echo $row['subject_code']; ?></td>
-                                    <td><?php echo $row['subject_name']; ?></td>
-                                    <td><?php echo $row['grade']; ?></td>
-                                    <td><?php echo $row['status']; ?></td>
-                                    <td><?php echo $row['remark']; ?></td>
-                                    <td><?php echo $row['final']; ?></td>
-                                    <?php $teacher = getTeacherById($row['teacher_id']); ?>
-                                    <td><?php echo $teacher['teacher_name']; ?></td>
-
-                                </tr>
-                                <?php }
-                                    } ?>
-                                </tr>
-                            </tbody>
-                        </table>
-
+                    <div style="text-align: end; margin-top: 10px;">
+                        <a href="download_pdf.php" class="btn"
+                            style="background-color: #ff3d00; color: white; padding: 10px; border-radius: 5px; text-decoration: none;">
+                            <i class="fa fa-download"></i> Download PDF
+                        </a>
                     </div>
 
-                    <h2 class="year_level">2nd year college</h2>
-                    <p class="semester">1st Semester</p>
 
-                    <div class="table_content" style="text-align:center;">
-                        <table>
-                            <tr>
-                                <th>#</th>
-                                <th>Course Code</th>
-                                <th>Course Title</th>
-                                <th>Grade</th>
-                                <th>Status</th>
-                                <th>Remark</th>
-                                <th>Initial</th>
-                                <th>Instructor</th>
-                            </tr>
-                            <tbody id="subjectList1">
-                                <tr class="programRow">
-                                    <?php $subject = getSubject2($student_id) ?>
-                                    <?php foreach ($subject as $index => $row) { ?>
-                                    <?php if ($row['semester'] == 1) { ?>
+                    <div class="line-box">
+                        <h2 class="year_level">1st year college</h2>
+                        <p class="semester">1st Semester</p>
+
+                        <div class="table_content" style="text-align:center;">
+                            <table>
                                 <tr>
-                                    <td><?php echo $index + 1; ?></td>
-                                    <td><?php echo $row['subject_code']; ?></td>
-                                    <td><?php echo $row['subject_name']; ?></td>
-                                    <td><?php echo $row['grade']; ?></td>
-                                    <td><?php echo $row['status']; ?></td>
-                                    <td><?php echo $row['remark']; ?></td>
-                                    <td><?php echo $row['final']; ?></td>
-                                    <?php $teacher = getTeacherById($row['teacher_id']); ?>
-                                    <td><?php echo $teacher['teacher_name']; ?></td>
+                                    <th>#</th>
+                                    <th>Course Code</th>
+                                    <th>Course Title</th>
+                                    <th>Grade</th>
+                                    <th>Status</th>
+                                    <th>Remark</th>
+                                    <th>Initial</th>
+                                    <th>Instructor</th>
                                 </tr>
-                                <?php }
-                                    } ?>
+                                <tbody id="subjectList1">
+                                    <tr class="programRow">
+                                        <?php $subject = getSubject2($student_id) ?>
+                                        <?php foreach ($subject as $index => $row) { ?>
+                                        <?php if ($row['semester'] == 1 && $row['college_level'] == 1) { ?>
+                                    <tr>
+                                        <td><?php echo $index + 1; ?></td>
+                                        <td><?php echo $row['subject_code']; ?></td>
+                                        <td><?php echo $row['subject_name']; ?></td>
+                                        <td><?php echo $row['grade']; ?></td>
+                                        <td><?php echo $row['status']; ?></td>
+                                        <td><?php echo $row['remark']; ?></td>
+                                        <td><?php echo $row['final']; ?></td>
+                                        <?php $teacher = getTeacherById($row['teacher_id']); ?>
+                                        <td><?php echo $teacher['teacher_name']; ?></td>
+                                    </tr>
+                                    <?php }
+                                        } ?>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="semester">2nd Semester</p>
+                        <div class="table_content" style="text-align:center;">
+                            <table>
+
+                                <tr>
+                                    <th>#</th>
+                                    <th>Course Code</th>
+                                    <th>Course Title</th>
+                                    <th>Grade</th>
+                                    <th>Status</th>
+                                    <th>Remark</th>
+                                    <th>Initial</th>
+                                    <th>Instructor</th>
+
                                 </tr>
-                            </tbody>
-                        </table>
+
+                                <tbody id="subjectList2">
+                                    <tr class="programRow">
+                                        <?php $subject = getSubject2($student_id) ?>
+                                        <?php foreach ($subject as $index => $row) { ?>
+                                        <?php if ($row['semester'] == 2 && $row['college_level'] == 1) { ?>
+                                    <tr>
+                                        <td><?php echo $index + 1; ?></td>
+                                        <td><?php echo $row['subject_code']; ?></td>
+                                        <td><?php echo $row['subject_name']; ?></td>
+                                        <td><?php echo $row['grade']; ?></td>
+                                        <td><?php echo $row['status']; ?></td>
+                                        <td><?php echo $row['remark']; ?></td>
+                                        <td><?php echo $row['final']; ?></td>
+                                        <?php $teacher = getTeacherById($row['teacher_id']); ?>
+                                        <td><?php echo $teacher['teacher_name']; ?></td>
+
+                                    </tr>
+                                    <?php }
+                                        } ?>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
                     </div>
-                    <p class="semester">2nd Semester</p>
-                    <div class="table_content" style="text-align:center;">
-                        <table>
+                    <div class="line-box">
+                        <h2 class="year_level">2nd year college</h2>
+                        <p class="semester">1st Semester</p>
 
-                            <tr>
-                                <th>#</th>
-                                <th>Course Code</th>
-                                <th>Course Title</th>
-                                <th>Grade</th>
-                                <th>Status</th>
-                                <th>Remark</th>
-                                <th>Initial</th>
-                                <th>Instructor</th>
-
-                            </tr>
-
-                            <tbody id="subjectList2">
-                                <tr class="programRow">
-                                    <?php $subject = getSubject2($student_id) ?>
-                                    <?php foreach ($subject as $index => $row) { ?>
-                                    <?php if ($row['semester'] == 2) { ?>
+                        <div class="table_content" style="text-align:center;">
+                            <table>
                                 <tr>
-                                    <td><?php echo $index + 1; ?></td>
-                                    <td><?php echo $row['subject_code']; ?></td>
-                                    <td><?php echo $row['subject_name']; ?></td>
-                                    <td><?php echo $row['grade']; ?></td>
-                                    <td><?php echo $row['status']; ?></td>
-                                    <td><?php echo $row['remark']; ?></td>
-                                    <td><?php echo $row['final']; ?></td>
-                                    <?php $teacher = getTeacherById($row['teacher_id']); ?>
-                                    <td><?php echo $teacher['teacher_name']; ?></td>
+                                    <th>#</th>
+                                    <th>Course Code</th>
+                                    <th>Course Title</th>
+                                    <th>Grade</th>
+                                    <th>Status</th>
+                                    <th>Remark</th>
+                                    <th>Initial</th>
+                                    <th>Instructor</th>
+                                </tr>
+                                <tbody id="subjectList1">
+                                    <tr class="programRow">
+                                        <?php $subject = getSubject2($student_id) ?>
+                                        <?php foreach ($subject as $index => $row) { ?>
+                                        <?php if ($row['semester'] == 1 && $row['college_level'] == 2) { ?>
+                                    <tr>
+                                        <td><?php echo $index + 1; ?></td>
+                                        <td><?php echo $row['subject_code']; ?></td>
+                                        <td><?php echo $row['subject_name']; ?></td>
+                                        <td><?php echo $row['grade']; ?></td>
+                                        <td><?php echo $row['status']; ?></td>
+                                        <td><?php echo $row['remark']; ?></td>
+                                        <td><?php echo $row['final']; ?></td>
+                                        <?php $teacher = getTeacherById($row['teacher_id']); ?>
+                                        <td><?php echo $teacher['teacher_name']; ?></td>
+                                    </tr>
+                                    <?php }
+                                        } ?>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="semester">2nd Semester</p>
+                        <div class="table_content" style="text-align:center;">
+                            <table>
+
+                                <tr>
+                                    <th>#</th>
+                                    <th>Course Code</th>
+                                    <th>Course Title</th>
+                                    <th>Grade</th>
+                                    <th>Status</th>
+                                    <th>Remark</th>
+                                    <th>Initial</th>
+                                    <th>Instructor</th>
 
                                 </tr>
-                                <?php }
-                                    } ?>
-                                </tr>
-                            </tbody>
-                        </table>
 
+                                <tbody id="subjectList2">
+                                    <tr class="programRow">
+                                        <?php $subject = getSubject2($student_id) ?>
+                                        <?php foreach ($subject as $index => $row) { ?>
+                                        <?php if ($row['semester'] == 2 && $row['college_level'] == 2) { ?>
+                                    <tr>
+                                        <td><?php echo $index + 1; ?></td>
+                                        <td><?php echo $row['subject_code']; ?></td>
+                                        <td><?php echo $row['subject_name']; ?></td>
+                                        <td><?php echo $row['grade']; ?></td>
+                                        <td><?php echo $row['status']; ?></td>
+                                        <td><?php echo $row['remark']; ?></td>
+                                        <td><?php echo $row['final']; ?></td>
+                                        <?php $teacher = getTeacherById($row['teacher_id']); ?>
+                                        <td><?php echo $teacher['teacher_name']; ?></td>
+
+                                    </tr>
+                                    <?php }
+                                        } ?>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
                     </div>
+                    <div class="line-box">
+                        <h2 class="year_level">3rd year college</h2>
+                        <p class="semester">1st Semester</p>
 
-                    <h2 class="year_level">3rd year college</h2>
-                    <p class="semester">1st Semester</p>
-
-                    <div class="table_content" style="text-align:center;">
-                        <table>
-                            <tr>
-                                <th>#</th>
-                                <th>Course Code</th>
-                                <th>Course Title</th>
-                                <th>Grade</th>
-                                <th>Status</th>
-                                <th>Remark</th>
-                                <th>Initial</th>
-                                <th>Instructor</th>
-                            </tr>
-                            <tbody id="subjectList1">
-                                <tr class="programRow">
-                                    <?php $subject = getSubject2($student_id) ?>
-                                    <?php foreach ($subject as $index => $row) { ?>
-                                    <?php if ($row['semester'] == 1) { ?>
+                        <div class="table_content" style="text-align:center;">
+                            <table>
                                 <tr>
-                                    <td><?php echo $index + 1; ?></td>
-                                    <td><?php echo $row['subject_code']; ?></td>
-                                    <td><?php echo $row['subject_name']; ?></td>
-                                    <td><?php echo $row['grade']; ?></td>
-                                    <td><?php echo $row['status']; ?></td>
-                                    <td><?php echo $row['remark']; ?></td>
-                                    <td><?php echo $row['final']; ?></td>
-                                    <?php $teacher = getTeacherById($row['teacher_id']); ?>
-                                    <td><?php echo $teacher['teacher_name']; ?></td>
+                                    <th>#</th>
+                                    <th>Course Code</th>
+                                    <th>Course Title</th>
+                                    <th>Grade</th>
+                                    <th>Status</th>
+                                    <th>Remark</th>
+                                    <th>Initial</th>
+                                    <th>Instructor</th>
                                 </tr>
-                                <?php }
-                                    } ?>
+                                <tbody id="subjectList1">
+                                    <tr class="programRow">
+                                        <?php $subject = getSubject2($student_id) ?>
+                                        <?php foreach ($subject as $index => $row) { ?>
+                                        <?php if ($row['semester'] == 1 && $row['college_level'] == 3) { ?>
+                                    <tr>
+                                        <td><?php echo $index + 1; ?></td>
+                                        <td><?php echo $row['subject_code']; ?></td>
+                                        <td><?php echo $row['subject_name']; ?></td>
+                                        <td><?php echo $row['grade']; ?></td>
+                                        <td><?php echo $row['status']; ?></td>
+                                        <td><?php echo $row['remark']; ?></td>
+                                        <td><?php echo $row['final']; ?></td>
+                                        <?php $teacher = getTeacherById($row['teacher_id']); ?>
+                                        <td><?php echo $teacher['teacher_name']; ?></td>
+                                    </tr>
+                                    <?php }
+                                        } ?>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="semester">2nd Semester</p>
+                        <div class="table_content" style="text-align:center;">
+                            <table>
+
+                                <tr>
+                                    <th>#</th>
+                                    <th>Course Code</th>
+                                    <th>Course Title</th>
+                                    <th>Grade</th>
+                                    <th>Status</th>
+                                    <th>Remark</th>
+                                    <th>Initial</th>
+                                    <th>Instructor</th>
+
                                 </tr>
-                            </tbody>
-                        </table>
+
+                                <tbody id="subjectList2">
+                                    <tr class="programRow">
+                                        <?php $subject = getSubject2($student_id) ?>
+                                        <?php foreach ($subject as $index => $row) { ?>
+                                        <?php if ($row['semester'] == 2 && $row['college_level'] == 3) { ?>
+                                    <tr>
+                                        <td><?php echo $index + 1; ?></td>
+                                        <td><?php echo $row['subject_code']; ?></td>
+                                        <td><?php echo $row['subject_name']; ?></td>
+                                        <td><?php echo $row['grade']; ?></td>
+                                        <td><?php echo $row['status']; ?></td>
+                                        <td><?php echo $row['remark']; ?></td>
+                                        <td><?php echo $row['final']; ?></td>
+                                        <?php $teacher = getTeacherById($row['teacher_id']); ?>
+                                        <td><?php echo $teacher['teacher_name']; ?></td>
+
+                                    </tr>
+                                    <?php }
+                                        } ?>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
                     </div>
-                    <p class="semester">2nd Semester</p>
-                    <div class="table_content" style="text-align:center;">
-                        <table>
+                    <div class="line-box">
 
-                            <tr>
-                                <th>#</th>
-                                <th>Course Code</th>
-                                <th>Course Title</th>
-                                <th>Grade</th>
-                                <th>Status</th>
-                                <th>Remark</th>
-                                <th>Initial</th>
-                                <th>Instructor</th>
+                        <h2 class="year_level">4th year college</h2>
+                        <p class="semester">1st Semester</p>
 
-                            </tr>
-
-                            <tbody id="subjectList2">
-                                <tr class="programRow">
-                                    <?php $subject = getSubject2($student_id) ?>
-                                    <?php foreach ($subject as $index => $row) { ?>
-                                    <?php if ($row['semester'] == 2) { ?>
+                        <div class="table_content" style="text-align:center;">
+                            <table>
                                 <tr>
-                                    <td><?php echo $index + 1; ?></td>
-                                    <td><?php echo $row['subject_code']; ?></td>
-                                    <td><?php echo $row['subject_name']; ?></td>
-                                    <td><?php echo $row['grade']; ?></td>
-                                    <td><?php echo $row['status']; ?></td>
-                                    <td><?php echo $row['remark']; ?></td>
-                                    <td><?php echo $row['final']; ?></td>
-                                    <?php $teacher = getTeacherById($row['teacher_id']); ?>
-                                    <td><?php echo $teacher['teacher_name']; ?></td>
-
+                                    <th>#</th>
+                                    <th>Course Code</th>
+                                    <th>Course Title</th>
+                                    <th>Grade</th>
+                                    <th>Status</th>
+                                    <th>Remark</th>
+                                    <th>Initial</th>
+                                    <th>Instructor</th>
                                 </tr>
-                                <?php }
-                                    } ?>
-                                </tr>
-                            </tbody>
-                        </table>
+                                <tbody id="subjectList1">
+                                    <tr class="programRow">
+                                        <?php $subject = getSubject2($student_id) ?>
+                                        <?php foreach ($subject as $index => $row) { ?>
+                                        <?php if ($row['semester'] == 1 && $row['college_level'] == 4) { ?>
+                                    <tr>
+                                        <td><?php echo $index + 1; ?></td>
+                                        <td><?php echo $row['subject_code']; ?></td>
+                                        <td><?php echo $row['subject_name']; ?></td>
+                                        <td><?php echo $row['grade']; ?></td>
+                                        <td><?php echo $row['status']; ?></td>
+                                        <td><?php echo $row['remark']; ?></td>
+                                        <td><?php echo $row['final']; ?></td>
+                                        <?php $teacher = getTeacherById($row['teacher_id']); ?>
+                                        <td><?php echo $teacher['teacher_name']; ?></td>
+                                    </tr>
+                                    <?php }
+                                        } ?>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="semester">2nd Semester</p>
+                        <div class="table_content" style="text-align:center;">
+                            <table>
 
-                    </div>
-                    <h2 class="year_level">4th year college</h2>
-                    <p class="semester">1st Semester</p>
-
-                    <div class="table_content" style="text-align:center;">
-                        <table>
-                            <tr>
-                                <th>#</th>
-                                <th>Course Code</th>
-                                <th>Course Title</th>
-                                <th>Grade</th>
-                                <th>Status</th>
-                                <th>Remark</th>
-                                <th>Initial</th>
-                                <th>Instructor</th>
-                            </tr>
-                            <tbody id="subjectList1">
-                                <tr class="programRow">
-                                    <?php $subject = getSubject2($student_id) ?>
-                                    <?php foreach ($subject as $index => $row) { ?>
-                                    <?php if ($row['semester'] == 1) { ?>
                                 <tr>
-                                    <td><?php echo $index + 1; ?></td>
-                                    <td><?php echo $row['subject_code']; ?></td>
-                                    <td><?php echo $row['subject_name']; ?></td>
-                                    <td><?php echo $row['grade']; ?></td>
-                                    <td><?php echo $row['status']; ?></td>
-                                    <td><?php echo $row['remark']; ?></td>
-                                    <td><?php echo $row['final']; ?></td>
-                                    <?php $teacher = getTeacherById($row['teacher_id']); ?>
-                                    <td><?php echo $teacher['teacher_name']; ?></td>
-                                </tr>
-                                <?php }
-                                    } ?>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <p class="semester">2nd Semester</p>
-                    <div class="table_content" style="text-align:center;">
-                        <table>
-
-                            <tr>
-                                <th>#</th>
-                                <th>Course Code</th>
-                                <th>Course Title</th>
-                                <th>Grade</th>
-                                <th>Status</th>
-                                <th>Remark</th>
-                                <th>Initial</th>
-                                <th>Instructor</th>
-
-                            </tr>
-
-                            <tbody id="subjectList2">
-                                <tr class="programRow">
-                                    <?php $subject = getSubject2($student_id) ?>
-                                    <?php foreach ($subject as $index => $row) { ?>
-                                    <?php if ($row['semester'] == 2) { ?>
-                                <tr>
-                                    <td><?php echo $index + 1; ?></td>
-                                    <td><?php echo $row['subject_code']; ?></td>
-                                    <td><?php echo $row['subject_name']; ?></td>
-                                    <td><?php echo $row['grade']; ?></td>
-                                    <td><?php echo $row['status']; ?></td>
-                                    <td><?php echo $row['remark']; ?></td>
-                                    <td><?php echo $row['final']; ?></td>
-                                    <?php $teacher = getTeacherById($row['teacher_id']); ?>
-                                    <td><?php echo $teacher['teacher_name']; ?></td>
+                                    <th>#</th>
+                                    <th>Course Code</th>
+                                    <th>Course Title</th>
+                                    <th>Grade</th>
+                                    <th>Status</th>
+                                    <th>Remark</th>
+                                    <th>Initial</th>
+                                    <th>Instructor</th>
 
                                 </tr>
-                                <?php }
-                                    } ?>
-                                </tr>
-                            </tbody>
-                        </table>
 
+                                <tbody id="subjectList2">
+                                    <tr class="programRow">
+                                        <?php $subject = getSubject2($student_id) ?>
+                                        <?php foreach ($subject as $index => $row) { ?>
+                                        <?php if ($row['semester'] == 2 && $row['college_level'] == 4) { ?>
+                                    <tr>
+                                        <td><?php echo $index + 1; ?></td>
+                                        <td><?php echo $row['subject_code']; ?></td>
+                                        <td><?php echo $row['subject_name']; ?></td>
+                                        <td><?php echo $row['grade']; ?></td>
+                                        <td><?php echo $row['status']; ?></td>
+                                        <td><?php echo $row['remark']; ?></td>
+                                        <td><?php echo $row['final']; ?></td>
+                                        <?php $teacher = getTeacherById($row['teacher_id']); ?>
+                                        <td><?php echo $teacher['teacher_name']; ?></td>
+
+                                    </tr>
+                                    <?php }
+                                        } ?>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
                     </div>
                 </div>
             </div>
 
-
-
-
         </div>
 
 
 
-        <div style="text-align: center; margin-top: 10px;">
-            <a href="download_pdf.php" class="btn"
-                style="background-color: #ff3d00; color: white; padding: 10px; border-radius: 5px; text-decoration: none;">
-                <i class="fa fa-download"></i> Download PDF
-            </a>
-        </div>
+
 
         <script>
         document.addEventListener("DOMContentLoaded", function() {
