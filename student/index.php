@@ -261,7 +261,7 @@ $student_id = $_SESSION['student_id'];
                             <?php echo $student['email']; ?></i></span>
 
                     <?php } ?>
-                    <div style="text-align: end; margin-top: 10px;">
+                    <div style="text-align: end; ">
                         <a href="download_pdf.php" class="btn"
                             style="background-color: #ff3d00; color: white; padding: 10px; border-radius: 5px; text-decoration: none;">
                             <i class="fa fa-download"></i> Download PDF
@@ -589,68 +589,68 @@ $student_id = $_SESSION['student_id'];
                 </div>
             </div>
 
-        </div>
+            </di v>
 
 
 
 
 
-        <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            document.querySelectorAll(".delete_subject").forEach(button => {
-                button.addEventListener("click", function(event) {
-                    event.preventDefault();
-                    let subject_id = this.getAttribute("subject");
-                    let program_id = this.getAttribute("program");
+            <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                document.querySelectorAll(".delete_subject").forEach(button => {
+                    button.addEventListener("click", function(event) {
+                        event.preventDefault();
+                        let subject_id = this.getAttribute("subject");
+                        let program_id = this.getAttribute("program");
 
-                    Swal.fire({
-                        title: "Are you sure?",
-                        text: "This subject will be permanently deleted!",
-                        icon: "warning",
-                        showCancelButton: true,
-                        confirmButtonColor: "#d33",
-                        cancelButtonColor: "#3085d6",
-                        confirmButtonText: "Yes, delete it!"
-                    }).then((result) => {
-                        if (result.isConfirmed) {
+                        Swal.fire({
+                            title: "Are you sure?",
+                            text: "This subject will be permanently deleted!",
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#d33",
+                            cancelButtonColor: "#3085d6",
+                            confirmButtonText: "Yes, delete it!"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
 
-                            window.location.href = "?subject_id=" + subject_id +
-                                "&program_id=" + program_id;
-                        }
+                                window.location.href = "?subject_id=" + subject_id +
+                                    "&program_id=" + program_id;
+                            }
+                        });
                     });
                 });
+
+
+                const urlParams = new URLSearchParams(window.location.search);
+
+                if (urlParams.has("subject_id")) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Deleted!",
+                        text: "The program was successfully deleted.",
+                        showConfirmButton: false,
+                        timer: 2500
+                    });
+                    const newURL = window.location.origin + window.location.pathname;
+                    window.history.replaceState({}, document.title, newURL);
+
+                }
+
+                if (urlParams.has("success")) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Successfully added!",
+                        text: "The program was successfully Added!.",
+                        showConfirmButton: false,
+                        timer: 2500
+                    });
+                    const newURL = window.location.origin + window.location.pathname;
+                    window.history.replaceState({}, document.title, newURL);
+
+                }
             });
-
-
-            const urlParams = new URLSearchParams(window.location.search);
-
-            if (urlParams.has("subject_id")) {
-                Swal.fire({
-                    icon: "success",
-                    title: "Deleted!",
-                    text: "The program was successfully deleted.",
-                    showConfirmButton: false,
-                    timer: 2500
-                });
-                const newURL = window.location.origin + window.location.pathname;
-                window.history.replaceState({}, document.title, newURL);
-
-            }
-
-            if (urlParams.has("success")) {
-                Swal.fire({
-                    icon: "success",
-                    title: "Successfully added!",
-                    text: "The program was successfully Added!.",
-                    showConfirmButton: false,
-                    timer: 2500
-                });
-                const newURL = window.location.origin + window.location.pathname;
-                window.history.replaceState({}, document.title, newURL);
-
-            }
-        });
-        </script>
+            </script>
 
 </body>
 
