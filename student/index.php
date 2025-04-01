@@ -235,9 +235,10 @@ $student_id = $_SESSION['student_id'];
         <div class="sidebar-item" style="background-color: maroon;">
             <a href="./index.php"> <i class="fas fa-chart-bar"></i>Dashboard</a>
         </div>
+        <!-- 
         <div class="sidebar-item">
             <a href="./subject_load.php"><i class="fas fa-chalkboard-teacher"></i> Subjects Load </a>
-        </div>
+        </div> -->
         <div class="sidebar-item">
             <a href="./logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>

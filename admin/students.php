@@ -21,14 +21,15 @@ if (isset($_POST['new_student'])) {
         $email = $_POST['email'];
         $program = $_POST['program'];
         $course = $_POST['course'];
+        $section = &$_POST['sections'];
         $SY = $_POST['schoolYear'];
 
-        if (empty($SY) || empty($student_id) || empty($lname) || empty($fname) || empty($mname) || empty($contact) || empty($email) || empty($program) || empty($course)) {
+        if (empty($section) ||empty($SY) || empty($student_id) || empty($lname) || empty($fname) || empty($mname) || empty($contact) || empty($email) || empty($program) || empty($course)) {
             header('location: ?error=Please fill in all fields');
             exit();
         }
 
-        InsertNewStudent($student_id, $lname, $fname, $mname, $contact, $email, $program, $course, $SY);
+        InsertNewStudent($student_id, $lname, $fname, $mname, $contact, $email, $program, $course, $SY . $section);
 
     }
 }
@@ -312,45 +313,54 @@ if (isset($_GET['delete_program'])) {
                         <input type="text" name="email" id="email" placeholder="Enter Email Address">
                     </div>
 
-                    <div style="display: flex; gap: 15px; margin-top: 5px; width: 100%;">
-                        <div>
-                            <label for="schoolYear">Choose SY</label>
-                            <label for="program">Choose Program</label>
-                            <label for="course">Choose Course</label>
-                        </div>
 
-                        <div style="margin: 5px; width: 17.4rem; ">
-                            <select style="padding: 5px;  width: 100%;" name="schoolYear" id="schoolYear">
-                                <option value="">Select School Year</option>
-                                <?php
-                                $years = GetSchoolYear();
-                                foreach ($years as $year) { ?>
-                                <option value="<?php echo $year['school_year']; ?>"><?php echo $year['school_year'] ?>
-                                </option>
-                                <?php } ?>
-                            </select>
-
-                            <select style="padding: 5px;  width: 100%;" name="program" id="program">
-                                <option value="">Select Program</option>
-                                <?php
-                                $years = GetPrograms();
-                                foreach ($years as $year) { ?>
-                                <option value="<?php echo $year['program_code']; ?>"><?php echo $year['program_code'] ?>
-                                </option>
-                                <?php } ?>
-                            </select>
-
-                            <select style="padding: 5px; width: 100%;" name="course" id="courses">
-                                <option value="">Select Course</option>
-                                <?php
-                                $years = GetCourse();
-                                foreach ($years as $year) { ?>
-                                <option value="<?php echo $year['course_name']; ?>"><?php echo $year['course_name'] ?>
-                                </option>
-                                <?php } ?>
-                            </select>
-                        </div>
+                    <div style="justify-content:space-between; display: flex;">
+                        <label for="">School year</label>
+                        <label for="">Program</label>
+                        <label for="">Course</label>
+                        <label for="">Section</label>
                     </div>
+                    <div style="display: flex; justify-content:space-between; gap:5px;">
+                        <select style="padding: 5px;  width: 100%;" name="schoolYear" id="schoolYear">
+                            <option value="">Select School Year</option>
+                            <?php
+                            $years = GetSchoolYear();
+                            foreach ($years as $year) { ?>
+                            <option value="<?php echo $year['school_year']; ?>"><?php echo $year['school_year'] ?>
+                            </option>
+                            <?php } ?>
+                        </select>
+                        <select style=" padding: 5px; width: 100%;" name="program" id="program">
+                            <option value="">Select Program</option>
+                            <?php
+                            $years = GetPrograms();
+                            foreach ($years as $year) { ?>
+                            <option value="<?php echo $year['program_code']; ?>"><?php echo $year['program_code'] ?>
+                            </option>
+                            <?php } ?>
+                        </select>
+                        <select style=" padding: 5px; width: 100%;" name="course" id="courses">
+                            <option value="">Select Course</option>
+                            <?php
+                            $years = GetCourse();
+                            foreach ($years as $year) { ?>
+                            <option value="<?php echo $year['course_name']; ?>"><?php echo $year['course_name'] ?>
+                            </option>
+                            <?php } ?>
+                        </select>
+                        <select style=" padding: 5px; width: 100%;" name="sections" id="sections">
+                            <option value="">Select Section</option>
+                            <?php
+                            $years = getSection();
+
+                            foreach ($years as $year) { ?>
+                            <option value="<?php echo $year['id']; ?>"><?php echo $year['section_name'] ?>
+                            </option>
+                            <?php } ?>
+                        </select>
+                    </div>
+
+
                     <input type="submit" name="new_student" value="Add Program">
                 </form>
             </div>
@@ -377,7 +387,7 @@ if (isset($_GET['delete_program'])) {
                         <?php } ?>
                     </select>
 
-                    <label style="margin: 2px;" for=" program_id">Course Title:</label>
+                    <label style=" margin: 2px;" for=" program_id">Course Title:</label>
                     <select
                         style="height: 2.4rem; width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;"
                         name="course">
@@ -391,7 +401,7 @@ if (isset($_GET['delete_program'])) {
 
                     </select>
 
-                    <button class="buttons" type="submit" onclick="display()" class="btn btn-primary"
+                    <button class=" buttons" type="submit" onclick="display()" class="btn btn-primary"
                         style="margin-top: 10px; ">Filtering</button>
                 </form>
                 <style>
@@ -469,7 +479,9 @@ if (isset($_GET['delete_program'])) {
                                 ) {
                                     ?>
                             <tr style="text-align: center;">
-                                <td style="margin-left: 5px;"><?php echo $index + 1 ?>. </td>
+                                <td style="margin-left: 5px;">
+                                    <?php echo $index + 1 ?>.
+                                </td>
                                 <td style="text-align: left;">
                                     <?php echo htmlspecialchars($program['student_code']) ?>
                                 </td>
@@ -608,10 +620,10 @@ if (isset($_GET['delete_program'])) {
                 const newURL = window.location.origin + window.location.pathname;
                 window.history.replaceState({}, document.title, newURL);
 
-                /* setTimeout(() => {
-                    const newURL = window.location.origin + window.location.pathname;
-                                    window.history.replaceState({ }, document.title, newURL);
-                }, 10); */
+                /* s   etTimeout(() => {
+                    const newURL = w indow.location.origin + window.location.pathname;
+                                     window.history.replaceState({ }, document.title, newURL);
+                 }, 10); */
             }
 
 

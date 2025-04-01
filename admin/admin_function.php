@@ -104,6 +104,20 @@ function GetSchoolYear()
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+function getSection()
+{
+    global $pdo;
+    try {
+        $stmt = $pdo->prepare("
+        SELECT * FROM sections
+        ");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        error_log("Database Error: " . $e->getMessage()); // Logs the error
+        return [];
+    }
+}
 
 function GetCourse()
 {
@@ -419,7 +433,7 @@ function editSubjectById($teacher_id, $subject_id, $program_id, $subject_name, $
 {
     global $pdo;
     try {
-        $sql = "SELECT teacher_name FROM student_with_subjects WHERE program_id=?";
+        $sql = "SELECT * FROM student_with_subjects WHERE program_id=?";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$program_id]);
 
@@ -562,7 +576,7 @@ function getSubject1($id)
 
 
 
-function InsertNewStudent($student_id, $lname, $fname, $mname, $contact, $email, $program, $course, $sy)
+function InsertNewStudent($student_id, $lname, $fname, $mname, $contact, $email, $program, $course, $sy, $section)
 {
     global $pdo;
     try {
