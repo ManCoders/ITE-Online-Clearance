@@ -349,6 +349,18 @@ if (isset($_GET['delete_program'])) {
                                 </option>
                                 <?php } ?>
                             </select>
+
+                            <select
+                                style="padding: 5px;  width: 100%; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;"
+                                name="profession" id="profession">
+                                <option value="">Select Section Adviser</option>
+                                <?php
+                                $years = teacher_profession();
+                                foreach ($years as $year) { ?>
+                                <option value="<?php echo $year['profession']; ?>"><?php echo $year['profession'] ?>
+                                </option>
+                                <?php } ?>
+                            </select>
                         </div>
                     </div>
                     <input type="submit" name="add_employee" value="Add Program">

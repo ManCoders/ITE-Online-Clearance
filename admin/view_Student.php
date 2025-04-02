@@ -272,12 +272,13 @@ if (isset($_GET['subject_id'])) {
 
                     <span class="close" onclick="window.location.href = './students.php'">&times;</span>
                     <!--  -->
-                    <h2 id="programTitle"><?php if (isset($_GET['student_name'])) {
-                        echo $_GET['student_name'];
-                    } ?></h2>
+                    <h2 id="programTitle">
+                        <?php if (isset($_GET['student_name'])) {
+                            echo $_GET['student_name'];
+                        } ?></h2>
                     <span id="sy">Student ID: <?php if (isset($_GET['student_id'])) {
-                        echo $_GET['student_id'];
-                    } ?></span><br><span id="course">Course:
+                                                    echo $_GET['student_id'];
+                                                } ?></span><br><span id="course">Course:
                         <?php if (isset($_GET['course_name']) && isset($_GET['program_name'])) {
                             echo $_GET['program_name'] . ' - ' . $_GET['course_name'];
                         } ?></span>

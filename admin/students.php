@@ -314,10 +314,10 @@ if (isset($_GET['delete_program'])) {
 
 
                     <div style="justify-content:space-between; display: flex;">
-                        <label for="">School year</label>
+                        <label for="">School Year</label>
                         <label for="">Program</label>
                         <label for="">Course</label>
-                        <label for="">Section</label>
+                        <label for="">College level</label>
                     </div>
                     <div style="display: flex; justify-content:space-between; gap:5px;">
                         <select style="padding: 5px;  width: 100%;" name="schoolYear" id="schoolYear">
@@ -458,6 +458,7 @@ if (isset($_GET['delete_program'])) {
                                 <th>Complete Name</th>
                                 <th>Programs</th>
                                 <th>Course</th>
+                                <th>Year Level</th>
                                 <th>Email</th>
                                 <th>Contact</th>
                                 <th>Actions</th>
@@ -491,6 +492,13 @@ if (isset($_GET['delete_program'])) {
                                     <?php echo htmlspecialchars($program['program']); ?>
                                 </td>
                                 <td style="text-align: left;"><?php echo htmlspecialchars($program['course']) ?></td>
+
+                                <td style="text-align: left;">
+                                    <?php $year_level = getYearLevel($program['levels']); ?>
+                                    <?php foreach ($year_level as $year_level_value) { ?>
+                                    <?php echo $year_level_value['year_level']; ?>
+                                    <?php } ?>
+                                </td>
                                 <td style="text-align: left;"><?php echo htmlspecialchars($program['email']) ?></td>
                                 <td style="text-align: left;"><?php echo htmlspecialchars($program['contact']) ?></td>
                                 <td>

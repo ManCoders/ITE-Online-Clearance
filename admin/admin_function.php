@@ -163,6 +163,20 @@ function GetTeachers()
         return [];
     }
 }
+function getYearLevel($id)
+{
+    global $pdo;
+    try {
+        $stmt = $pdo->prepare("
+        SELECT *  FROM college_level WHERE id =?
+        
+        ");
+        $stmt->execute([$id]);
+        return $stmt->fetchAll();
+    } catch (PDOException $e) {
+        return [];
+    }
+}
 
 function GetStudents()
 {
@@ -589,16 +603,16 @@ function InsertNewStudent($student_id, $lname, $fname, $mname, $contact, $email,
 {
     global $pdo;
     try {
-        $stmt = $pdo->prepare("SELECT * FROM students WHERE student_code = ? AND email = ? AND contact = ?");
-        $stmt->execute([$student_id, $email, $contact]);
+        $stmt = $pdo->prepare("SELECT * FROM students WHERE student_code = ? AND email = ? AND contact = ? and levels=?");
+        $stmt->execute([$student_id, $email, $contact, $level]);
         if ($stmt->fetchColumn() > 0) {
             header("Location: students.php?error=Student Already Exists");
             return false;
         } else {
-            $query = "INSERT INTO students ( student_code, lname, fname, mname, contact, email, program, course ,school_year) 
-                                       VALUES ( ?,?,?,?,?,?,?,?,?)";
+            $query = "INSERT INTO students ( student_code, lname, fname, mname, contact, email, program, course,school_year,levels) 
+                                       VALUES ( ?,?,?,?,?,?,?,?,?,?)";
             $stmt = $pdo->prepare($query);
-            if ($stmt->execute([$student_id, $lname, $fname, $mname, $contact, $email, $program, $course, $sy])) {
+            if ($stmt->execute([$student_id, $lname, $fname, $mname, $contact, $email, $program, $course, $sy, $level])) {
                 header("Location: students.php?success=Student Added Successfully");
                 return true;
             } else {
