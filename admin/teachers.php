@@ -306,9 +306,10 @@ if (isset($_GET['delete_program'])) {
                         <input placeholder="Enter Contact Number" type="text" name="contact" id="contact" required>
                         <input type="text" name="email" id="email" placeholder="Enter Email Address">
                     </div>
-                    <div style="display:flex; gap:3.9rem;">
+                    <div style="display:flex; gap:5rem;">
                         <label for="">School Year</label>
                         <label for="">Profession</label>
+                        <label for="">Section Adviser</label>
                     </div>
                     <div style="display: flex; gap: 15px; margin-top: 5px; width: 100%;">
 
@@ -355,9 +356,9 @@ if (isset($_GET['delete_program'])) {
                                 name="profession" id="profession">
                                 <option value="">Select Section Adviser</option>
                                 <?php
-                                $years = teacher_profession();
+                                $years = sections();
                                 foreach ($years as $year) { ?>
-                                <option value="<?php echo $year['profession']; ?>"><?php echo $year['profession'] ?>
+                                <option value="<?php echo $year['id']; ?>"><?php echo $year['section_name'] ?>
                                 </option>
                                 <?php } ?>
                             </select>

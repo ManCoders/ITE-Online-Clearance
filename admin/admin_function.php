@@ -152,6 +152,15 @@ function teacher_profession()
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+
+function sections()
+{
+    global $pdo;
+    $stmt = $pdo->prepare("SELECT * FROM sections ORDER BY section_name ASC");
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 function GetTeachers()
 {
     global $pdo;
