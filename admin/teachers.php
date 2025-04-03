@@ -48,200 +48,200 @@ if (isset($_GET['delete_program'])) {
     <title>Admin Panel - Programs & Sections</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css">
     <style>
-    /* General Reset */
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: 'Georgia', serif;
-    }
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Georgia', serif;
+        }
 
-    /* Background - Classic Deep Maroon */
-    body {
-        background: linear-gradient(to right, #6E1313, #8B0000);
-        background-size: cover;
-        display: flex;
-    }
+        /* Background - Classic Deep Maroon */
+        body {
+            background: linear-gradient(to right, #6E1313, #8B0000);
+            background-size: cover;
+            display: flex;
+        }
 
-    /* Sidebar */
-    .sidebar {
-        width: 250px;
-        height: 100vh;
-        background: rgba(255, 255, 255, 0.15);
-        backdrop-filter: blur(10px);
-        padding: 20px;
-        position: fixed;
-        left: 0;
-        top: 0;
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            position: fixed;
+            left: 0;
+            top: 0;
 
-        border-right: 2px solid rgba(255, 255, 255, 0.2);
-    }
+            border-right: 2px solid rgba(255, 255, 255, 0.2);
+        }
 
-    .sidebar .profile-info {
-        text-align: center;
-        margin-bottom: 20px;
-    }
+        .sidebar .profile-info {
+            text-align: center;
+            margin-bottom: 20px;
+        }
 
-    .sidebar .profile-icon {
-        width: 80px;
-        border-radius: 50%;
-        background: white;
-        padding: 5px;
-        border: 2px solid #ffcc00;
-    }
+        .sidebar .profile-icon {
+            width: 80px;
+            border-radius: 50%;
+            background: white;
+            padding: 5px;
+            border: 2px solid #ffcc00;
+        }
 
-    .sidebar-item {
-        padding: 15px;
-        margin: 10px 0;
-        background: rgba(255, 255, 255, 0.2);
-        border-radius: 5px;
-        font-size: 16px;
-    }
+        .sidebar-item {
+            padding: 15px;
+            margin: 10px 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            font-size: 16px;
+        }
 
-    .sidebar-item:hover {
-        background: rgba(255, 255, 255, 0.4);
-    }
+        .sidebar-item:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
 
-    .sidebar-item a {
-        color: #FFFFFF;
-        text-decoration: none;
-        display: flex;
-        align-items: center;
-        font-weight: bold;
-    }
+        .sidebar-item a {
+            color: #FFFFFF;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+        }
 
-    .sidebar-item a i {
-        margin-right: 10px;
-    }
+        .sidebar-item a i {
+            margin-right: 10px;
+        }
 
-    /* Main Content */
-    .content {
-        margin-left: 270px;
-        padding: 20px;
-        width: calc(100% - 270px);
-    }
+        /* Main Content */
+        .content {
+            margin-left: 270px;
+            padding: 20px;
+            width: calc(100% - 270px);
+        }
 
-    .dashboard-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 20px;
-    }
+        .dashboard-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
 
-    .card {
-        background: rgba(255, 255, 255, 0.9);
+        .card {
+            background: rgba(255, 255, 255, 0.9);
 
-        padding: 20px;
-        border-radius: 10px;
-        width: 45%;
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    }
+            padding: 20px;
+            border-radius: 10px;
+            width: 45%;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
 
-    .card_table {
-        background: rgba(255, 255, 255, 0.9);
+        .card_table {
+            background: rgba(255, 255, 255, 0.9);
 
-        padding: 20px;
-        border-radius: 10px;
-        width: 50%;
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-        overflow-y: hidden;
-        overflow-y: scroll;
-        height: 20rem;
-        text-align: center;
-    }
+            padding: 20px;
+            border-radius: 10px;
+            width: 50%;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            overflow-y: hidden;
+            overflow-y: scroll;
+            height: 20rem;
+            text-align: center;
+        }
 
-    .card_table td {
-        width: 29rem;
-        background-color: rgba(0, 0, 0, 0.03);
-        display: flex;
-        justify-content: space-between;
-    }
+        .card_table td {
+            width: 29rem;
+            background-color: rgba(0, 0, 0, 0.03);
+            display: flex;
+            justify-content: space-between;
+        }
 
-    .card p {
-        text-align: center;
+        .card p {
+            text-align: center;
 
-    }
+        }
 
-    .card h2,
-    .card_table h2 {
-        text-align: center;
-        color: #8B0000;
-        margin-bottom: 10px;
-        font-size: 1.5rem;
-    }
+        .card h2,
+        .card_table h2 {
+            text-align: center;
+            color: #8B0000;
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
 
-    form label {
-        display: block;
-        font-weight: bold;
-        margin-top: 10px;
-        font-size: 14px;
-    }
+        form label {
+            display: block;
+            font-weight: bold;
+            margin-top: 10px;
+            font-size: 14px;
+        }
 
-    form input[type="text"] {
-        width: 100%;
-        padding: 10px;
-        margin-top: 5px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        font-size: 14px;
-    }
+        form input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
 
-    form input[type="submit"] {
-        background-color: #ff3d00;
-        color: white;
-        padding: 12px;
-        border: none;
-        border-radius: 5px;
-        margin-top: 15px;
-        cursor: pointer;
-        font-size: 14px;
-        font-weight: bold;
-        transition: 0.3s;
-        width: 100%;
-    }
+        form input[type="submit"] {
+            background-color: #ff3d00;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            margin-top: 15px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: 0.3s;
+            width: 100%;
+        }
 
-    form input[type="submit"]:hover {
-        background-color: #cc2c00;
-    }
-
-
+        form input[type="submit"]:hover {
+            background-color: #cc2c00;
+        }
 
 
-    .modal table {
-        width: 100%;
-        padding: .5rem;
-        border: 1px solidrgb(122, 122, 122)
-    }
-
-    .modal th {
-        background-color: #cc2c00;
-        color: #FFFFFF;
-    }
 
 
-    .add_subject {
-        display: flex;
-        justify-content: center;
-        flex-direction: row;
-    }
+        .modal table {
+            width: 100%;
+            padding: .5rem;
+            border: 1px solidrgb(122, 122, 122)
+        }
 
-    .add_subject input[type='text'] {
-        width: 90%;
-        height: 1%;
-        margin: 5px;
-    }
+        .modal th {
+            background-color: #cc2c00;
+            color: #FFFFFF;
+        }
 
-    .add_subject input[type='submit'] {
-        width: 20%;
-        align-content: center;
-        margin: 5px;
-    }
 
-    .semester {
-        font-size: 1rem;
-        font-weight: bold;
-        margin: 5px;
-    }
+        .add_subject {
+            display: flex;
+            justify-content: center;
+            flex-direction: row;
+        }
+
+        .add_subject input[type='text'] {
+            width: 90%;
+            height: 1%;
+            margin: 5px;
+        }
+
+        .add_subject input[type='submit'] {
+            width: 20%;
+            align-content: center;
+            margin: 5px;
+        }
+
+        .semester {
+            font-size: 1rem;
+            font-weight: bold;
+            margin: 5px;
+        }
     </style>
 </head>
 
@@ -278,9 +278,9 @@ if (isset($_GET['delete_program'])) {
             <div class="card">
                 <h2>Add New Employee</h2>
                 <?php if (isset($_GET['error'])): ?>
-                <p style="color: red;"><?php echo $_GET['error']; ?></p>
+                    <p style="color: red;"><?php echo $_GET['error']; ?></p>
                 <?php elseif (isset($_GET['success'])): ?>
-                <p style="color: green;"><?php echo $_GET['success']; ?></p>
+                    <p style="color: green;"><?php echo $_GET['success']; ?></p>
                 <?php endif; ?>
 
 
@@ -323,8 +323,8 @@ if (isset($_GET['delete_program'])) {
                                 <?php
                                 $years = GetSchoolYear();
                                 foreach ($years as $year) { ?>
-                                <option value="<?php echo $year['school_year']; ?>"><?php echo $year['school_year'] ?>
-                                </option>
+                                    <option value="<?php echo $year['school_year']; ?>"><?php echo $year['school_year'] ?>
+                                    </option>
                                 <?php } ?>
                             </select>
                             <select hidden
@@ -334,8 +334,8 @@ if (isset($_GET['delete_program'])) {
                                 <?php
                                 $years = teacher_profession();
                                 foreach ($years as $year) { ?>
-                                <option value="<?php echo $year['Specialized']; ?>"><?php echo $year['Specialized'] ?>
-                                </option>
+                                    <option value="<?php echo $year['Specialized']; ?>"><?php echo $year['Specialized'] ?>
+                                    </option>
                                 <?php } ?>
                             </select>
 
@@ -346,8 +346,8 @@ if (isset($_GET['delete_program'])) {
                                 <?php
                                 $years = teacher_profession();
                                 foreach ($years as $year) { ?>
-                                <option value="<?php echo $year['profession']; ?>"><?php echo $year['profession'] ?>
-                                </option>
+                                    <option value="<?php echo $year['profession']; ?>"><?php echo $year['profession'] ?>
+                                    </option>
                                 <?php } ?>
                             </select>
 
@@ -358,8 +358,8 @@ if (isset($_GET['delete_program'])) {
                                 <?php
                                 $years = sections();
                                 foreach ($years as $year) { ?>
-                                <option value="<?php echo $year['id']; ?>"><?php echo $year['section_name'] ?>
-                                </option>
+                                    <option value="<?php echo $year['id']; ?>"><?php echo $year['section_name'] ?>
+                                    </option>
                                 <?php } ?>
                             </select>
                         </div>
@@ -371,7 +371,7 @@ if (isset($_GET['delete_program'])) {
 
 
             <!-- Filtering here structured -->
-            <div class="card">
+            <!-- <div class="card">
                 <h2>Searching</h2>
 
                 <form method="GET">
@@ -388,8 +388,8 @@ if (isset($_GET['delete_program'])) {
                         <?php
                         $years = GetPrograms();
                         foreach ($years as $year) { ?>
-                        <option value="<?php echo $year['program_code']; ?>"><?php echo $year['program_code'] ?>
-                        </option>
+                            <option value="<?php echo $year['program_code']; ?>"><?php echo $year['program_code'] ?>
+                            </option>
                         <?php } ?>
                     </select>
 
@@ -401,8 +401,8 @@ if (isset($_GET['delete_program'])) {
                         <?php
                         $years = GetCourse();
                         foreach ($years as $year) { ?>
-                        <option value="<?php echo $year['course_name']; ?>"><?php echo $year['course_name'] ?>
-                        </option>
+                            <option value="<?php echo $year['course_name']; ?>"><?php echo $year['course_name'] ?>
+                            </option>
                         <?php } ?>
 
                     </select>
@@ -411,22 +411,22 @@ if (isset($_GET['delete_program'])) {
                         style="margin-top: 10px; ">Filtering</button>
                 </form>
                 <style>
-                .buttons {
-                    height: 2.6rem;
-                    background-color: #ff3d00;
-                    width: 100%;
-                    margin-top: 100%;
-                    color: #ffff;
-                    padding: 10px;
-                    border: 1px solid #ccc;
-                    border-radius: 5px;
-                    font-size: 14px;
-                }
+                    .buttons {
+                        height: 2.6rem;
+                        background-color: #ff3d00;
+                        width: 100%;
+                        margin-top: 100%;
+                        color: #ffff;
+                        padding: 10px;
+                        border: 1px solid #ccc;
+                        border-radius: 5px;
+                        font-size: 14px;
+                    }
 
-                #tableNone {}
-                </style>
+                    #tableNone {}
+                </style> -->
 
-                <script>
+            <script>
                 document.getElementById('student_name').addEventListener('input', handleInput);
                 document.getElementById('semester_id').addEventListener('input', handleInput);
 
@@ -441,27 +441,27 @@ if (isset($_GET['delete_program'])) {
                 function display() {
                     document.getElementById("tableNone").style.display = "block";
                 }
-                </script>
-            </div>
-            <!-- End Filtering structured -->
-            <div class="card-table" id="tableNone"
-                style="width: 100%; color: #ccc; border: 1px solid #ccc; height: 10rem; background-color: #8B0000; overflow-y: scroll;">
-                <div class="tables-content" style=" background-color: #8B0000; display: flex; color: white;">
-                    <table class="table" style=" width: 100%; ">
-                        <thead>
-                            <tr>
-                                <th>No :</th>
-                                <th>Employee ID</th>
-                                <th>Complete Name</th>
-                                <th>Profession</th>
-                                <th>Email</th>
-                                <th>Contact</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php $get_teacher = GetTeachers(); ?>
-                            <?php foreach ($get_teacher as $index => $teacher) { ?>
+            </script>
+        </div>
+        <!-- End Filtering structured -->
+        <div class="card-table" id="tableNone"
+            style="width: 100%; color: #ccc; border: 1px solid #ccc; height: 10rem; background-color: #8B0000; overflow-y: scroll;">
+            <div class="tables-content" style=" background-color: #8B0000; display: flex; color: white;">
+                <table class="table" style=" width: 100%; ">
+                    <thead>
+                        <tr>
+                            <th>No :</th>
+                            <th>Employee ID</th>
+                            <th>Complete Name</th>
+                            <th>Profession</th>
+                            <th>Email</th>
+                            <th>Contact</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $get_teacher = GetTeachers(); ?>
+                        <?php foreach ($get_teacher as $index => $teacher) { ?>
                             <tr>
                                 <td style="text-align: center;"><?php echo $index + 1; ?></td>
                                 <td style="text-align: center;"><?php echo $teacher['teacher_code']; ?></td>
@@ -483,22 +483,22 @@ if (isset($_GET['delete_program'])) {
                                     </div>
                                 </td>
                             </tr>
-                            <?php } ?>
-                        </tbody>
-                    </table>
-                </div>
+                        <?php } ?>
+                    </tbody>
+                </table>
             </div>
         </div>
+    </div>
 
 
-        <script src="../assets/libs/sweetalert2/sweetalert2.all.min.js"></script>
+    <script src="../assets/libs/sweetalert2/sweetalert2.all.min.js"></script>
 
-        <script>
-        document.addEventListener("DOMContentLoaded", function() {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
 
             // Deleting Program
             document.querySelectorAll(".delete-program").forEach(button => {
-                button.addEventListener("click", function(event) {
+                button.addEventListener("click", function (event) {
                     event.preventDefault();
                     let programId = this.getAttribute("section");
 
@@ -520,7 +520,7 @@ if (isset($_GET['delete_program'])) {
             });
 
             document.querySelectorAll(".delete-section").forEach(button => {
-                button.addEventListener("click", function(event) {
+                button.addEventListener("click", function (event) {
                     event.preventDefault();
 
 
@@ -603,7 +603,7 @@ if (isset($_GET['delete_program'])) {
 
 
         });
-        </script>
+    </script>
 
 
 </body>
