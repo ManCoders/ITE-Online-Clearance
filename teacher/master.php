@@ -221,13 +221,13 @@ $teacher_id = $_SESSION['teacher_id'];
         <div class="profile-info">
             <img src="../images/ITE.png" alt="Profile Icon" class="profile-icon">
         </div>
-        <div class="sidebar-item" style="background-color: maroon;">
+        <div class="sidebar-item">
             <a href="./index.php"> <i class="fas fa-chart-bar"></i>Dashboard</a>
         </div>
         <div class="sidebar-item">
             <a href="./students.php"><i class="fas fa-chalkboard-teacher"></i> Subjects </a>
         </div>
-        <div class="sidebar-item">
+        <div class="sidebar-item" style="background-color: maroon;">
             <a href="./master.php"><i class="fas fa-book"></i>Load Subjects</a>
         </div>
         <div class="sidebar-item">
@@ -255,30 +255,36 @@ $teacher_id = $_SESSION['teacher_id'];
 
                     <?php } ?>
 
-                    <p style="margin-top: 1.5rem;" class="semester">All Subject Hundle</p>
+                    <p style="margin-top: 1.5rem;" class="semester">Student Master</p>
 
                     <div class="table_content" style="text-align:center;">
                         <table>
                             <tr>
                                 <th>#</th>
-                                <th>Course Code</th>
-                                <th>Course Title</th>
+                                <th>Complete Name</th>
 
+                                <th>Program Course</th>
+                                <th>Course</th>
+                                <th>College level</th>
                                 <th>Action</th>
                             </tr>
                             <tbody>
-                                <?php $subject = getSubjectTeacherDashboard($teacher_id) ?>
+                                <?php $subject = StudentNonAct() ?>
                                 <?php foreach ($subject as $index => $row) { ?>
                                     <tr>
                                         <td><?php echo $index + 1; ?></td>
-                                        <td><?php echo $row['subject_code']; ?></td>
-                                        <td><?php echo $row['subject_name']; ?></td>
-
-
+                                        <td><?php echo $row['complete_name']; ?></td>
+                                        <td><?php echo $row['program']; ?></td>
+                                        <td><?php echo $row['course']; ?></td>
+                                        <?php $levels = getCollegeLevels($row['levels']);
+                                        foreach ($levels as $level) { ?>
+                                            <td><?php echo $level['year_level']; ?></td>
+                                        <?php } ?>
+                                        <?php $_SESSION['user'] = $row['id']; ?>
                                         <td>
-                                            <a href="#?teacher_id=<?php echo $teacher_id; ?>&action=print">
-                                                <i style="color: aliceblue;" class="fa fa-print"></i>
-                                            </a>
+                                            <a
+                                                href="subject_load.php?student_id=<?php echo $_SESSION['user'] = $row['id']; ?>">
+                                                <i style="color: aliceblue;" class="fa fa-eye"></i></a>
                                         </td>
                                     </tr>
                                 <?php } ?>
@@ -287,12 +293,12 @@ $teacher_id = $_SESSION['teacher_id'];
 
                     </div>
 
-                    <div style="margin:8px;">
+                    <!-- <div style="margin:8px;">
                         <h1>Total Students: <?php echo getTotalStudentByTeacherIdansStudentId($teacher_id) ?></h1>
                         <h1>Total Subject Handle: <?php echo getTotalSubjecthandle($teacher_id) ?></h1>
-                        <!-- <h1>School Year Handle: <?php echo getTotalSchoolYear($teacher_id) ?></h1> -->
+                        <h1>School Year Handle: <?php echo getTotalSchoolYear($teacher_id) ?></h1>
 
-                    </div>
+                    </div> -->
 
 
 

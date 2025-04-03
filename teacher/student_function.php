@@ -35,7 +35,7 @@ function getStudentByIds($id)
 }
 
 
-function getSubject3($id)
+function getSubject2($id)
 {
     global $pdo;
     $sql = "SELECT * FROM student_with_subjects WHERE student_id = ?";
@@ -89,7 +89,16 @@ function GetSchoolProgram()
 }
 
 
-function getStudentSubject($student_id)
+function getCollegeLevelbyTeacher($id)
+{
+
+    global $pdo;
+    $stmt = $pdo->prepare("SELECT * FROM college_level WHERE id = ?");
+    $stmt->execute([$id]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function getStudentSubject22($student_id)
 {
     global $pdo;
     $sql = "SELECT DISTINCT * FROM student_with_subjects WHERE student_id = ?";
@@ -103,38 +112,38 @@ function getStudentSubject($student_id)
     }
 }
 
-function InsertStudentSubject($program, $student_id, $year, $subject_code, $subject_name, $semester, $teacher_name)
+function InsertStudentSubjectteacher($program, $student_id, $year, $subject_code, $subject_name, $semester, $teacher_name, $levels)
 {
     global $pdo;
 
     try {
         // Check if the subject already exists for the student
-        $sql = "SELECT * FROM student_with_subjects WHERE student_id = ? AND subject_code = ? AND school_year = ? AND teacher_id = ? AND semester=?";
+        $sql = "SELECT * FROM student_with_subjects WHERE student_id = ? AND subject_code = ? AND school_year = ? AND teacher_id = ? AND semester=? AND college_level=?";
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([$student_id, $subject_code, $year, $teacher_name, $semester]);
+        $stmt->execute([$student_id, $subject_code, $year, $teacher_name, $semester, $levels]);
 
         if ($stmt->rowCount() > 0) {
-            header('Location: subject_load.php?student_id=' . $student_id . '?error=Subject already exists');
+            header('Location: subject_load.php?student_id=' . $student_id . '&error=Subject already exists');
             exit();
         }
 
         // Insert new subject for the student
-        $sql = "INSERT INTO student_with_subjects (program_id, student_id, school_year, subject_code, subject_name, semester, teacher_id) 
-                VALUES (?,?,?,?,?,?,?)";
+        $sql = "INSERT INTO student_with_subjects (program_id, student_id, school_year, subject_code, subject_name, semester, teacher_id, college_level) 
+                VALUES (?,?,?,?,?,?,?,?)";
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([$program, $student_id, $year, $subject_code, $subject_name, $semester, $teacher_name]);
+        $stmt->execute([$program, $student_id, $year, $subject_code, $subject_name, $semester, $teacher_name, $levels]);
 
         if ($stmt->rowCount() > 0) {
-            header('Location: subject_load.php?student_id=' . $student_id . '?success=Successfully Added');
+            header('Location: subject_load.php?student_id=' . $student_id . '&success=Successfully Added');
             exit();
         } else {
-            header('Location: subject_load.php?student_id=' . $student_id . '?error=Failed to load the Subject');
+            header('Location: subject_load.php?student_id=' . $student_id . '&error=Failed to load the Subject');
             exit();
         }
 
     } catch (PDOException $e) {
         // Handle database errors
-        header('Location: subject_load.php?student_id=' . $student_id . '?error=Database Error: ' . $e->getMessage());
+        header('Location: subject_load.php?student_id=' . $student_id . '&error=Database Error: ' . $e->getMessage());
         exit();
     }
 }

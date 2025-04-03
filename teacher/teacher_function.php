@@ -243,7 +243,7 @@ function getSubjectById2($id)
 function getTotalStudentByTeacherIdansStudentId($teacher_id)
 {
     global $pdo;
-    $sql = "SELECT DISTINCT  COUNT(sws.student_id) as student_count
+    $sql = "SELECT COUNT(DISTINCT sws.student_id) as student_count
             FROM student_with_subjects sws 
             WHERE sws.teacher_id = ?";
     try {
@@ -256,15 +256,50 @@ function getTotalStudentByTeacherIdansStudentId($teacher_id)
         return [];
     }
 }
-function getSubjectTeacherDashboard($id)
+
+
+function getTotalSubjecthandle($teacher_id)
 {
     global $pdo;
-    $sql = "SELECT DISTINCT sws.subject_code, sws.subject_name
-        FROM student_with_subjects sws 
-        WHERE sws.teacher_id = ?";
+    $sql = "SELECT COUNT(DISTINCT sws.subject_name) as student_count
+            FROM student_with_subjects sws 
+            WHERE sws.teacher_id = ?";
     try {
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([$id]);
+        $stmt->execute([$teacher_id]);
+        echo $stmt->fetchColumn();
+        return $stmt->fetch();
+    } catch (PDOException $e) {
+        echo 'Error: ' . $e->getMessage();
+        return [];
+    }
+}
+
+
+function getTotalSchoolYear($teacher_id)
+{
+    global $pdo;
+    $sql = "SELECT COUNT(DISTINCT sws.school_year) as student_count
+            FROM student_with_subjects sws 
+            WHERE sws.teacher_id = ?";
+    try {
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$teacher_id]);
+        echo $stmt->fetchColumn();
+        return $stmt->fetch();
+    } catch (PDOException $e) {
+        echo 'Error: ' . $e->getMessage();
+        return [];
+    }
+}
+function getSubjectTeacherDashboard()
+{
+    global $pdo;
+    $sql = "SELECT DISTINCT *
+        FROM student_with_subjects";
+    try {
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
         return $stmt->fetchAll();
     } catch (PDOException $e) {
         echo 'Error: ' . $e->getMessage();
@@ -447,7 +482,7 @@ function StudentNonAct()
 {
     global $pdo;
     try {
-        $stmt = $pdo->prepare("SELECT * FROM students");
+        $stmt = $pdo->prepare("SELECT *, CONCAT(lname, ' ', mname, ' ', fname) AS complete_name  FROM students");
         $stmt->execute();
         return $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
@@ -478,6 +513,28 @@ function InsertNewStudentByID($studentID, $lname, $mname, $fname, $contact)
     }
 }
 
+
+function getCollegeLevels($id)
+{
+
+    global $pdo;
+    $stmt = $pdo->prepare("SELECT * FROM college_level WHERE id = ?");
+    $stmt->execute([$id]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function getCollegeSubject($id)
+{
+    global $pdo;
+    try {
+        $stmt = $pdo->prepare("SELECT * FROM student_subjects WHERE student_id = ?");
+        $stmt->execute([$id]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        error_log("Database Error: " . $e->getMessage()); // Logs the error
+        return [];
+    }
+}
 
 function DeleteStudentByID2($student_code, $teacher_id)
 {

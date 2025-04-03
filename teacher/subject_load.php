@@ -4,12 +4,12 @@ include "../db_connect.php";
 include "./student_function.php";
 
 
-if (!isset($_SESSION['student_id'])) {
+if (!isset($_SESSION['teacher_id'])) {
     header('location: ../index.php');
     exit();
 }
 
-$student_id = $_SESSION['student_id'];
+$student_id = $_SESSION['teacher_id'];
 
 if (isset($_POST['new_subject'])) {
     $year = $_POST['schoolyear'];
@@ -18,8 +18,10 @@ if (isset($_POST['new_subject'])) {
     $semester = $_POST['semester'];
     $teacher_name = $_POST['teacher_name'];
     $program = $_POST['program'];
-    if (!empty($year) && !empty($year) && !empty($subject_code) && !empty($subject_name) && !empty($semester) && !empty($teacher_name)) {
-        InsertStudentSubject($program, $student_id, $year, $subject_code, $subject_name, $semester, $teacher_name);
+    $level = $_POST['levels'];
+    if (!empty($level) && !empty($year) && !empty($year) && !empty($subject_code) && !empty($subject_name) && !empty($semester) && !empty($teacher_name)) {
+        InsertStudentSubjectteacher($program, $_POST['student_id'], $year, $subject_code, $subject_name, $semester, $teacher_name, $level);
+
     } else {
         header('location: ./subject_load.php?error=Please fill in all fields');
         exit();
@@ -35,12 +37,16 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['subjec
 <!DOCTYPE html>
 <html lang="en">
 
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - Programs & Sections</title>
+    <title>Student Panel - Dashboard</title>
+    <script src="../assets/libs/sweetalert2/sweetalert2.all.min.js"></script>
+    <script src="../assets/bootstrap/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css">
     <style>
+        /* General Reset */
         * {
             margin: 0;
             padding: 0;
@@ -65,6 +71,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['subjec
             position: fixed;
             left: 0;
             top: 0;
+            overflow-y: auto;
             border-right: 2px solid rgba(255, 255, 255, 0.2);
         }
 
@@ -107,63 +114,21 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['subjec
 
         /* Main Content */
         .content {
-            margin-left: 270px;
+            margin-left: 250px;
             padding: 20px;
-            width: calc(100% - 270px);
+            width: calc(100% - 245px);
         }
 
         .dashboard-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 20px;
-        }
-
-        .card {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 20px;
+            gap: 50px;
+            background-color: #ffff;
+            padding: 5px;
             border-radius: 10px;
-            width: 45%;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
         }
 
-        .card_table {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 20px;
-            border-radius: 10px;
-            width: 50%;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-            overflow-y: hidden;
-            overflow-y: scroll;
-            height: 20rem;
-            text-align: center;
-        }
-
-        .card_table td {
-            width: 29rem;
-            background-color: rgba(0, 0, 0, 0.03);
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .card p {
-            text-align: center;
-        }
-
-        .card h2,
-        .card_table h2 {
-            text-align: center;
-            color: #8B0000;
-            margin-bottom: 10px;
-            font-size: 1.5rem;
-        }
-
-        form label {
-            display: block;
-            font-weight: bold;
-            margin-top: 10px;
-            font-size: 14px;
-        }
 
         form input[type="text"] {
             width: 100%;
@@ -176,20 +141,57 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['subjec
 
         form input[type="submit"] {
             background-color: #ff3d00;
-            color: white;
-            padding: 12px;
-            border: none;
-            border-radius: 5px;
-            margin-top: 15px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: bold;
-            transition: 0.3s;
             width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            width: 100%;
+        }
+
+        .buttons {
+            background-color: #ff3d00;
+            width: 100%;
+            padding: 10px;
+            margin: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
         }
 
         form input[type="submit"]:hover {
             background-color: #cc2c00;
+        }
+
+        form input[type="button"]:hover {
+            background-color: #cc2c00;
+        }
+
+
+        .modal {
+            width: 100rem;
+            height: auto;
+        }
+
+        /* Modal Content */
+        .modal-content {
+            background-color: white;
+            height: 35rem;
+            margin: 1% auto;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: left;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Close Button */
+        .close {
+            color: #6E1313;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            float: right;
         }
 
         .modal table {
@@ -201,6 +203,14 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['subjec
         .modal th {
             background-color: #cc2c00;
             color: #FFFFFF;
+        }
+
+        .table_content {
+            height: 10rem;
+            background-color: #6E1313;
+            overflow: hidden;
+            overflow-y: scroll;
+            color: antiquewhite;
         }
 
         .add_subject {
@@ -226,18 +236,6 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['subjec
             font-weight: bold;
             margin: 5px;
         }
-
-        .buttons {
-            height: 2.6rem;
-            background-color: #ff3d00;
-            width: 100%;
-            margin-top: 100%;
-            color: #ffff;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 14px;
-        }
     </style>
 </head>
 
@@ -247,10 +245,13 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['subjec
             <img src="../images/ITE.png" alt="Profile Icon" class="profile-icon">
         </div>
         <div class="sidebar-item">
-            <a href="./index.php"><i class="fas fa-chart-bar"></i> Dashboard</a>
+            <a href="./index.php"> <i class="fas fa-chart-bar"></i>Dashboard</a>
+        </div>
+        <div class="sidebar-item">
+            <a href="./students.php"><i class="fas fa-chalkboard-teacher"></i> Subjects </a>
         </div>
         <div class="sidebar-item" style="background-color: maroon;">
-            <a href="./subject_load.php"><i class="fas fa-chalkboard-teacher"></i> Subjects Load </a>
+            <a href="./master.php"><i class="fas fa-book"></i>Load Subjects</a>
         </div>
         <div class="sidebar-item">
             <a href="./logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
@@ -276,7 +277,9 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['subjec
                         <label style="width: 8rem; margin: 5px;" for="student_id"></label>
                         <select name="student_id" id="student_id"
                             style="width: 100%; border: 1px solid #ccc; border-radius: 5px;">
-                            <option value="<?php echo $_SESSION['student_id'] ?>"><?php echo $_SESSION['student_id'] ?>
+
+                            <option value="<?php echo isset($_GET['student_id']) ? $_GET['student_id'] : '' ?>">
+                                <?php echo isset($_GET['student_id']) ? $_GET['student_id'] : '' ?>
                             </option>
                         </select>
                     </div>
@@ -306,6 +309,19 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['subjec
                             <option value="">Select School Semester</option>
                             <option value="1">1st Semester</option>
                             <option value="2">2nd Semester</option>
+
+                        </select>
+                    </div>
+
+                    <div style="display: flex; margin: 5px;">
+                        <label style="width: 8rem; margin: 5px;" for="levels">levels</label>
+                        <select name="levels" id="levels"
+                            style="width: 100%; border: 1px solid #ccc; border-radius: 5px;">
+                            <option value="">Select College level</option>
+                            <option value="1">1st year college</option>
+                            <option value="2">2nd year college</option>
+                            <option value="3">3rd year college</option>
+                            <option value="4">4th year college</option>
 
                         </select>
                     </div>
@@ -495,7 +511,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['subjec
             <!-- ************** THIS IS NOT LABOT **************** -->
 
             <div class="card">
-                <h2>Searching</h2>
+                <!-- <h2>Searching</h2>
                 <form method="GET">
                     <div style="display: flex; margin: 5px;">
                         <label style="width: 8rem; margin: 5px;" for="year">School
@@ -549,7 +565,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['subjec
                     </div>
                     <button class="buttons" type="submit" onclick="display()" class="btn btn-primary"
                         style="margin-top: 10px; ">Filtering</button>
-                </form>
+                </form> -->
                 <script>
                     /* ************************ start here the fetchin Filtering sample blah blah blah ************************** */
                     $(document).ready(function () {
@@ -652,7 +668,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['subjec
                         <thead>
                             <tr>
                                 <th>No :</th>
-
+                                <th>College Level</th>
                                 <th>Course No</th>
                                 <th>Course Title</th>
                                 <th>Semester</th>
@@ -661,12 +677,17 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['subjec
                             </tr>
                         </thead>
                         <tbody>
-                            <?php $subject = getStudentSubject($student_id);
+                            <?php $subject = getStudentSubject22($_GET['student_id']);
 
                             foreach ($subject as $key => $value) { ?>
                                 <tr>
                                     <td style="text-align: center;"><?php echo $key + 1 ?></td>
 
+                                    <?php $elevel = getCollegeLevelbyTeacher($value['college_level']);
+                                    foreach ($elevel as $levels) {
+                                        ?>
+                                        <td><?php echo $levels['year_level'] ?></td>
+                                    <?php } ?>
                                     <td><?php echo $value['subject_code'] ?></td>
                                     <td><?php echo $value['subject_name'] ?>
                                     </td>
