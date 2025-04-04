@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 03, 2025 at 12:52 AM
+-- Generation Time: Apr 04, 2025 at 04:31 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -305,7 +305,8 @@ CREATE TABLE `students` (
 INSERT INTO `students` (`id`, `student_code`, `fname`, `mname`, `lname`, `profile`, `school_year`, `program`, `course`, `levels`, `section_id`, `contact`, `email`, `verify`) VALUES
 (82, '1006', 'Ewayan', 'D', 'Man', '', '2025-2026', 'TTIC', 'AUTOMOTIVE ENGINEERING', 3, 0, '09691265655', 'man@gmail.com', ''),
 (83, '1007', 'Ewayan', 'D', 'Max', '', '2025-2026', 'DT', 'FOOD TECHNOLOGY', 3, 0, '096912656552', 'max@gmail.com', ''),
-(84, '1008', 'Lalamove', 'Midz', 'rose', '', '2025-2026', 'AIT', 'ELECTRONIC ENGINEERING', 3, NULL, '091213123213', 'rose@gmail.com', '');
+(84, '1008', 'Lalamove', 'Midz', 'rose', '', '2025-2026', 'AIT', 'ELECTRONIC ENGINEERING', 3, NULL, '091213123213', 'rose@gmail.com', ''),
+(86, '1008', 'PONG', 'F', 'JOHN', '', '2025-2026', 'AIT', 'FOOD TECHNOLOGY', 4, NULL, '09695196520', 'JOHN@GMAIL.COM', '');
 
 -- --------------------------------------------------------
 
@@ -377,12 +378,17 @@ CREATE TABLE `student_with_subjects` (
 --
 
 INSERT INTO `student_with_subjects` (`id`, `student_id`, `teacher_id`, `semester`, `program_id`, `school_year`, `subject_code`, `subject_name`, `college_level`, `teacher_name`, `grade`, `status`, `remark`, `final`, `created_at`) VALUES
-(63, 82, 51, 2, 'TTIC', '2025-2026', 'ITPC 102', 'PROGRAMMING 1', '', '', 0, 'Drop', 'Lack of Requirements', 'Failed', '2025-03-23 21:11:31'),
-(64, 82, 51, 1, 'TTIC', '2025-2026', 'ITPC 106', 'COMPUTER PROGRAMMING 2', '', '', 0, 'Completed', 'Completed', 'Passed', '2025-03-23 21:11:38'),
-(65, 82, 51, 1, 'TTIC', '2025-2026', 'ITPC 105', 'COMPUTER PROGRAMMING 5', '', '', 0, 'Drop', 'Lack of Requirements', 'Failed', '2025-03-23 21:11:50'),
-(66, 83, 51, 1, 'DT', '2025-2026', 'ITPC 106', 'COMPUTER PROGRAMMING 2', '4', '', 1.5, 'Completed', 'Completed', 'Cleared', '2025-03-23 21:20:04'),
-(67, 83, 51, 2, 'DT', '2025-2026', 'ITPC 102', 'PROGRAMMING 1', '', '', 0, 'Drop', 'Lack of Requirements', 'Failed', '2025-03-23 21:20:14'),
-(68, 83, 51, 2, 'DT', '2025-2026', 'ITPC 105', 'COMPUTER PROGRAMMING 5', '4', '', 2.5, 'Completed', 'Completed', 'Cleared', '2025-03-23 21:20:19');
+(84, 83, 51, 1, 'DT', '2025-2026', 'ITPC 106', 'COMPUTER PROGRAMMING 2', '1', '', 2.5, 'Completed', 'Lack of Requirements', 'Cleared', '2025-04-03 21:24:09'),
+(85, 83, 51, 2, 'DT', '2025-2026', 'ITPC 102', 'PROGRAMMING 1', '1', '', 5, 'Drop', 'Lack of Requirements', 'Cleared', '2025-04-03 21:25:37'),
+(86, 83, 51, 1, 'DT', '2025-2026', 'ITPC 106', 'COMPUTER PROGRAMMING 2', '2', '', 1, 'Completed', 'Completed', 'Cleared', '2025-04-03 21:33:26'),
+(87, 83, 51, 1, 'DT', '2025-2026', 'ITPC 106', 'COMPUTER PROGRAMMING 2', '3', '', 2, 'Completed', 'Completed', 'Cleared', '2025-04-03 21:33:50'),
+(90, 84, 51, 1, 'AIT', '2025-2026', 'ITPC 106', 'COMPUTER PROGRAMMING 2', '2', '', 0, '', '', '', '2025-04-03 21:43:36'),
+(92, 82, 51, 1, 'TTIC', '2025-2026', 'ITPC 105', 'COMPUTER PROGRAMMING 5', '1', '', 0, '', '', '', '2025-04-03 21:50:15'),
+(94, 84, 51, 1, 'AIT', '2025-2026', 'ITPC 106', 'COMPUTER PROGRAMMING 2', '1', '', 0, '', '', '', '2025-04-03 21:53:19'),
+(96, 86, 47, 1, 'AIT', '2025-2026', 'ITCC 101', 'Planing architecture design 1', '4', '', 0, '', '', '', '2025-04-04 20:17:05'),
+(97, 86, 51, 2, 'AIT', '2025-2026', 'ITPC 102', 'PROGRAMMING 1', '4', '', 0, '', '', '', '2025-04-04 20:51:02'),
+(98, 82, 51, 1, 'TTIC', '2025-2026', 'ITPC 106', 'COMPUTER PROGRAMMING 2', '3', '', 0, '', '', '', '2025-04-04 21:01:47'),
+(99, 82, 51, 2, 'TTIC', '2025-2026', 'ITPC 102', 'PROGRAMMING 1', '4', '', 2.2, 'Completed', 'Completed', 'Cleared', '2025-04-04 21:02:16');
 
 -- --------------------------------------------------------
 
@@ -625,7 +631,12 @@ ALTER TABLE `subject_with_program_id`
 -- Indexes for table `subject_year`
 --
 ALTER TABLE `subject_year`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_program_id_key` (`program_id`),
+  ADD KEY `fk_semester_id_key` (`semester_id`),
+  ADD KEY `fk_teacher_id_key` (`teacher_id`),
+  ADD KEY `fk_year_id_key` (`year_id`),
+  ADD KEY `section_id_key` (`section_id`);
 
 --
 -- Indexes for table `teachers`
@@ -720,7 +731,7 @@ ALTER TABLE `semesters`
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=87;
 
 --
 -- AUTO_INCREMENT for table `student_login`
@@ -738,7 +749,7 @@ ALTER TABLE `student_subjects`
 -- AUTO_INCREMENT for table `student_with_subjects`
 --
 ALTER TABLE `student_with_subjects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
 
 --
 -- AUTO_INCREMENT for table `subject_with_program_id`

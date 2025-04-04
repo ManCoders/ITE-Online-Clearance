@@ -347,7 +347,6 @@ $teacher_id = $_GET['teacher_id'];
                                         <th>Status</th>
                                         <th>Remark</th>
                                         <th>Initial</th>
-                                        <th>Action</th>
                                     </tr>
                                     <tbody id="subjectList2">
 
