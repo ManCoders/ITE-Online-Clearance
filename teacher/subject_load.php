@@ -315,7 +315,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['subjec
                     </div>
 
                     <div style="display: flex; margin: 5px;">
-                        <label style="width: 8rem; margin: 5px;" for="levels">levels</label>
+                        <label style="width: 8rem; margin: 5px;" for="levels">College level</label>
                         <select name="levels" id="levels"
                             style="width: 100%; border: 1px solid #ccc; border-radius: 5px;">
                             <option value="">Select College level</option>
