@@ -95,7 +95,7 @@ function getCollegeLevelbyTeacher($id)
     global $pdo;
     $stmt = $pdo->prepare("SELECT * FROM college_level WHERE id = ?");
     $stmt->execute([$id]);
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
 function getStudentSubject22($student_id)
@@ -148,7 +148,7 @@ function InsertStudentSubjectteacher($program, $student_id, $year, $subject_code
     }
 }
 
-function getTeacherById($id)
+/* function getTeacherById($id)
 {
     global $pdo;
     try {
@@ -160,7 +160,7 @@ function getTeacherById($id)
         return [];
     }
 }
-
+ */
 
 
 function GetSchoolCourse()

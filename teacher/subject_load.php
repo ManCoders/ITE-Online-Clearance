@@ -2,6 +2,7 @@
 session_start();
 include "../db_connect.php";
 include "./student_function.php";
+include "./teacher_function.php";
 
 
 if (!isset($_SESSION['teacher_id'])) {
@@ -683,11 +684,8 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['subjec
                                 <tr>
                                     <td style="text-align: center;"><?php echo $key + 1 ?></td>
 
-                                    <?php $elevel = getCollegeLevelbyTeacher($value['college_level']);
-                                    foreach ($elevel as $levels) {
-                                        ?>
-                                        <td><?php echo $levels['year_level'] ?></td>
-                                    <?php } ?>
+                                    <?php $levels = getCollegeLevelbyTeacher($value['college_level']) ?>
+                                    <td><?php echo $levels['year_level']; ?></td>
                                     <td><?php echo $value['subject_code'] ?></td>
                                     <td><?php echo $value['subject_name'] ?>
                                     </td>
@@ -698,7 +696,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['subjec
                                     } ?>
                                     </td>
 
-                                    <?php $teacher = getTeacherById($value['teacher_id']); ?>
+                                    <?php $teacher = getTeacherById23($value['teacher_id']); ?>
                                     <td><?php echo $teacher['teacher_name']; ?></td>
 
                                     <td style="margin: 5px; text-align: center; color: #FFFFFF; ">

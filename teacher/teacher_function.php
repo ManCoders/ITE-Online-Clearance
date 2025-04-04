@@ -106,7 +106,7 @@ function getEmailByStudentId($student_id)
     }
 }
 
-function getTeacherById($id)
+function getTeacherById23($id)
 {
     global $pdo;
     try {
@@ -300,6 +300,20 @@ function getSubjectTeacherDashboard()
     try {
         $stmt = $pdo->prepare($sql);
         $stmt->execute();
+        return $stmt->fetchAll();
+    } catch (PDOException $e) {
+        echo 'Error: ' . $e->getMessage();
+        return [];
+    }
+}
+
+function subjectList($id)
+{
+    global $pdo;
+    $sql = "SELECT DISTINCT subject_name, college_level FROM student_with_subjects WHERE teacher_id = ? ORDER BY college_level, subject_name ASC";
+    try {
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$id]);
         return $stmt->fetchAll();
     } catch (PDOException $e) {
         echo 'Error: ' . $e->getMessage();
