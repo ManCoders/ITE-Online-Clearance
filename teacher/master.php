@@ -255,7 +255,10 @@ $teacher_id = $_SESSION['teacher_id'];
 
                     <?php } ?>
 
-                    <p style="margin-top: 1.5rem;" class="semester">Student Master</p>
+                    <p style="margin-top: 1.5rem;" class="semester">Student Master <input type="text" id="searchStudent"
+                            placeholder="Search student..."
+                            style="margin: 5px 0 0 10px; width: 10rem; font-size: 14px;"></p>
+
 
                     <div class="table_content" style="text-align:center;">
                         <table>
@@ -268,7 +271,7 @@ $teacher_id = $_SESSION['teacher_id'];
                                 <th>College level</th>
                                 <th>Action</th>
                             </tr>
-                            <tbody>
+                            <tbody id="studentTableBody">
                                 <?php $subject = StudentNonAct() ?>
                                 <?php foreach ($subject as $index => $row) { ?>
                                     <tr>
@@ -290,26 +293,33 @@ $teacher_id = $_SESSION['teacher_id'];
                                 <?php } ?>
                             </tbody>
                         </table>
-
                     </div>
-
-                    <!-- <div style="margin:8px;">
-                        <h1>Total Students: <?php echo getTotalStudentByTeacherIdansStudentId($teacher_id) ?></h1>
-                        <h1>Total Subject Handle: <?php echo getTotalSubjecthandle($teacher_id) ?></h1>
-                        <h1>School Year Handle: <?php echo getTotalSchoolYear($teacher_id) ?></h1>
-
-                    </div> -->
-
-
-
                 </div>
-
             </div>
-
-
-
-
         </div>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('#searchStudent').on('keyup', function () {
+                    let query = $(this).val().toLowerCase();
+                    let found = false;
+
+                    $('#studentTableBody tr').each(function () {
+                        let rowText = $(this).text().toLowerCase();
+                        if (rowText.indexOf(query) > -1) {
+                            $(this).show();
+                            found = true;
+                        } else {
+                            $(this).hide();
+                        }
+                    });
+
+                    if (!found) {
+                        $('#studentTableBody').html('<tr><td colspan="6" style="text-align:center; color: red;">No matching records found</td></tr>');
+                    }
+                });
+            });
+        </script>
 
     </div>
 </body>

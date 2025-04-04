@@ -262,7 +262,13 @@ $teacher_id = $_SESSION['teacher_id'];
                                 style="display:flex; justify-content:left;"><?php echo $levels['year_level']; ?> : <i>
                                     <?php echo $sub['subject_name']; ?></i></label>
                             <div class="table_content" style="text-align:center;">
-
+                                <div
+                                    style="width: 100%; text-align: center; background-color:rgb(253, 58, 4); color: #FFFFFF">
+                                    <label style="padding:5px;" for="">1st
+                                        Semester <input type="text" id="search1" placeholder="Search 1st Semester..."
+                                            style=" width: 20%;margin-left:40rem;">
+                                    </label>
+                                </div>
                                 <table>
                                     <tr>
                                         <th>#</th>
@@ -276,6 +282,7 @@ $teacher_id = $_SESSION['teacher_id'];
                                         <th>Action</th>
                                     </tr>
                                     <tbody id="subjectList1">
+
                                         <?php $subject = getSubjectTeacher($teacher_id) ?>
                                         <?php foreach ($subject as $index => $row) { ?>
                                             <?php if ($row['semester'] == 1 && $sub['subject_name'] == $row['subject_name'] && $row['college_level'] == $sub['college_level']) { ?>
@@ -304,72 +311,69 @@ $teacher_id = $_SESSION['teacher_id'];
                                             <?php } ?>
                                         <?php } ?>
                                     </tbody>
+
                                 </table>
+
+                            </div>
+
+                            <div class="table_content" style="text-align:center;">
+                                <div
+                                    style="width: 100%; text-align: center; background-color:rgb(253, 58, 4); color: #FFFFFF">
+                                    <label style="padding:5px;" for="">2nd
+                                        Semester <input type="text" id="search2" placeholder="Search 2nd Semester..."
+                                            style=" width: 20%;margin-left:40rem;"></label>
+                                </div>
+                                <table>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>College Level</th>
+
+                                        <th>Student Name</th>
+                                        <th>Grade</th>
+                                        <th>Status</th>
+                                        <th>Remark</th>
+                                        <th>Initial</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    <tbody id="subjectList2">
+
+                                        <?php $subject = getSubjectTeacher($teacher_id) ?>
+                                        <?php foreach ($subject as $index => $row) { ?>
+                                            <?php if ($row['semester'] == 2 && $sub['subject_name'] == $row['subject_name'] && $row['college_level'] == $sub['college_level']) { ?>
+                                                <tr>
+                                                    <td><?php echo $index + 1; ?></td>
+
+                                                    <?php $levels = getCollegeLevelbyTeacher($row['college_level']) ?>
+                                                    <td><?php echo $levels['year_level']; ?></td>
+
+                                                    <?php $students = getStudentById($row['student_id']) ?>
+                                                    <td><?php echo htmlspecialchars($students['student_name']); ?></td>
+                                                    <td><?php echo $row['grade']; ?></td>
+                                                    <td><?php echo $row['status']; ?></td>
+                                                    <td><?php echo $row['remark']; ?></td>
+                                                    <td><?php echo $row['final']; ?></td>
+                                                    <td>
+                                                        <div style="color: aliceblue; text-align:center;">
+                                                            <?php $teacher = getSubjectById2($teacher_id) ?>
+                                                            <a
+                                                                href="update_student.php?action=list&teacher_id=<?php echo $teacher_id; ?>&student_id=<?php echo $row['student_id']; ?>&subject_id=<?php echo $row['id']; ?>">
+                                                                <i style="color: aliceblue;" class="fa fa-eye"></i>
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            <?php } ?>
+                                        <?php } ?>
+                                    </tbody>
+
+                                </table>
+
                             </div>
                         <?php } ?>
 
+
+
                     </div>
-
-
-                    <!-- <div style="width: 100%; ">
-
-                        <div class="add_subject" style="width: 100%; display:flex; justify-content:right; ">
-                            <input style=" width:15%; " type="text" id="search1" placeholder="Search...">
-                            <input style=" width:10%; " type="submit" value="Search" id="searchBtn">
-                        </div>
-                    </div> -->
-
-
-
-                    <!-- <p class="semester">2nd Semester</p> -->
-                    <!-- <div class="add_subject" style="width: 100%; display:flex; justify-content:right; ">
-                        <input style=" width:15%; " type="text" id="search2" placeholder="Search...">
-                        <input style=" width:10%; " type="submit" value="Search" id="searchBtn2">
-                    </div> -->
-
-                    <!-- <div class="table_content" style="text-align:center;">
-                        <table>
-                            <tr>
-                                <th>#</th>
-                                <th>Course Code</th>
-                                <th>Course Title</th>
-                                <th>Student Name</th>
-                                <th>Grade</th>
-                                <th>Status</th>
-                                <th>Remark</th>
-                                <th>Initial</th>
-                                <th>Action</th>
-                            </tr>
-                            <tbody id="subjectList2">
-                                <?php $subject = getSubjectTeacher($teacher_id) ?>
-                                <?php foreach ($subject as $index => $row) { ?>
-                                    <?php if ($row['semester'] == 2) { ?>
-                                        <tr>
-                                            <td><?php echo $index + 1; ?></td>
-                                            <td><?php echo $row['subject_code']; ?></td>
-                                            <td><?php echo $row['subject_name']; ?></td>
-                                            <?php $students = getStudentById($row['student_id']) ?>
-                                            <td><?php echo htmlspecialchars($students['student_name']); ?></td>
-                                            <td><?php echo $row['grade']; ?></td>
-                                            <td><?php echo $row['status']; ?></td>
-                                            <td><?php echo $row['remark']; ?></td>
-                                            <td><?php echo $row['final']; ?></td>
-                                            <td>
-                                                <div style="color: aliceblue; text-align:center;">
-                                                    <?php $teacher = getSubjectById2($teacher_id) ?>
-                                                    <a
-                                                        href="update_student.php?action=list&teacher_id=<?php echo $teacher_id; ?>&student_id=<?php echo $row['student_id']; ?>&subject_id=<?php echo $row['id']; ?>">
-                                                        <i style="color: aliceblue;" class="fa fa-eye"></i>
-                                                    </a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    <?php } ?>
-                                <?php } ?>
-                            </tbody>
-                        </table>
-                    </div>
- -->
                 </div>
             </div>
         </div>
@@ -377,38 +381,31 @@ $teacher_id = $_SESSION['teacher_id'];
 
     <script>
         $(document).ready(function () {
-            // Function to handle the search for the 1st semester
-            $('#search1').on('keyup', function () {
-                let query = $(this).val();
-                $.ajax({
-                    url: 'search.php', // Make sure to create this PHP file
-                    type: 'GET',
-                    data: {
-                        semester: 1,
-                        query: query
-                    },
-                    success: function (data) {
-                        $('#subjectList1').html(
-                            data);
-                    }
-                });
-            });
+            function filterSemester(inputId, tableBodyId) {
+                $(`#${inputId}`).on('keyup', function () {
+                    let query = $(this).val().toLowerCase();
+                    let hasMatch = false;
 
-            // Function to handle the search for the 2nd semester
-            $('#search2').on('keyup', function () {
-                let query = $(this).val();
-                $.ajax({
-                    url: 'search.php',
-                    type: 'GET',
-                    data: {
-                        semester: 2,
-                        query: query
-                    },
-                    success: function (data) {
-                        $('#subjectList2').html(
-                            data);
+                    $(`#${tableBodyId} tr`).each(function () {
+                        let row = $(this);
+                        let rowText = row.text().toLowerCase();
+
+                        if (rowText.indexOf(query) > -1) {
+                            row.show();
+                            hasMatch = true;
+                        } else {
+                            row.hide();
+                        }
+                    });
+
+                    if (!hasMatch) {
+                        $(`#${tableBodyId}`).html(`<tr><td colspan="8" style="text-align:center; color: red;">No records found</td></tr>`);
                     }
                 });
-            });
+            }
+
+            // Apply to both semesters
+            filterSemester('search1', 'subjectList1');
+            filterSemester('search2', 'subjectList2');
         });
     </script>
