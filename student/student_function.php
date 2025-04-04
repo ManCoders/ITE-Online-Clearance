@@ -139,6 +139,28 @@ function InsertStudentSubject($program, $student_id, $year, $subject_code, $subj
     }
 }
 
+
+function getCollegeLevelbyTeacher($id)
+{
+
+    global $pdo;
+    $stmt = $pdo->prepare("SELECT * FROM college_level WHERE id = ?");
+    $stmt->execute([$id]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+function getSubject2($id)
+{
+    global $pdo;
+    $sql = "SELECT * FROM student_with_subjects WHERE student_id = ?";
+    try {
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$id]);
+        return $stmt->fetchAll();
+    } catch (PDOException $e) {
+        echo 'Error: ' . $e->getMessage();
+        return [];
+    }
+}
 function getTeacherById($id)
 {
     global $pdo;

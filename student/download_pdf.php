@@ -109,6 +109,7 @@ function generateSemesterTable($pdf, $semesterTitle, $subjects)
     <table border="1">
         <tr>
             <th>#</th>
+            <th>College Level</th>
             <th>Course Code</th>
             <th>Course Title</th>
             <th>Grade</th>
@@ -121,9 +122,10 @@ function generateSemesterTable($pdf, $semesterTitle, $subjects)
 
         $final = !empty($row['final']) ? $row['final'] : 'Not Provided'; // Default remark
         $teacher_name = !empty($teacher['teacher_name']) ? $teacher['teacher_name'] : 'Unknown'; // Default instructor
-
+        $level = getCollegeLevelbyTeacher($row['college_level']);
         $html .= '<tr>
                     <td>' . ($index + 1) . '</td>
+                    <td>' . htmlspecialchars($level['year_level'] ?? 'N/A') . '</td>
                     <td>' . htmlspecialchars($row['subject_code'] ?? 'N/A') . '</td>
                     <td>' . htmlspecialchars($row['subject_name'] ?? 'N/A') . '</td>
                     <td>' . htmlspecialchars($row['grade'] ?? '') . '</td>
