@@ -303,7 +303,9 @@ if (isset($_GET['delete_program'])) {
                             if (this.value === 'other') {
                                 document.querySelector('input[name="course"]').style.display = 'block';
                             } else {
+
                                 document.querySelector('input[name="course"]').style.display = 'none';
+                                document.querySelector('input[name="course"]').disabled = true;
                             }
                         });
                     </script>
@@ -327,6 +329,7 @@ if (isset($_GET['delete_program'])) {
                                 document.querySelector('input[name="department"]').style.display = 'block';
                             } else {
                                 document.querySelector('input[name="department"]').style.display = 'none';
+                                document.querySelector('input[name="department"]').disabled = true;
                             }
                         });
                     </script>
@@ -350,6 +353,7 @@ if (isset($_GET['delete_program'])) {
                                 document.querySelector('input[name="sy"]').style.display = 'block';
                             } else {
                                 document.querySelector('input[name="sy"]').style.display = 'none';
+                                document.querySelector('input[name="sy"]').disabled = true;
                             }
                         });
                     </script>
