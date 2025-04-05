@@ -307,7 +307,7 @@ $teacher_id = $_GET['teacher_id'];
                                                     <td><?php echo $levels['year_level']; ?></td>
 
                                                     <?php $students = getStudentById($row['student_id']) ?>
-                                                    <td><?php echo htmlspecialchars($students['student_name']); ?></td>
+                                                    <td><?php echo $students['student_name']; ?></td>
                                                     <td><?php echo $row['grade']; ?></td>
                                                     <td><?php echo $row['status']; ?></td>
                                                     <td><?php echo $row['remark']; ?></td>

@@ -254,10 +254,10 @@ $teacher_id = $_SESSION['teacher_id'];
                                 <?php echo $student['email']; ?></i></span>
 
                     <?php } ?>
-
+                    <!--
                     <p style="margin-top: 1.5rem;" class="semester">All Subject Hundle</p>
 
-                    <div class="table_content" style="text-align:center;">
+                        <div class="table_content" style="text-align:center;">
                         <table>
                             <tr>
                                 <th>#</th>
@@ -285,7 +285,7 @@ $teacher_id = $_SESSION['teacher_id'];
                             </tbody>
                         </table>
 
-                    </div>
+                    </div> -->
 
                     <div style="margin:8px;">
                         <h1>Total Students: <?php echo getTotalStudentByTeacherIdansStudentId($teacher_id) ?></h1>

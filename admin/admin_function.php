@@ -221,10 +221,10 @@ function getStudentById($id)
     global $pdo;
     try {
         $stmt = $pdo->prepare("
-        SELECT CONCAT(lname, ' ', mname, ' ', fname) AS student_name , email, course FROM students WHERE id = ?
-        ");
+    SELECT CONCAT(lname, ' ', mname, ' ', fname) AS student_name, email, course FROM students WHERE id = ?
+    ");
         $stmt->execute([$id]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
     } catch (PDOException $e) {
         error_log("Database Error: " . $e->getMessage()); // Logs the error
         return [];
@@ -696,7 +696,7 @@ function getSubjectById($id)
 {
     try {
         global $pdo;
-        $query = "SELECT  subject_name, semester, teacher_name, teacher_id, program_id, id, subject_code FROM subject_with_program_id WHERE program_id = ?";
+        $query = "SELECT  subject_name, semester, teacher_name, teacher_id, program_id, id,subject_code FROM subject_with_program_id WHERE program_id = ?";
         $stmt = $pdo->prepare($query);
         $stmt->execute([$id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

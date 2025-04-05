@@ -46,4 +46,13 @@ Teacher Features
 
 ![alt text](doc/image-14.png)
 
+teacher laod subject
+![alt text](doc/image.png)
+
+teacehr dashboard
+![alt text](doc/image-15.png)
+
+teacher subject
+![alt text](doc/image-16.png)
+
 <!-- ..... -->
