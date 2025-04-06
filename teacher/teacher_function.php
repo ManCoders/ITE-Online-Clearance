@@ -38,6 +38,21 @@ function GetInstructorById($instructor_id)
     }
 }
 
+function GetSectionByIdadmin($section_id)
+{
+    global $pdo;
+    try {
+        $stmt = $pdo->prepare("
+        SELECT * FROM sections
+        WHERE id = ? ORDER BY id
+        ");
+        $stmt->execute([$section_id]);
+        return $stmt->fetch();
+    } catch (PDOException $e) {
+        return [];
+    }
+}
+
 
 function GetSectionById($section_id)
 {

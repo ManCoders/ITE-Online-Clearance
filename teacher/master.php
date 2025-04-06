@@ -247,13 +247,58 @@ $teacher_id = $_SESSION['teacher_id'];
                     <div class="modal-content">
                         <h2 id="programTitle"><?php echo htmlspecialchars($student['teacher_name']) ?></h2>
                         <span id="sy">Employee ID: <?php echo $student['teacher_code']; ?></span><br>
-                        <span id="course">Specialization: <?php echo $student['specialized']; ?><br />
+                        <?php $section = GetSectionByIdadmin($student['section_id']); ?>
+                        <span id="course">Section Adviser : <?php echo $section['section_name']; ?><br />
                         </span>
                         <span id="course">Profession : <?php echo $student['profession']; ?></span><br>
                         <span id="course"><i><?php echo $student['contact']; ?> -
                                 <?php echo $student['email']; ?></i></span>
 
                     <?php } ?>
+
+                    <p style="margin-top: 1.5rem;" class="semester">
+                        <?php $section = GetSectionByIdadmin($student['section_id']); ?>
+                        <span id="course">Section : <?php echo $section['section_name']; ?>
+                    </p>
+
+
+                    <div class="table_content" style="text-align:center;">
+                        <table>
+                            <tr>
+                                <th>#</th>
+                                <th>Complete Name</th>
+
+                                <th>Program Course</th>
+                                <th>Course</th>
+                                <th>College level</th>
+                                <th>Action</th>
+                            </tr>
+                            <tbody id="studentTableBody">
+                                <?php $subject = StudentNonAct() ?>
+                                <?php foreach ($subject as $index => $row) { ?>
+                                    <?php if ($student['section_id'] == $row['section_id']) { ?>
+                                        <tr>
+                                            <td><?php echo $index + 1; ?></td>
+                                            <td><?php echo $row['complete_name']; ?></td>
+                                            <td><?php echo $row['program']; ?></td>
+                                            <td><?php echo $row['course']; ?></td>
+                                            <?php $levels = getCollegeLevels($row['levels']);
+                                            foreach ($levels as $level) { ?>
+                                                <td><?php echo $level['year_level']; ?></td>
+                                            <?php } ?>
+                                            <?php $_SESSION['user'] = $row['id']; ?>
+                                            <td>
+                                                <a
+                                                    href="subject_load.php?student_id=<?php echo $_SESSION['user'] = $row['id']; ?>">
+                                                    <i style="color: aliceblue;" class="fa fa-eye"></i></a>
+                                            </td>
+                                        </tr>
+                                    <?php }
+                                } ?>
+                            </tbody>
+                        </table>
+                    </div>
+
 
                     <p style="margin-top: 1.5rem;" class="semester">Student Master <input type="text" id="searchStudent"
                             placeholder="Search student..."
@@ -274,26 +319,29 @@ $teacher_id = $_SESSION['teacher_id'];
                             <tbody id="studentTableBody">
                                 <?php $subject = StudentNonAct() ?>
                                 <?php foreach ($subject as $index => $row) { ?>
-                                    <tr>
-                                        <td><?php echo $index + 1; ?></td>
-                                        <td><?php echo $row['complete_name']; ?></td>
-                                        <td><?php echo $row['program']; ?></td>
-                                        <td><?php echo $row['course']; ?></td>
-                                        <?php $levels = getCollegeLevels($row['levels']);
-                                        foreach ($levels as $level) { ?>
-                                            <td><?php echo $level['year_level']; ?></td>
-                                        <?php } ?>
-                                        <?php $_SESSION['user'] = $row['id']; ?>
-                                        <td>
-                                            <a
-                                                href="subject_load.php?student_id=<?php echo $_SESSION['user'] = $row['id']; ?>">
-                                                <i style="color: aliceblue;" class="fa fa-eye"></i></a>
-                                        </td>
-                                    </tr>
-                                <?php } ?>
+                                    <?php if ($student['section_id'] != $row['section_id']) { ?>
+                                        <tr>
+                                            <td><?php echo $index + 1; ?></td>
+                                            <td><?php echo $row['complete_name']; ?></td>
+                                            <td><?php echo $row['program']; ?></td>
+                                            <td><?php echo $row['course']; ?></td>
+                                            <?php $levels = getCollegeLevels($row['levels']);
+                                            foreach ($levels as $level) { ?>
+                                                <td><?php echo $level['year_level']; ?></td>
+                                            <?php } ?>
+                                            <?php $_SESSION['user'] = $row['id']; ?>
+                                            <td>
+                                                <a
+                                                    href="subject_load.php?student_id=<?php echo $_SESSION['user'] = $row['id']; ?>">
+                                                    <i style="color: aliceblue;" class="fa fa-eye"></i></a>
+                                            </td>
+                                        </tr>
+                                    <?php }
+                                } ?>
                             </tbody>
                         </table>
                     </div>
+
                 </div>
             </div>
         </div>

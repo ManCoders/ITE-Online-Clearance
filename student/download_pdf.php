@@ -48,6 +48,7 @@ $pdf->Ln(5);
 // --- STUDENT INFO ---
 $pdf->SetFont('helvetica', 'B', 12);
 $pdf->SetTextColor(0, 0, 0);
+$section = GetSectionByIdadmin($student['section_id']);
 $student_info = "
 <table>
     <tr>
@@ -57,15 +58,17 @@ $student_info = "
     <tr>
         <td><strong>Student ID:</strong> {$student['student_code']}</td>
         <td><strong>School Year:</strong> {$student['school_year']}</td>
+        
     </tr>
     <tr>
         <td><strong>Course:</strong> {$student['program']} - {$student['course']}</td>
+        
+        <td><strong>Section :</strong> {$section['section_name']}</td>
     </tr>
 </table>
 ";
 $pdf->writeHTML($student_info, true, false, true, false, '');
-
-$pdf->Ln(5);
+$pdf->Ln(6);
 
 // Function to generate semester tables
 function generateSemesterTable($pdf, $semesterTitle, $subjects)

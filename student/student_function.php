@@ -7,10 +7,10 @@ function getMyId($id)
     $id = intval($id);
 
     try {
-        $sql = "SELECT s.*,
-        CONCAT(s.lname, ' ', s.mname, ' ', s.fname) AS student_name
+        $sql = "SELECT *,
+        CONCAT(lname, ' ', mname, ' ',fname) AS student_name
         
-        FROM students s WHERE id = ?";
+        FROM students WHERE id = ?";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$id]);
         return $stmt->fetch();
@@ -138,7 +138,20 @@ function InsertStudentSubject($program, $student_id, $year, $subject_code, $subj
         exit();
     }
 }
-
+function GetSectionByIdadmin($section_id)
+{
+    global $pdo;
+    try {
+        $stmt = $pdo->prepare("
+        SELECT * FROM sections
+        WHERE id = ? ORDER BY id
+        ");
+        $stmt->execute([$section_id]);
+        return $stmt->fetch();
+    } catch (PDOException $e) {
+        return [];
+    }
+}
 
 function getCollegeLevelbyTeacher($id)
 {

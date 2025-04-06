@@ -256,6 +256,8 @@ $student_id = $_SESSION['student_id'];
                     <div class="modal-content">
                         <h2 id="programTitle"><?php echo htmlspecialchars($student['student_name']) ?></h2>
                         <span id=" sy">Student ID: <?php echo $student['student_code']; ?></span><br>
+                        <?php $section = GetSectionByIdadmin($student['section_id']); ?>
+                        <span>Section : <?php echo $section['section_name']; ?></span><br>
                         <span id="course">Course: <?php echo $student['program']; ?> -
                             <?php echo $student['course']; ?></span><br>
                         <span id="course"><i><?php echo $student['contact']; ?> -
