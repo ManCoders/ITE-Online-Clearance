@@ -23,13 +23,14 @@ if (isset($_POST['new_student'])) {
         $course = $_POST['course'];
         $college_level = &$_POST['college_level'];
         $SY = $_POST['schoolYear'];
+        $sections = $_POST['sections'];
 
-        if (empty($college_level) || empty($SY) || empty($student_id) || empty($lname) || empty($fname) || empty($mname) || empty($contact) || empty($email) || empty($program) || empty($course)) {
+        if (empty($sections) || empty($college_level) || empty($SY) || empty($student_id) || empty($lname) || empty($fname) || empty($mname) || empty($contact) || empty($email) || empty($program) || empty($course)) {
             header('location: ?error=Please fill in all fields');
             exit();
         }
 
-        InsertNewStudent($student_id, $lname, $fname, $mname, $contact, $email, $program, $course, $SY, $college_level);
+        InsertNewStudent($student_id, $lname, $fname, $mname, $contact, $email, $program, $course, $SY, $college_level, $sections);
     }
 }
 
@@ -318,6 +319,7 @@ if (isset($_GET['delete_program'])) {
                         <label for="">Program</label>
                         <label for="">Course</label>
                         <label for="">College level</label>
+                        <label for="">Section</label>
                     </div>
                     <div style="display: flex; justify-content:space-between; gap:5px;">
                         <select style="padding: 5px;  width: 100%;" name="schoolYear" id="schoolYear">
@@ -356,6 +358,21 @@ if (isset($_GET['delete_program'])) {
                                 <option value="<?php echo $levels['id']; ?>"><?php echo $levels['year_level'] ?>
                                 </option>
                             <?php } ?>
+                        </select>
+                        <select style=" padding: 5px; width: 100%;" name="sections" id="sections">
+                            <option value="">Select Section</option>
+                            <?php
+                            $section = getSectionInTeacher();
+
+                            foreach ($section as $sections) { ?>
+
+                                <?php $section_Label = GetSectionByIdadmin($sections['section_id']); ?>
+
+                                <option value="<?php echo $sections['section_id']; ?>">
+                                    <?php echo $section_Label['section_name'] ?>
+                                </option>
+                                <?php
+                            } ?>
                         </select>
                     </div>
 
@@ -504,7 +521,7 @@ if (isset($_GET['delete_program'])) {
                                         <td>
                                             <div style="color: aliceblue;">
                                                 <a
-                                                    href="view_student.php?program_id=<?php echo $program['id']; ?>&program_name=<?php echo urlencode($program['program']); ?>&student_name=<?php echo urlencode($program['student_name']); ?></a>&course_name=<?php echo urlencode($program['course']); ?>&student_id=<?php echo urlencode($program['student_code']); ?>">
+                                                    href="view_student.php?program_id=<?php echo $program['id']; ?>&section_id=<?php echo urlencode($program['section_id']); ?>&program_name=<?php echo urlencode($program['program']); ?>&student_name=<?php echo urlencode($program['student_name']); ?>&course_name=<?php echo urlencode($program['course']); ?>&student_id=<?php echo urlencode($program['student_code']); ?>">
                                                     <i style="color: aliceblue;" class="fa fa-eye"></i>
                                                 </a>
                                                 <!-- <a class="edit-program" section="<?php echo $program['id']; ?>"><i

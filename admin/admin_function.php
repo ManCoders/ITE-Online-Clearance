@@ -499,23 +499,6 @@ function GetSchoolYearById($school_year)
 }
 
 
-function GetSectionById($section_id)
-{
-    global $pdo;
-    try {
-        $stmt = $pdo->prepare("
-        SELECT s.section_name FROM subject_year sy 
-        
-        INNER JOIN sections s ON sy.section_id = s.id
-        WHERE section_id = ?
-        
-        ");
-        $stmt->execute([$section_id]);
-        return $stmt->fetch();
-    } catch (PDOException $e) {
-        return [];
-    }
-}
 
 function getSubjectViewByStudentId($id)
 {
@@ -738,7 +721,7 @@ function getSubject1($id)
 
 
 
-function InsertNewStudent($student_id, $lname, $fname, $mname, $contact, $email, $program, $course, $sy, $level)
+function InsertNewStudent($student_id, $lname, $fname, $mname, $contact, $email, $program, $course, $sy, $level, $section_id)
 {
     global $pdo;
     try {
@@ -748,10 +731,10 @@ function InsertNewStudent($student_id, $lname, $fname, $mname, $contact, $email,
             header("Location: students.php?error=Student Already Exists");
             return false;
         } else {
-            $query = "INSERT INTO students ( student_code, lname, fname, mname, contact, email, program, course,school_year,levels) 
-                                       VALUES ( ?,?,?,?,?,?,?,?,?,?)";
+            $query = "INSERT INTO students ( student_code, lname, fname, mname, contact, email, program, course,school_year,levels, section_id) 
+                                       VALUES ( ?,?,?,?,?,?,?,?,?,?,?)";
             $stmt = $pdo->prepare($query);
-            if ($stmt->execute([$student_id, $lname, $fname, $mname, $contact, $email, $program, $course, $sy, $level])) {
+            if ($stmt->execute([$student_id, $lname, $fname, $mname, $contact, $email, $program, $course, $sy, $level, $section_id])) {
                 header("Location: students.php?success=Student Added Successfully");
                 return true;
             } else {
@@ -765,22 +748,59 @@ function InsertNewStudent($student_id, $lname, $fname, $mname, $contact, $email,
     }
 }
 
-
-
-function InsertNewTeacher($employee_id, $lname, $fname, $mname, $contact, $email, $profession, $specialization, $schoolyear)
+function GetSectionByIdadmin($section_id)
 {
     global $pdo;
     try {
-        $stmt = $pdo->prepare("SELECT * FROM teachers WHERE teacher_code = ? AND email = ? AND contact = ?");
+        $stmt = $pdo->prepare("
+        SELECT * FROM sections
+        WHERE id = ? ORDER BY id
+        ");
+        $stmt->execute([$section_id]);
+        return $stmt->fetch();
+    } catch (PDOException $e) {
+        return [];
+    }
+}
+
+
+
+function getSectionInTeacher()
+{
+    global $pdo;
+    try {
+        $stmt = $pdo->prepare("
+        SELECT section_id FROM teachers
+        ");
+        $stmt->execute();
+        return $stmt->fetchAll();
+    } catch (PDOException $e) {
+        error_log("Database Error: " . $e->getMessage()); // Logs the error
+        return [];
+    }
+}
+
+
+function InsertNewTeacher($employee_id, $lname, $fname, $mname, $contact, $email, $profession, $specialization, $schoolyear, $section_id)
+{
+    global $pdo;
+    try {
+        $stmt = $pdo->prepare("SELECT * FROM teachers WHERE teacher_code = ? AND email = ? AND contact = ? ");
         $stmt->execute([$employee_id, $email, $contact]);
         if ($stmt->fetchColumn() > 0) {
             header("Location: teachers.php?error=Teachers Already Exists");
             return false;
         } else {
-            $query = "INSERT INTO teachers ( teacher_code, lname, fname, mname, contact, email, profession, specialized , school_year) 
-                                       VALUES ( ?,?,?,?,?,?,?,?,?)";
+            $stmt = $pdo->prepare("SELECT * FROM teachers WHERE section_id = ?");
+            $stmt->execute([$section_id]);
+            if ($stmt->fetchColumn() > 0) {
+                header("Location: teachers.php?error=Section Already Exists");
+                return false;
+            }
+            $query = "INSERT INTO teachers ( teacher_code, lname, fname, mname, contact, email, profession, specialized , school_year, section_id) 
+                                       VALUES ( ?,?,?,?,?,?,?,?,?,?)";
             $stmt = $pdo->prepare($query);
-            if ($stmt->execute([$employee_id, $lname, $fname, $mname, $contact, $email, $profession, $specialization, $schoolyear])) {
+            if ($stmt->execute([$employee_id, $lname, $fname, $mname, $contact, $email, $profession, $specialization, $schoolyear, $section_id])) {
                 header("Location: teachers.php?success=Teacher Added Successfully");
                 return true;
             } else {

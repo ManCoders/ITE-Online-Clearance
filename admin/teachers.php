@@ -21,13 +21,14 @@ if (isset($_POST['add_employee'])) {
     $profession = $_POST['profession'];
     $specialization = $_POST['specialization'];
     $schoolyear = $_POST['schoolYear'];
+    $section_id = $_POST['section'];
 
-    if (empty($schoolyear) || empty($employee_id) || empty($lname) || empty($fname) || empty($mname) || empty($contact) || empty($email) || empty($profession)) {
+    if (empty($schoolyear) || empty($section_id) || empty($employee_id) || empty($lname) || empty($fname) || empty($mname) || empty($contact) || empty($email) || empty($profession)) {
         header('location: ?error=Please fill in all fields');
         exit();
     }
 
-    InsertNewTeacher($employee_id, $lname, $fname, $mname, $contact, $email, $profession, $specialization, $schoolyear);
+    InsertNewTeacher($employee_id, $lname, $fname, $mname, $contact, $email, $profession, $specialization, $schoolyear, $section_id);
 }
 
 

@@ -279,11 +279,16 @@ if (isset($_GET['subject_id'])) {
                     </h2>
                     <span id="sy">Student ID: <?php if (isset($_GET['student_id'])) {
                         echo $_GET['student_id'];
-                    } ?></span><br><span id="course">Course:
+                    } ?></span><br>
+                    <span id="course">Course:
                         <?php if (isset($_GET['course_name']) && isset($_GET['program_name'])) {
                             echo $_GET['program_name'] . ' - ' . $_GET['course_name'];
+                        } ?></span><br>
+                    <span id="course">Section :
+                        <?php if (isset($_GET['section_id']) && isset($_GET['section_id'])) {
+                            $section = GetSectionByIdadmin($_GET['section_id']);
+                            echo $section['section_name'];
                         } ?></span>
-
 
                     <div class="border-line">
                         <h3 class="college_level">1st year college</h3>
