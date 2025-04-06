@@ -353,7 +353,7 @@ if (isset($_GET['delete_program'])) {
 
                             <select
                                 style="padding: 5px;  width: 100%; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;"
-                                name="profession" id="profession">
+                                name="section" id="section">
                                 <option value="">Select Section Adviser</option>
                                 <?php
                                 $years = sections();
