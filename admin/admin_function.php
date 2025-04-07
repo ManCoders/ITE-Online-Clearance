@@ -274,6 +274,29 @@ function GetPrograms()
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+
+function GetCustomCourse()
+{
+    global $pdo;
+    $stmt = $pdo->prepare("SELECT DISTINCT program_course FROM programs_with_subjects");
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function GetCustomProgram()
+{
+    global $pdo;
+    $stmt = $pdo->prepare("SELECT DISTINCT department_program FROM programs_with_subjects");
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+function GetCustomYear()
+{
+    global $pdo;
+    $stmt = $pdo->prepare("SELECT DISTINCT school_year FROM programs_with_subjects");
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 function teacher_profession()
 {
     global $pdo;

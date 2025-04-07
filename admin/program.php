@@ -370,7 +370,7 @@ if (isset($_GET['delete_program'])) {
                         style="height: 2.4rem; width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;">
                         <option value="">Select School Year</option>
                         <?php
-                        $years = GetSchoolYear();
+                        $years = GetCustomYear();
                         foreach ($years as $year) { ?>
                             <option value="<?php echo $year['school_year']; ?>"><?php echo $year['school_year'] ?></option>
                         <?php } ?>
@@ -381,9 +381,10 @@ if (isset($_GET['delete_program'])) {
                         style="height: 2.4rem; width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;">
                         <option value="">Select Program</option>
                         <?php
-                        $years = GetPrograms();
+                        $years = GetCustomProgram();
                         foreach ($years as $year) { ?>
-                            <option value="<?php echo $year['program_code']; ?>"><?php echo $year['program_code'] ?>
+                            <option value="<?php echo $year['department_program']; ?>">
+                                <?php echo $year['department_program'] ?>
                             </option>
                         <?php } ?>
                     </select>
@@ -394,9 +395,9 @@ if (isset($_GET['delete_program'])) {
                         name="course">
                         <option value="">Select Major Course</option>
                         <?php
-                        $years = GetCourse();
+                        $years = GetCustomCourse();
                         foreach ($years as $year) { ?>
-                            <option value="<?php echo $year['course_name']; ?>"><?php echo $year['course_name'] ?>
+                            <option value="<?php echo $year['program_course']; ?>"><?php echo $year['program_course'] ?>
                             </option>
                         <?php } ?>
 

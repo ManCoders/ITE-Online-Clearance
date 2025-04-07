@@ -11,7 +11,6 @@ if (!isset($_SESSION['admin_id'])) {
 $sampleData = [
 
     'programs' => [],
-    'subjects' => [],
     'students' => [],
     'teachers' => []
 ];
@@ -31,7 +30,7 @@ if ($programs_result->rowCount() > 0) {
 }
 
 
-
+/* 
 $subjects_query = "SELECT DISTINCT subject_name FROM subject_with_program_id";
 $subjects_result = $pdo->prepare($subjects_query);
 $subjects_result->execute();
@@ -40,7 +39,7 @@ if ($subjects_result->rowCount() > 0) {
         $sampleData['subjects'][] = $row['subject_name'];
     }
 }
-
+ */
 
 $students_query = "SELECT s.* , sl.* FROM student_login sl INNER JOIN students s ON sl.student_id = s.id";
 $students_result = $pdo->prepare($students_query);
@@ -65,7 +64,6 @@ if ($teachers_result->rowCount() > 0) {
 $totals = [
 
     'programs' => count($sampleData['programs']),
-    'subjects' => count($sampleData['subjects']),
     'students' => count($sampleData['students']),
     'teachers' => count($sampleData['teachers'])
 ];
@@ -323,7 +321,7 @@ $totals = [
 
     <div class="right-content">
         <?php foreach ($sampleData as $category => $items): ?>
-            <div id="list-<?php echo $category; ?>" class="list-container" style="display: block;">
+            <div id="list-<?php echo $category; ?>" class="list-container" style="display: none;">
                 <span class="close-btn" onclick="hideList('<?php echo $category; ?>')">&times;</span>
                 <h3><?php echo ucfirst($category); ?> List</h3>
                 <ul class="ul-items">
