@@ -285,10 +285,10 @@ if (isset($_GET['subject_id'])) {
                             echo $_GET['program_name'] . ' - ' . $_GET['course_name'];
                         } ?></span><br>
                     <span id="course">Section :
-                        <?php if (isset($_GET['section_id']) && isset($_GET['section_id'])) {
-                            $section = GetSectionByIdadmin($_GET['section_id']);
-                            echo $section['section_name'];
-                        } ?></span>
+                        <?php
+                        $section = GetSectionByIdadmin($_GET['section_id']);
+                        echo $section['section_name'] ?? "No Section Assign";
+                        ?></span>
 
                     <div class="border-line">
                         <h3 class="college_level">1st year college</h3>

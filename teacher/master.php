@@ -248,7 +248,8 @@ $teacher_id = $_SESSION['teacher_id'];
                         <h2 id="programTitle"><?php echo htmlspecialchars($student['teacher_name']) ?></h2>
                         <span id="sy">Employee ID: <?php echo $student['teacher_code']; ?></span><br>
                         <?php $section = GetSectionByIdadmin($student['section_id']); ?>
-                        <span id="course">Section Adviser : <?php echo $section['section_name']; ?><br />
+                        <span id="course">Section Adviser :
+                            <?php echo $section['section_name'] ?? "No Section Assign"; ?><br />
                         </span>
                         <span id="course">Profession : <?php echo $student['profession']; ?></span><br>
                         <span id="course"><i><?php echo $student['contact']; ?> -
@@ -258,7 +259,7 @@ $teacher_id = $_SESSION['teacher_id'];
 
                     <p style="margin-top: 1.5rem;" class="semester">
                         <?php $section = GetSectionByIdadmin($student['section_id']); ?>
-                        <span id="course">Section : <?php echo $section['section_name']; ?>
+                        <span id="course">Section : <?php echo $section['section_name'] ?? "No Section Assign"; ?>
                     </p>
 
 

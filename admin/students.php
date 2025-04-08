@@ -368,9 +368,8 @@ if (isset($_GET['delete_program'])) {
                             foreach ($section as $sections) { ?>
 
                                 <?php $section_Label = GetSectionByIdadmin($sections['section_id']); ?>
-
-                                <option value="<?php echo $sections['section_id']; ?>">
-                                    <?php echo $section_Label['section_name'] ?>
+                                <option value="<?php echo $section_Label['section_id'] ?? ''; ?>">
+                                    <?php echo $section_Label['section_name'] ?? ''; ?>
                                 </option>
                                 <?php
                             } ?>

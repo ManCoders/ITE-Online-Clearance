@@ -120,8 +120,9 @@ if (isset($_POST['submit'])) {
                                         </select>
                                         <select name="final" id="" required>
                                             <option value="">SELECT FINAL</option>
-                                            <option value="Not Cleared">Not Cleared</option>
                                             <option value="Cleared">Cleared</option>
+                                            <option value="Not Cleared">Not Cleared</option>
+
                                         </select>
                                     </div>
 
