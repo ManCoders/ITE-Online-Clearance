@@ -363,16 +363,14 @@ if (isset($_GET['delete_program'])) {
                         <select style=" padding: 5px; width: 100%;" name="sections" id="sections">
                             <option value="">Select Section</option>
                             <?php
-                            $section = getSectionInTeacher();
-
-                            foreach ($section as $sections) { ?>
-
-                                <?php $section_Label = GetSectionByIdadmin($sections['section_id']); ?>
-                                <option value="<?php echo $section_Label['section_id'] ?? ''; ?>">
-                                    <?php echo $section_Label['section_name'] ?? ''; ?>
+                            $sections = GetCustomSection();
+                            foreach ($sections as $section) {
+                                ?>
+                                <option value="<?php echo $section['section_id']; ?>">
+                                    <?php $fromSection = GetSectionByIdadmin($section['section_id']) ?>
+                                    <?php echo $fromSection['section_name'] ?? " "; ?>
                                 </option>
-                                <?php
-                            } ?>
+                            <?php } ?>
                         </select>
                     </div>
 
@@ -396,9 +394,10 @@ if (isset($_GET['delete_program'])) {
                         style="height: 2.4rem; width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;">
                         <option value="">Select Program</option>
                         <?php
-                        $years = GetPrograms();
+                        $years = GetCustomProgram();
                         foreach ($years as $year) { ?>
-                            <option value="<?php echo $year['program_code']; ?>"><?php echo $year['program_code'] ?>
+                            <option value="<?php echo $year['department_program']; ?>">
+                                <?php echo $year['department_program'] ?>
                             </option>
                         <?php } ?>
                     </select>
@@ -409,9 +408,9 @@ if (isset($_GET['delete_program'])) {
                         name="course">
                         <option value="">Select Major Course</option>
                         <?php
-                        $years = GetCourse();
+                        $years = GetCustomCourse();
                         foreach ($years as $year) { ?>
-                            <option value="<?php echo $year['course_name']; ?>"><?php echo $year['course_name'] ?>
+                            <option value="<?php echo $year['program_course']; ?>"><?php echo $year['program_course'] ?>
                             </option>
                         <?php } ?>
 

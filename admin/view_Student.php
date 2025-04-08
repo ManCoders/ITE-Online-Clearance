@@ -320,7 +320,7 @@ if (isset($_GET['subject_id'])) {
                                                 <td><?php echo $row['remark']; ?></td>
                                                 <td><?php echo $row['final']; ?></td>
                                                 <?php $teacher = getTeacherById($row['teacher_id']); ?>
-                                                <td><?php echo $teacher['teacher_name']; ?></td>
+                                                <td><?php echo $teacher['teacher_name'] ?? "No Teacher Assign"; ?></td>
                                             </tr>
                                         <?php }
                                     } ?>
@@ -363,7 +363,7 @@ if (isset($_GET['subject_id'])) {
                                                 <td><?php echo $row['remark']; ?></td>
                                                 <td><?php echo $row['final']; ?></td>
                                                 <?php $teacher = getTeacherById($row['teacher_id']); ?>
-                                                <td><?php echo $teacher['teacher_name']; ?></td>
+                                                <td><?php echo $teacher['teacher_name'] ?? "No Teacher Assign"; ?></td>
                                             </tr>
                                         <?php }
                                         } ?>
@@ -403,7 +403,7 @@ if (isset($_GET['subject_id'])) {
                                                 <td><?php echo $row['remark']; ?></td>
                                                 <td><?php echo $row['final']; ?></td>
                                                 <?php $teacher = getTeacherById($row['teacher_id']); ?>
-                                                <td><?php echo $teacher['teacher_name']; ?></td>
+                                                <td><?php echo $teacher['teacher_name'] ?? "No Teacher Assign"; ?></td>
                                             </tr>
                                         <?php }
                                     } ?>

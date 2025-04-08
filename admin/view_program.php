@@ -322,7 +322,7 @@ if (isset($_POST['Updating_form'])) {
                                                 <?php echo $subject['subject_name']; ?>
                                             </td>
                                             <?php $teacher = getTeacherById($subject['teacher_id']); ?>
-                                            <td><?php echo $teacher['teacher_name']; ?></td>
+                                            <td><?php echo $teacher['teacher_name'] ?? "No Teacher Assign"; ?></td>
 
                                             <?php $program = getProgramById($subject['program_id']) ?>
                                             <td>
@@ -330,7 +330,7 @@ if (isset($_POST['Updating_form'])) {
                                                     href="./view_program.php?action=delete&program_id=<?php echo $subject['program_id']; ?>&subject_id=<?php echo $subject['id']; ?>"
                                                     onclick="return confirm('Are you sure you want to delete this subject?')"></a>
                                                 <a style="color: white;" class="fa fa-edit" id="editform"
-                                                    href="./view_program.php?action=edit&program_id=<?php echo $subject['program_id']; ?>&teacher_id=<?php echo $subject['teacher_id']; ?>&subject_id=<?php echo $subject['id']; ?>&subject_code=<?php echo $subject['subject_code']; ?>&subject_name=<?php echo $subject['subject_name']; ?>&teacher_name=<?php echo $subject['teacher_name']; ?>&semester=<?php echo $subject['semester']; ?>"></a>
+                                                    href="./view_program.php?action=edit&program_id=<?php echo $subject['program_id']; ?>&teacher_id=<?php echo $subject['teacher_id']; ?>&subject_id=<?php echo $subject['id']; ?>&subject_code=<?php echo $subject['subject_code']; ?>&subject_name=<?php echo $subject['subject_name']; ?>&teacher_name=<?php echo $subject['teacher_name'] ?? "No Teacher Assign"; ?>&semester=<?php echo $subject['semester']; ?>"></a>
                                             </td>
                                         </tr>
                                     <?php }
@@ -377,7 +377,7 @@ if (isset($_POST['Updating_form'])) {
                                                 <?php echo $subject['subject_name']; ?>
                                             </td>
                                             <?php $teacher = getTeacherById($subject['teacher_id']); ?>
-                                            <td><?php echo $teacher['teacher_name']; ?></td>
+                                            <td><?php echo $teacher['teacher_name'] ?? "No Teacher Assign"; ?></td>
 
                                             <?php $program = getProgramById($subject['program_id']) ?>
                                             <td>

@@ -283,6 +283,14 @@ function GetCustomCourse()
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+
+function GetCustomSection()
+{
+    global $pdo;
+    $stmt = $pdo->prepare("SELECT DISTINCT section_id FROM teachers");
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 function GetCustomProgram()
 {
     global $pdo;
@@ -776,7 +784,7 @@ function GetSectionByIdadmin($section_id)
     global $pdo;
     try {
         $stmt = $pdo->prepare("
-        SELECT * FROM sections
+        SELECT DISTINCT section_name, id FROM sections
         WHERE id = ? ORDER BY id
         ");
         $stmt->execute([$section_id]);
@@ -814,8 +822,8 @@ function InsertNewTeacher($employee_id, $lname, $fname, $mname, $contact, $email
             header("Location: teachers.php?error=Teachers Already Exists");
             return false;
         } else {
-            $stmt = $pdo->prepare("SELECT * FROM teachers WHERE section_id = ?");
-            $stmt->execute([$section_id]);
+            $stmt = $pdo->prepare("SELECT * FROM students WHERE section_id = ?");
+            $stmt->execute([$section_id]);// If section_id is null, it will be ignored
             if ($stmt->fetchColumn() > 0) {
                 header("Location: teachers.php?error=Section Already Exists");
                 return false;
