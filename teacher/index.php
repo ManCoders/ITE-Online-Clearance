@@ -247,9 +247,7 @@ $teacher_id = $_SESSION['teacher_id'];
                     <div class="modal-content">
                         <h2 id="programTitle"><?php echo htmlspecialchars($student['teacher_name']) ?></h2>
                         <span id="sy">Employee ID: <?php echo $student['teacher_code']; ?></span><br>
-                        <!-- <span id="course">Specialization:
-                            <?php echo isset($student['specialized']) == '' ? $student['specialized'] : 'No Specialization'; ?><br />
-                        </span> -->
+
                         <?php $section = GetSectionByIdadmin($student['section_id']); ?>
                         <span id="course">Section Adviser : <?php echo $section['section_name']; ?><br />
                         </span>
@@ -258,57 +256,15 @@ $teacher_id = $_SESSION['teacher_id'];
                                 <?php echo $student['email']; ?></i></span>
 
                     <?php } ?>
-                    <!--
-                    <p style="margin-top: 1.5rem;" class="semester">All Subject Hundle</p>
-
-                        <div class="table_content" style="text-align:center;">
-                        <table>
-                            <tr>
-                                <th>#</th>
-                                <th>Course Code</th>
-                                <th>Course Title</th>
-
-                                <th>Action</th>
-                            </tr>
-                            <tbody>
-                                <?php $subject = getSubjectTeacherDashboard($teacher_id) ?>
-                                <?php foreach ($subject as $index => $row) { ?>
-                                    <tr>
-                                        <td><?php echo $index + 1; ?></td>
-                                        <td><?php echo $row['subject_code']; ?></td>
-                                        <td><?php echo $row['subject_name']; ?></td>
-
-
-                                        <td>
-                                            <a href="#?teacher_id=<?php echo $teacher_id; ?>&action=print">
-                                                <i style="color: aliceblue;" class="fa fa-print"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                <?php } ?>
-                            </tbody>
-                        </table>
-
-                    </div> -->
 
                     <div style="margin:8px;">
                         <h1>Total Students: <?php echo getTotalStudentByTeacherIdansStudentId($teacher_id) ?></h1>
                         <h1>Total Subject Handle: <?php echo getTotalSubjecthandle($teacher_id) ?></h1>
-                        <!-- <h1>School Year Handle: <?php echo getTotalSchoolYear($teacher_id) ?></h1> -->
-
                     </div>
-
-
-
                 </div>
-
             </div>
 
-
-
-
         </div>
-
     </div>
 </body>
 

@@ -660,3 +660,7 @@ function getSubjectsById($student_id)
         return $e->getMessage();
     }
 }
+
+
+/* ******************* */
+
