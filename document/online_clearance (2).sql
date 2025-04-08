@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 06, 2025 at 05:00 AM
+-- Generation Time: Apr 08, 2025 at 08:21 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -199,7 +199,9 @@ INSERT INTO `programs_with_subjects` (`id`, `program_course`, `department_progra
 (73, 'AUTOMOTIVE ENGINEERING', 'TITE', '2025-2026', '', '', 0, '2025-03-23 21:10:35', ''),
 (74, 'ELECTRICAL ENGINEERING', 'DT', '2025-2026', '', '', 0, '2025-03-31 22:21:25', ''),
 (75, 'CIVIL TECHNOLOGY ENGINEERING', 'DT', '2025-2026', '', '', 0, '2025-04-01 21:02:23', ''),
-(83, 'CIVIL TECHNOLOGY ENGINEERING', 'TTIC', '2025-2026', '', '', 0, '2025-04-05 14:38:00', '');
+(83, 'CIVIL TECHNOLOGY ENGINEERING', 'TTIC', '2025-2026', '', '', 0, '2025-04-05 14:38:00', ''),
+(94, 'ELECTRICAL ENGINEERING', 'PROGRAM TEST', '20225-2022', '', '', 0, '2025-04-08 08:11:38', ''),
+(95, 'AI INFORMATION', 'BS', '2021-2022', '', '', 0, '2025-04-08 12:21:04', '');
 
 -- --------------------------------------------------------
 
@@ -293,7 +295,7 @@ CREATE TABLE `students` (
   `program` varchar(100) NOT NULL,
   `course` varchar(100) NOT NULL,
   `levels` int(10) NOT NULL,
-  `section_id` int(11) DEFAULT NULL,
+  `section_id` varchar(11) DEFAULT NULL,
   `contact` varchar(20) NOT NULL,
   `email` varchar(100) NOT NULL,
   `verify` varchar(50) NOT NULL
@@ -304,10 +306,10 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`id`, `student_code`, `fname`, `mname`, `lname`, `profile`, `school_year`, `program`, `course`, `levels`, `section_id`, `contact`, `email`, `verify`) VALUES
-(82, '1006', 'Ewayan', 'D', 'Man', '', '2025-2026', 'TTIC', 'AUTOMOTIVE ENGINEERING', 3, 69, '09691265655', 'man@gmail.com', ''),
-(83, '1007', 'Ewayan', 'D', 'Max', '', '2025-2026', 'DT', 'FOOD TECHNOLOGY', 3, 66, '096912656552', 'max@gmail.com', ''),
-(84, '1008', 'Lalamove', 'Midz', 'rose', '', '2025-2026', 'AIT', 'ELECTRONIC ENGINEERING', 3, 68, '091213123213', 'rose@gmail.com', ''),
-(88, '19999', 'test', 'test', 'test', '', '2025-2026', 'TTIC', 'CIVIL TECHNOLOGY ENGINEERING', 4, 67, '09695196520', 'test@gmail.com', '');
+(82, '1006', 'Ewayan', 'D', 'Man', '', '2025-2026', 'TTIC', 'AUTOMOTIVE ENGINEERING', 3, '69', '09691265655', 'man@gmail.com', ''),
+(83, '1007', 'Ewayan', 'D', 'Max', '', '2025-2026', 'DT', 'FOOD TECHNOLOGY', 3, '66', '096912656552', 'max@gmail.com', ''),
+(84, '1008', 'Lalamove', 'Midz', 'rose', '', '2025-2026', 'AIT', 'ELECTRONIC ENGINEERING', 3, '68', '091213123213', 'rose@gmail.com', ''),
+(88, '19999', 'test', 'test', 'test', '', '2025-2026', 'TTIC', 'CIVIL TECHNOLOGY ENGINEERING', 4, '67', '09695196520', 'test@gmail.com', '');
 
 -- --------------------------------------------------------
 
@@ -379,15 +381,18 @@ CREATE TABLE `student_with_subjects` (
 --
 
 INSERT INTO `student_with_subjects` (`id`, `student_id`, `teacher_id`, `semester`, `program_id`, `school_year`, `subject_code`, `subject_name`, `college_level`, `teacher_name`, `grade`, `status`, `remark`, `final`, `created_at`) VALUES
-(84, 83, 51, 1, 'DT', '2025-2026', 'ITPC 106', 'COMPUTER PROGRAMMING 2', '1', '', 2.5, 'Completed', 'Lack of Requirements', 'Cleared', '2025-04-03 21:24:09'),
+(84, 83, 48, 1, 'DT', '2025-2026', 'ITPC 106', 'COMPUTER PROGRAMMING 2', '1', '', 2.5, 'Completed', 'Lack of Requirements', 'Cleared', '2025-04-03 21:24:09'),
 (85, 83, 51, 2, 'DT', '2025-2026', 'ITPC 102', 'PROGRAMMING 1', '1', '', 5, 'Drop', 'Lack of Requirements', 'Cleared', '2025-04-03 21:25:37'),
-(86, 83, 51, 1, 'DT', '2025-2026', 'ITPC 106', 'COMPUTER PROGRAMMING 2', '2', '', 1, 'Completed', 'Completed', 'Cleared', '2025-04-03 21:33:26'),
-(87, 83, 51, 1, 'DT', '2025-2026', 'ITPC 106', 'COMPUTER PROGRAMMING 2', '3', '', 2, 'Completed', 'Completed', 'Cleared', '2025-04-03 21:33:50'),
-(90, 84, 51, 1, 'AIT', '2025-2026', 'ITPC 106', 'COMPUTER PROGRAMMING 2', '2', '', 0, '', '', '', '2025-04-03 21:43:36'),
+(86, 83, 48, 1, 'DT', '2025-2026', 'ITPC 106', 'COMPUTER PROGRAMMING 2', '2', '', 1, 'Completed', 'Completed', 'Cleared', '2025-04-03 21:33:26'),
+(87, 83, 48, 1, 'DT', '2025-2026', 'ITPC 106', 'COMPUTER PROGRAMMING 2', '3', '', 2, 'Completed', 'Completed', 'Cleared', '2025-04-03 21:33:50'),
+(90, 84, 48, 1, 'AIT', '2025-2026', 'ITPC 106', 'COMPUTER PROGRAMMING 2', '2', '', 0, '', '', '', '2025-04-03 21:43:36'),
 (92, 82, 51, 1, 'TTIC', '2025-2026', 'ITPC 105', 'COMPUTER PROGRAMMING 5', '1', '', 2.5, 'Completed', 'Completed', 'Cleared', '2025-04-03 21:50:15'),
-(94, 84, 51, 1, 'AIT', '2025-2026', 'ITPC 106', 'COMPUTER PROGRAMMING 2', '1', '', 0, '', '', '', '2025-04-03 21:53:19'),
-(98, 82, 51, 1, 'TTIC', '2025-2026', 'ITPC 106', 'COMPUTER PROGRAMMING 2', '3', '', 0, '', '', '', '2025-04-04 21:01:47'),
-(100, 83, 51, 1, 'DT', '2025-2026', 'ITPC 106', 'COMPUTER PROGRAMMING 2', '4', '', 0, '', '', '', '2025-04-05 11:39:49');
+(94, 84, 48, 1, 'AIT', '2025-2026', 'ITPC 106', 'COMPUTER PROGRAMMING 2', '1', '', 2.5, 'Completed', 'Completed', 'Not Cleared', '2025-04-03 21:53:19'),
+(98, 82, 48, 1, 'TTIC', '2025-2026', 'ITPC 106', 'COMPUTER PROGRAMMING 2', '3', '', 0, '', '', '', '2025-04-04 21:01:47'),
+(100, 83, 48, 1, 'DT', '2025-2026', 'ITPC 106', 'COMPUTER PROGRAMMING 2', '4', '', 1, 'Completed', 'Completed', 'Cleared', '2025-04-05 11:39:49'),
+(101, 88, 56, 1, 'TTIC', '2025-2026', 'AI 101', 'AI DEVELOPMENT', '1', '', 1.2, 'Completed', 'Completed', 'Cleared', '2025-04-06 23:12:27'),
+(102, 82, 48, 1, 'TTIC', '2025-2026', 'ITPC 106', 'COMPUTER PROGRAMMING 2', '1', '', 0, '', '', '', '2025-04-08 12:29:17'),
+(103, 82, 57, 1, 'TTIC', '2025-2026', 'program qweqwe', 'subject qweqwe', '1', '', 2.5, 'Completed', 'Completed', 'Cleared', '2025-04-08 12:29:59');
 
 -- --------------------------------------------------------
 
@@ -413,11 +418,13 @@ CREATE TABLE `subject_with_program_id` (
 --
 
 INSERT INTO `subject_with_program_id` (`id`, `program_id`, `teacher_id`, `school_year`, `college_level`, `subject_name`, `subject_code`, `teacher_name`, `semester`, `created_at`) VALUES
-(158, 73, 51, '', 0, 'COMPUTER PROGRAMMING 2', 'ITPC 106', '', 1, '2025-03-23 21:10:46'),
+(158, 73, 48, '', 0, 'COMPUTER PROGRAMMING 2', 'ITPC 106', '', 1, '2025-03-23 21:10:46'),
 (159, 73, 51, '', 0, 'COMPUTER PROGRAMMING 5', 'ITPC 105', '', 1, '2025-03-23 21:11:09'),
 (160, 73, 51, '', 0, 'PROGRAMMING 1', 'ITPC 102', '', 2, '2025-03-23 21:11:18'),
 (163, 75, 47, '', 0, 'Planing architecture design 1', 'ITCC 101', '', 1, '2025-04-01 21:03:12'),
-(164, 75, 48, '', 0, 'Designer 1', 'ITCR 101', '', 2, '2025-04-01 21:07:46');
+(164, 75, 51, '', 0, 'Designer 1', 'ITCR 101', '', 2, '2025-04-01 21:07:46'),
+(166, 83, 48, '', 0, 'AI DEVELOPMENT', 'ITAI 101', '', 1, '2025-04-06 23:10:19'),
+(167, 73, 56, '', 0, 'AI DEVELOPMENT', 'AI 101', '', 1, '2025-04-06 23:12:13');
 
 -- --------------------------------------------------------
 
@@ -454,7 +461,7 @@ CREATE TABLE `teachers` (
   `specialized` varchar(100) NOT NULL,
   `contact` varchar(50) NOT NULL,
   `email` varchar(100) NOT NULL,
-  `section_id` int(11) NOT NULL,
+  `section_id` varchar(11) NOT NULL,
   `school_year` varchar(20) NOT NULL,
   `verify` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
@@ -464,10 +471,9 @@ CREATE TABLE `teachers` (
 --
 
 INSERT INTO `teachers` (`id`, `teacher_code`, `fname`, `mname`, `lname`, `profile`, `profession`, `specialized`, `contact`, `email`, `section_id`, `school_year`, `verify`) VALUES
-(47, '2001', 'Belyn', 'Ber', 'Gregorio', '', 'Associate Professor', 'Software Engineering', '096951965202', 'gregoriob@gmail.com', 70, '2025-2026', ''),
-(48, '2001', 'Roy', 'Rex', 'Penas', '', 'Instructor', 'Cybersecurity', '09695965210', 'penas@gmail.com', 69, '2025-2026', ''),
-(51, '2007', 'Sansons', 'lim', 'Bogard', '', 'Associate Professor', 'Network Administration 2', '09695196555', 'lim@gmail.com', 68, '2025-2026', ''),
-(56, '1008', 'man', 'man', 'man', '', 'Lecturer', '', '096954196520', 'manuel@gmail.com', 67, '2025-2026', '');
+(47, '2001', 'Belyn', 'Ber', 'Gregorio', '', 'Associate Professor', 'Software Engineering', '096951965202', 'gregoriob@gmail.com', '70', '2025-2026', ''),
+(48, '2001', 'Roy', 'Rex', 'Penas', '', 'Instructor', 'Cybersecurity', '09695965210', 'penas@gmail.com', '69', '2025-2026', ''),
+(51, '2007', 'Sansons', 'lim', 'Bogard', '', 'Associate Professor', 'Network Administration 2', '09695196555', 'lim@gmail.com', '68', '2025-2026', '');
 
 -- --------------------------------------------------------
 
@@ -708,7 +714,7 @@ ALTER TABLE `programs`
 -- AUTO_INCREMENT for table `programs_with_subjects`
 --
 ALTER TABLE `programs_with_subjects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
 
 --
 -- AUTO_INCREMENT for table `school_year`
@@ -732,7 +738,7 @@ ALTER TABLE `semesters`
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
 
 --
 -- AUTO_INCREMENT for table `student_login`
@@ -750,13 +756,13 @@ ALTER TABLE `student_subjects`
 -- AUTO_INCREMENT for table `student_with_subjects`
 --
 ALTER TABLE `student_with_subjects`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
 
 --
 -- AUTO_INCREMENT for table `subject_with_program_id`
 --
 ALTER TABLE `subject_with_program_id`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=166;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=170;
 
 --
 -- AUTO_INCREMENT for table `subject_year`
@@ -768,13 +774,13 @@ ALTER TABLE `subject_year`
 -- AUTO_INCREMENT for table `teachers`
 --
 ALTER TABLE `teachers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT for table `teacher_login`
 --
 ALTER TABLE `teacher_login`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `teacher_profession`
