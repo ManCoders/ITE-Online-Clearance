@@ -325,7 +325,7 @@ if (isset($_GET['delete_program'])) {
                         <select style="padding: 5px;  width: 100%;" name="schoolYear" id="schoolYear">
                             <option value="">Select School Year</option>
                             <?php
-                            $years = GetSchoolYear();
+                            $years = GetCustomYear();
                             foreach ($years as $year) { ?>
                                 <option value="<?php echo $year['school_year']; ?>"><?php echo $year['school_year'] ?>
                                 </option>
@@ -334,18 +334,19 @@ if (isset($_GET['delete_program'])) {
                         <select style=" padding: 5px; width: 100%;" name="program" id="program">
                             <option value="">Select Program</option>
                             <?php
-                            $years = GetPrograms();
+                            $years = GetCustomProgram();
                             foreach ($years as $year) { ?>
-                                <option value="<?php echo $year['program_code']; ?>"><?php echo $year['program_code'] ?>
+                                <option value="<?php echo $year['department_program']; ?>">
+                                    <?php echo $year['department_program'] ?>
                                 </option>
                             <?php } ?>
                         </select>
                         <select style=" padding: 5px; width: 100%;" name="course" id="courses">
                             <option value="">Select Course</option>
                             <?php
-                            $years = GetCourse();
+                            $years = GetCustomCourse();
                             foreach ($years as $year) { ?>
-                                <option value="<?php echo $year['course_name']; ?>"><?php echo $year['course_name'] ?>
+                                <option value="<?php echo $year['program_course']; ?>"><?php echo $year['program_course'] ?>
                                 </option>
                             <?php } ?>
                         </select>

@@ -384,7 +384,7 @@ if (isset($_POST['Updating_form'])) {
                                                 <a style="color: white;" class="fa fa-trash"
                                                     href="./view_program.php?action=delete&program_id=<?php echo $subject['program_id']; ?>&subject_id=<?php echo $subject['id']; ?>"
                                                     onclick="return confirm('Are you sure you want to delete this subject?')"></a>
-                                                <a style="color: white;" class="fa fa-edit" id="editform"
+                                                <a style="color: white;" name="update_btn" class="fa fa-edit" id="editform"
                                                     href="./view_program.php?action=edit&program_id=<?php echo $subject['program_id']; ?>&teacher_id=<?php echo $subject['teacher_id']; ?>&subject_id=<?php echo $subject['id']; ?>&subject_code=<?php echo $subject['subject_code']; ?>&subject_name=<?php echo $subject['subject_name']; ?>&teacher_name=<?php echo $subject['teacher_name']; ?>&semester=<?php echo $subject['semester']; ?>"></a>
                                             </td>
                                         </tr>
@@ -396,14 +396,15 @@ if (isset($_POST['Updating_form'])) {
                         </table>
 
                     </div>
-                    <p class="semester" id="semester_label">New Subjects</p>
-                    <?php if (isset($_GET['error'])) { ?>
-                        <p style="color: red;"><?php echo $_GET['error']; ?></p>
-                    <?php } elseif (isset($_GET['success'])) { ?>
-                        <p style="color: green;"><?php echo $_GET['success']; ?></p>
-                    <?php } ?>
 
-                    <form id="submitting_form" action="" method="post">
+
+                    <form id="submitting_form" name="new_forms" action="" method="post">
+                        <p class="semester" id="semester_label">New Subjects</p>
+                        <?php if (isset($_GET['error'])) { ?>
+                            <p style="color: red;"><?php echo $_GET['error']; ?></p>
+                        <?php } elseif (isset($_GET['success'])) { ?>
+                            <p style="color: green;"><?php echo $_GET['success']; ?></p>
+                        <?php } ?>
                         <div class="add_subject">
 
                             <div style="gap: 2px; display: flex;">
@@ -445,9 +446,8 @@ if (isset($_POST['Updating_form'])) {
                         </div>
                     </form>
 
-                    <form action="" id="popid" style="display: block;" method="post">
+                    <form name="update_forms" action="" id="popid" style="display: block;" method="post">
                         <div class="add_subject">
-
                             <div style="gap: 2px; display: flex; width: 99%;">
 
                                 <input type="text" name="program_id"
@@ -493,6 +493,7 @@ if (isset($_POST['Updating_form'])) {
 
                         </div>
                     </form>
+
 
                     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                     <script>
