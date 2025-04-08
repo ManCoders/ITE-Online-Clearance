@@ -247,7 +247,11 @@ $teacher_id = $_SESSION['teacher_id'];
                     <div class="modal-content">
                         <h2 id="programTitle"><?php echo htmlspecialchars($student['teacher_name']) ?></h2>
                         <span id="sy">Employee ID: <?php echo $student['teacher_code']; ?></span><br>
-                        <span id="course">Specialization: <?php echo $student['specialized']; ?><br />
+                        <!-- <span id="course">Specialization:
+                            <?php echo isset($student['specialized']) == '' ? $student['specialized'] : 'No Specialization'; ?><br />
+                        </span> -->
+                        <?php $section = GetSectionByIdadmin($student['section_id']); ?>
+                        <span id="course">Section Adviser : <?php echo $section['section_name']; ?><br />
                         </span>
                         <span id="course">Profession : <?php echo $student['profession']; ?></span><br>
                         <span id="course"><i><?php echo $student['contact']; ?> -

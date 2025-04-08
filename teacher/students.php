@@ -247,133 +247,137 @@ $teacher_id = $_SESSION['teacher_id'];
                     <div class="modal-content">
                         <h2 id="programTitle"><?php echo htmlspecialchars($student['teacher_name']) ?></h2>
                         <span id="sy">Employee ID: <?php echo $student['teacher_code']; ?></span><br>
-                        <span id="course">Specialization: <?php echo $student['specialized']; ?><br />
-                        </span>
-                        <span id="course">Profession : <?php echo $student['profession']; ?></span><br>
-                        <span id="course"><i><?php echo $student['contact']; ?> -
-                                <?php echo $student['email']; ?></i></span>
-                    <?php } ?>
-                    <div class="table_col">
-                        <?php $subject = subjectList($teacher_id) ?>
-                        <?php foreach ($subject as $sub) {
-                            ?>
-                            <?php $levels = getCollegeLevelbyTeacher($sub['college_level']) ?>
-                            <label class="semester"
-                                style="display:flex; justify-content:left;"><?php echo $levels['year_level']; ?> : <i>
-                                    <?php echo $sub['subject_name']; ?></i></label>
-                            <div class="table_content" style="text-align:center;">
-                                <div
-                                    style="width: 100%; text-align: center; background-color:rgb(253, 58, 4); color: #FFFFFF">
-                                    <label style="padding:5px;" for="">1st
-                                        Semester <input type="text" id="search1" placeholder="Search 1st Semester..."
-                                            style=" width: 20%;margin-left:40rem;">
-                                    </label>
-                                </div>
-                                <table>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>College Level</th>
-
-                                        <th>Student Name</th>
-                                        <th>Grade</th>
-                                        <th>Status</th>
-                                        <th>Remark</th>
-                                        <th>Initial</th>
-                                        <th>Action</th>
-                                    </tr>
-                                    <tbody id="subjectList1">
-
-                                        <?php $subject = getSubjectTeacher($teacher_id) ?>
-                                        <?php foreach ($subject as $index => $row) { ?>
-                                            <?php if ($row['semester'] == 1 && $sub['subject_name'] == $row['subject_name'] && $row['college_level'] == $sub['college_level']) { ?>
-                                                <tr>
-                                                    <td><?php echo $index + 1; ?></td>
-
-                                                    <?php $levels = getCollegeLevelbyTeacher($row['college_level']) ?>
-                                                    <td><?php echo $levels['year_level']; ?></td>
-
-                                                    <?php $students = getStudentById($row['student_id']) ?>
-                                                    <td><?php echo htmlspecialchars($students['student_name']); ?></td>
-                                                    <td><?php echo $row['grade']; ?></td>
-                                                    <td><?php echo $row['status']; ?></td>
-                                                    <td><?php echo $row['remark']; ?></td>
-                                                    <td><?php echo $row['final']; ?></td>
-                                                    <td>
-                                                        <div style="color: aliceblue; text-align:center;">
-                                                            <?php $teacher = getSubjectById2($teacher_id) ?>
-                                                            <a
-                                                                href="update_student.php?action=list&teacher_id=<?php echo $teacher_id; ?>&student_id=<?php echo $row['student_id']; ?>&subject_id=<?php echo $row['id']; ?>">
-                                                                <i style="color: aliceblue;" class="fa fa-eye"></i>
-                                                            </a>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            <?php } ?>
-                                        <?php } ?>
-                                    </tbody>
-
-                                </table>
-
-                            </div>
-
-                            <div class="table_content" style="text-align:center;">
-                                <div
-                                    style="width: 100%; text-align: center; background-color:rgb(253, 58, 4); color: #FFFFFF">
-                                    <label style="padding:5px;" for="">2nd
-                                        Semester <input type="text" id="search2" placeholder="Search 2nd Semester..."
-                                            style=" width: 20%;margin-left:40rem;"></label>
-                                </div>
-                                <table>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>College Level</th>
-
-                                        <th>Student Name</th>
-                                        <th>Grade</th>
-                                        <th>Status</th>
-                                        <th>Remark</th>
-                                        <th>Initial</th>
-                                        <th>Action</th>
-                                    </tr>
-                                    <tbody id="subjectList2">
-
-                                        <?php $subject = getSubjectTeacher($teacher_id) ?>
-                                        <?php foreach ($subject as $index => $row) { ?>
-                                            <?php if ($row['semester'] == 2 && $sub['subject_name'] == $row['subject_name'] && $row['college_level'] == $sub['college_level']) { ?>
-                                                <tr>
-                                                    <td><?php echo $index + 1; ?></td>
-
-                                                    <?php $levels = getCollegeLevelbyTeacher($row['college_level']) ?>
-                                                    <td><?php echo $levels['year_level']; ?></td>
-
-                                                    <?php $students = getStudentById($row['student_id']) ?>
-                                                    <td><?php echo htmlspecialchars($students['student_name']); ?></td>
-                                                    <td><?php echo $row['grade']; ?></td>
-                                                    <td><?php echo $row['status']; ?></td>
-                                                    <td><?php echo $row['remark']; ?></td>
-                                                    <td><?php echo $row['final']; ?></td>
-                                                    <td>
-                                                        <div style="color: aliceblue; text-align:center;">
-                                                            <?php $teacher = getSubjectById2($teacher_id) ?>
-                                                            <a
-                                                                href="update_student.php?action=list&teacher_id=<?php echo $teacher_id; ?>&student_id=<?php echo $row['student_id']; ?>&subject_id=<?php echo $row['id']; ?>">
-                                                                <i style="color: aliceblue;" class="fa fa-eye"></i>
-                                                            </a>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            <?php } ?>
-                                        <?php } ?>
-                                    </tbody>
-
-                                </table>
-
-                            </div>
+                        <!-- <span id="course">Specialization:
+                            <?php echo isset($student['specialized']) == '' ? $student['specialized'] : 'No Specialization'; ?><br />
+                        </span> -->
+                        <?php $section = GetSectionByIdadmin($student['section_id']); ?>
+                        <span id="course">Section Adviser : <?php echo $section['section_name']; ?>
+                            <br> <span id="course">Profession : <?php echo $student['profession']; ?>
+                            </span><br>
+                            <span id="course"><i><?php echo $student['contact']; ?> -
+                                    <?php echo $student['email']; ?></i></span>
                         <?php } ?>
+                        <div class="table_col">
+                            <?php $subject = subjectList($teacher_id) ?>
+                            <?php foreach ($subject as $sub) {
+                                ?>
+                                <?php $levels = getCollegeLevelbyTeacher($sub['college_level']) ?>
+                                <label class="semester"
+                                    style="display:flex; justify-content:left;"><?php echo $levels['year_level']; ?> : <i>
+                                        <?php echo $sub['subject_name']; ?></i></label>
+                                <div class="table_content" style="text-align:center;">
+                                    <div
+                                        style="width: 100%; text-align: center; background-color:rgb(253, 58, 4); color: #FFFFFF">
+                                        <label style="padding:5px;" for="">1st
+                                            Semester <input type="text" id="search1" placeholder="Search 1st Semester..."
+                                                style=" width: 20%;margin-left:40rem;">
+                                        </label>
+                                    </div>
+                                    <table>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>College Level</th>
+
+                                            <th>Student Name</th>
+                                            <th>Grade</th>
+                                            <th>Status</th>
+                                            <th>Remark</th>
+                                            <th>Initial</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        <tbody id="subjectList1">
+
+                                            <?php $subject = getSubjectTeacher($teacher_id) ?>
+                                            <?php foreach ($subject as $index => $row) { ?>
+                                                <?php if ($row['semester'] == 1 && $sub['subject_name'] == $row['subject_name'] && $row['college_level'] == $sub['college_level']) { ?>
+                                                    <tr>
+                                                        <td><?php echo $index + 1; ?></td>
+
+                                                        <?php $levels = getCollegeLevelbyTeacher($row['college_level']) ?>
+                                                        <td><?php echo $levels['year_level']; ?></td>
+
+                                                        <?php $students = getStudentById($row['student_id']) ?>
+                                                        <td><?php echo htmlspecialchars($students['student_name']); ?></td>
+                                                        <td><?php echo $row['grade']; ?></td>
+                                                        <td><?php echo $row['status']; ?></td>
+                                                        <td><?php echo $row['remark']; ?></td>
+                                                        <td><?php echo $row['final']; ?></td>
+                                                        <td>
+                                                            <div style="color: aliceblue; text-align:center;">
+                                                                <?php $teacher = getSubjectById2($teacher_id) ?>
+                                                                <a
+                                                                    href="update_student.php?action=list&teacher_id=<?php echo $teacher_id; ?>&student_id=<?php echo $row['student_id']; ?>&subject_id=<?php echo $row['id']; ?>">
+                                                                    <i style="color: aliceblue;" class="fa fa-eye"></i>
+                                                                </a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                <?php } ?>
+                                            <?php } ?>
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+
+                                <div class="table_content" style="text-align:center;">
+                                    <div
+                                        style="width: 100%; text-align: center; background-color:rgb(253, 58, 4); color: #FFFFFF">
+                                        <label style="padding:5px;" for="">2nd
+                                            Semester <input type="text" id="search2" placeholder="Search 2nd Semester..."
+                                                style=" width: 20%;margin-left:40rem;"></label>
+                                    </div>
+                                    <table>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>College Level</th>
+
+                                            <th>Student Name</th>
+                                            <th>Grade</th>
+                                            <th>Status</th>
+                                            <th>Remark</th>
+                                            <th>Initial</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        <tbody id="subjectList2">
+
+                                            <?php $subject = getSubjectTeacher($teacher_id) ?>
+                                            <?php foreach ($subject as $index => $row) { ?>
+                                                <?php if ($row['semester'] == 2 && $sub['subject_name'] == $row['subject_name'] && $row['college_level'] == $sub['college_level']) { ?>
+                                                    <tr>
+                                                        <td><?php echo $index + 1; ?></td>
+
+                                                        <?php $levels = getCollegeLevelbyTeacher($row['college_level']) ?>
+                                                        <td><?php echo $levels['year_level']; ?></td>
+
+                                                        <?php $students = getStudentById($row['student_id']) ?>
+                                                        <td><?php echo htmlspecialchars($students['student_name']); ?></td>
+                                                        <td><?php echo $row['grade']; ?></td>
+                                                        <td><?php echo $row['status']; ?></td>
+                                                        <td><?php echo $row['remark']; ?></td>
+                                                        <td><?php echo $row['final']; ?></td>
+                                                        <td>
+                                                            <div style="color: aliceblue; text-align:center;">
+                                                                <?php $teacher = getSubjectById2($teacher_id) ?>
+                                                                <a
+                                                                    href="update_student.php?action=list&teacher_id=<?php echo $teacher_id; ?>&student_id=<?php echo $row['student_id']; ?>&subject_id=<?php echo $row['id']; ?>">
+                                                                    <i style="color: aliceblue;" class="fa fa-eye"></i>
+                                                                </a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                <?php } ?>
+                                            <?php } ?>
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+                            <?php } ?>
 
 
 
-                    </div>
+                        </div>
                 </div>
             </div>
         </div>

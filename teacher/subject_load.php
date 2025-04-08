@@ -316,7 +316,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['subjec
 
                     <div style="display: flex; margin: 5px;">
                         <label style="width: 8rem; margin: 5px;" for="levels">College level</label>
-                        <select name="levels" id="levels"
+                        <select name="levels" id="levels" disabled
                             style="width: 100%; border: 1px solid #ccc; border-radius: 5px;">
                             <option value="">Select College level</option>
                             <option value="1">1st year college</option>
@@ -409,6 +409,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['subjec
                                 $('#schoolyear').html("<option value=''>Select Program Title</option>" +
                                     response);
                                 $('#semester').prop("disabled", false);
+
                                 $('#subject_code, #subject_name, #teacher').prop("disabled", true).html(
                                     "<option value=''>Select</option>"); // Reset dependent dropdowns
                             }
@@ -420,6 +421,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['subjec
 
                     // Fetch subjects when semester is selected
                     $('#semester').change(function () {
+                        $('#levels').prop("disabled", false);
                         var semester = $(this).val();
                         if (semester !== "") {
                             $.ajax({
