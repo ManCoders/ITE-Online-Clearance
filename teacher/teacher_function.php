@@ -258,7 +258,7 @@ function getSubjectById2($id)
 function getTotalStudentByTeacherIdansStudentId($teacher_id)
 {
     global $pdo;
-    $sql = "SELECT COUNT(DISTINCT sws.student_id) as student_count
+    $sql = "SELECT COUNT(DISTINCT sws.teacher_id) as student_count
             FROM student_with_subjects sws 
             WHERE sws.teacher_id = ?";
     try {
