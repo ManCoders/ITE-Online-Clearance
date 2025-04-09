@@ -657,6 +657,10 @@ function DeleteStudentByID($student_code)
 
     try {
 
+        $sql = "DELETE FROM student_with_subjects WHERE student_id = ?";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$student_code]);
+
         $stmt = $pdo->prepare("DELETE FROM student_login WHERE student_id = ?");
         $stmt->execute([$student_code]);
 

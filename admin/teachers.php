@@ -371,61 +371,74 @@ if (isset($_GET['delete_program'])) {
             <!-- SUBMITTING INFO HERE -->
 
 
-            <!-- Filtering here structured -->
-            <!-- <div class="card">
+            <div class="card">
                 <h2>Searching</h2>
 
-                <form method="GET">
-                    <label for="student_name">Search Student Name</label>
-                    <input type="text" name="student_name_filter" placeholder="Enter Student Name">
+                <form method="GET" onsubmit="return false;">
+                    <label for="student_name">Search Teacher Details</label>
+                    <input type="text" id="student_name" name="student_name" placeholder="Enter Teacher data">
 
-                    <label for="student_name">Search Contact number</label>
-                    <input type="text" name="contact_filter" placeholder="Enter Contact number">
+                    <!-- <label for="contact">Search Contact number</label> -->
+                    <input hidden type="text" id="contact2" name="contact2" placeholder="Enter Contact number">
 
-                    <label for="program">Programs:</label>
-                    <select name="program_filter"
+                    <!-- <label for="program">Programs:</label> -->
+                    <select hidden id="program" name="program"
                         style="height: 2.4rem; width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;">
                         <option value="">Select Program</option>
                         <?php
-                        $years = GetPrograms();
-                        foreach ($years as $year) { ?>
-                            <option value="<?php echo $year['program_code']; ?>"><?php echo $year['program_code'] ?>
-                            </option>
-                        <?php } ?>
+                        $years = GetCustomProgram();
+                        foreach ($years as $year) {
+                            echo "<option value=\"" . htmlspecialchars($year['department_program']) . "\">" . htmlspecialchars($year['department_program']) . "</option>";
+                        }
+                        ?>
                     </select>
 
-                    <label style="margin: 2px;" for=" program_id">Course Title:</label>
-                    <select
-                        style="height: 2.4rem; width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;"
-                        name="course_filter">
+                    <!--   <label  for="course" style="margin: 2px;">Course Title:</label> -->
+                    <select hidden id="course" name="course"
+                        style="height: 2.4rem; width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;">
                         <option value="">Select Major Course</option>
                         <?php
-                        $years = GetCourse();
-                        foreach ($years as $year) { ?>
-                            <option value="<?php echo $year['course_name']; ?>"><?php echo $year['course_name'] ?>
-                            </option>
-                        <?php } ?>
-
+                        $years = GetCustomCourse();
+                        foreach ($years as $year) {
+                            echo "<option value=\"" . htmlspecialchars($year['program_course']) . "\">" . htmlspecialchars($year['program_course']) . "</option>";
+                        }
+                        ?>
                     </select>
 
-                    <button class="buttons" type="submit" onclick="display()" class="btn btn-primary"
-                        style="margin-top: 10px; ">Filtering</button>
+                    <!--  <button class="buttons" type="button" onclick="handleSearch()"
+                                style="margin-top: 10px;">Filtering</button> -->
                 </form>
-                <style>
-                    .buttons {
-                        height: 2.6rem;
-                        background-color: #ff3d00;
-                        width: 100%;
-                        margin-top: 100%;
-                        color: #ffff;
-                        padding: 10px;
-                        border: 1px solid #ccc;
-                        border-radius: 5px;
-                        font-size: 14px;
-                    }
 
-                    #tableNone {}
-                </style> -->
+                <div id="searchResults" style="margin-top: 20px;"></div>
+
+                <script>
+                    const fields = ['student_name', 'contact', 'program', 'course'];
+
+                    fields.forEach(id => {
+                        document.getElementById(id).addEventListener('input', handleSearch);
+                    });
+
+                    function handleSearch() {
+                        const student_name = document.getElementById('student_name').value;
+                        const contact = document.getElementById('contact').value;
+                        const program = document.getElementById('program').value;
+                        const course = document.getElementById('course').value;
+
+                        const params = new URLSearchParams({
+                            student_name,
+                            contact,
+                            program,
+                            course
+                        });
+
+                        fetch('search_teacher.php?' + params.toString())
+                            .then(response => response.text())
+                            .then(data => {
+                                document.getElementById('resulttable').innerHTML = data;
+                            });
+                    }
+                </script>
+            </div>
 
             <script>
                 document.getElementById('student_name').addEventListener('input', handleInput);
@@ -447,7 +460,8 @@ if (isset($_GET['delete_program'])) {
         <!-- End Filtering structured -->
         <div class="card-table" id="tableNone"
             style="width: 100%; color: #ccc; border: 1px solid #ccc; height: 10rem; background-color: #8B0000; overflow-y: scroll;">
-            <div class="tables-content" style=" background-color: #8B0000; display: flex; color: white;">
+            <div id="resulttable" class="tables-content"
+                style=" background-color: #8B0000; display: flex; color: white;">
                 <table class="table" style=" width: 100%; ">
                     <thead>
                         <tr>

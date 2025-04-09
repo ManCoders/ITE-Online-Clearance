@@ -10,13 +10,13 @@ $program = $_GET['program'] ?? '';
 $course = $_GET['course'] ?? '';
 
 // Start SQL
-$sql = "SELECT * FROM students WHERE 1=1";
+$sql = "SELECT * FROM teachers WHERE 1=1";
 $conditions = [];
 $params = [];
 
 // Name filters (lname, fname, mname etc)
 if (!empty($student_name)) {
-    $conditions[] = "(lname LIKE :name OR fname LIKE :name OR mname LIKE :name OR contact LIKE :name OR program LIKE :name OR course LIKE :name OR school_year LIKE :name OR levels LIKE :name OR email LIKE :name OR student_code LIKE :name )";
+    $conditions[] = "(lname LIKE :name OR fname LIKE :name OR mname LIKE :name OR contact LIKE :name OR email LIKE :name OR teacher_code LIKE :name )";
     $params[':name'] = "%$student_name%";
 }
 
@@ -38,11 +38,9 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <thead>
                     <tr>
                         <th>No :</th>
-                        <th>Student ID</th>
+                        <th>Teacher ID</th>
                         <th>Complete Name</th>
-                        <th>Programs</th>
-                        <th>Course</th>
-                        <th>Year Level</th>
+                        <th>Profession</th>
                         <th>Email</th>
                         <th>Contact</th>
                         <th>Actions</th>
@@ -51,30 +49,22 @@ $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <tbody>
                     <?php foreach ($results as $index => $student): ?>
                         <tr style="text-align: center;">
-                            <td><?= $index + 1 ?>.</td>
-                            <td style="text-align: left;"><?= htmlspecialchars($student['student_code']) ?></td>
+                            <td style="text-align: center;" ><?= $index + 1 ?>.</td>
+                            <td style="text-align: center;"><?= htmlspecialchars($student['teacher_code']) ?></td>
                             <td style="text-align: left;">
                                 <?= htmlspecialchars($student['lname']) . ', ' . htmlspecialchars($student['fname']) . ' ' . htmlspecialchars($student['mname']) ?>
                             </td>
-                            <td><?= htmlspecialchars($student['program']) ?></td>
-                            <td style="text-align: left;"><?= htmlspecialchars($student['course']) ?></td>
-                            <td style="text-align: left;">
-                                <?php
-                                $year_level = getYearLevel($student['levels']);
-                                foreach ($year_level as $year_level_value) {
-                                    echo htmlspecialchars($year_level_value['year_level']);
-                                }
-                                ?>
-                            </td>
+                            <td><?= htmlspecialchars($student['profession']) ?></td>
                             <td style="text-align: left;"><?= htmlspecialchars($student['email']) ?></td>
+                            
                             <td style="text-align: left;"><?= htmlspecialchars($student['contact']) ?></td>
                             <td>
                                 <div style="color: aliceblue;">
                                     <a
-                                        href="view_student.php?program_id=<?= $student['id']; ?>&section_id=<?= urlencode($student['section_id']); ?>&program_name=<?= urlencode($student['program']); ?>&student_name=<?= urlencode($student['lname'] . ', ' . $student['fname'] . ' ' . $student['mname']); ?>&course_name=<?= urlencode($student['course']); ?>&student_id=<?= urlencode($student['student_code']); ?>">
+                                        href="students_view.php?teacher_id=<?= $student['id']; ?>&section_id=<?= urlencode($student['section_id']); ?>&profession=<?= urlencode($student['profession']); ?>&teacher_name=<?= urlencode($student['lname'] . ', ' . $student['fname'] . ' ' . $student['mname']); ?>&employee_id=<?= urlencode($student['teacher_code']); ?>">
                                         <i style="color: aliceblue;" class="fa fa-eye"></i>
                                     </a>
-                                    <a href="students.php?delete_program=<?= $student['id']; ?>" class="delete-student-btn" data-id="<?= $student['id']; ?>"
+                                    <a href="students_view.php?delete_program=<?= $student['id']; ?>" class="delete-student-btn" data-id="<?= $student['id']; ?>"
                                         style="color: white; cursor: pointer;">
                                         <i class="fa fa-trash"></i>
                                     </a>

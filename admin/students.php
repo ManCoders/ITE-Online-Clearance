@@ -263,10 +263,7 @@ if (isset($_GET['delete_program'])) {
         <div class="sidebar-item">
             <a href="./Program.php"><i class="fas fa-calendar-alt"></i> Programs</a>
         </div>
-        <!-- 
-        <div class="sidebar-item">
-            <a href="./subjects.php"><i class="fas fa-book"></i> Subjects</a>
-        </div> -->
+
         <div class="sidebar-item" style="background-color: maroon;">
             <a href="./students.php"><i class="fas fa-chalkboard-teacher"></i> Students</a>
         </div>
@@ -278,7 +275,6 @@ if (isset($_GET['delete_program'])) {
         </div>
     </div>
 
-    <!-- Main Content -->
     <div class="content">
         <div class="dashboard-container">
             <script src="../assets/bootstrap/bootstrap.bundle.min.js"></script>
@@ -383,8 +379,8 @@ if (isset($_GET['delete_program'])) {
                 <h2>Searching</h2>
 
                 <form method="GET" onsubmit="return false;">
-                    <label for="student_name">Search Student Name</label>
-                    <input type="text" id="student_name" name="student_name" placeholder="Enter Student Name">
+                    <label for="student_name">Search Student Details</label>
+                    <input type="text" id="student_name" name="student_name" placeholder="Enter Student data">
 
                     <!-- <label for="contact">Search Contact number</label> -->
                     <input hidden type="text" id="contact2" name="contact2" placeholder="Enter Contact number">
@@ -513,7 +509,7 @@ if (isset($_GET['delete_program'])) {
                                                 <!-- <a class="edit-program" section="<?php echo $program['id']; ?>"><i
                                                         class="fa fa-edit"></i></a> -->
                                                 <a class="delete-program" section="<?php echo $program['id']; ?>"><i
-                                                        class="fa fa-trash"></i></a>
+                                                        style="color: aliceblue; cursor:pointer" class="fa fa-trash"></i></a>
                                             </div>
                                         </td>
                                     </tr>
