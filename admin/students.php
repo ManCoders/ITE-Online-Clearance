@@ -382,90 +382,77 @@ if (isset($_GET['delete_program'])) {
             <div class="card">
                 <h2>Searching</h2>
 
-                <form method="GET">
+                <form method="GET" onsubmit="return false;">
                     <label for="student_name">Search Student Name</label>
-                    <input type="text" name="student_name" placeholder="Enter Student Name">
+                    <input type="text" id="student_name" name="student_name" placeholder="Enter Student Name">
 
-                    <label for="student_name">Search Contact number</label>
-                    <input type="text" name="contact" placeholder="Enter Contact number">
+                    <!-- <label for="contact">Search Contact number</label> -->
+                    <input hidden type="text" id="contact2" name="contact2" placeholder="Enter Contact number">
 
-                    <label for="program">Programs:</label>
-                    <select name="program"
+                    <!-- <label for="program">Programs:</label> -->
+                    <select hidden id="program" name="program"
                         style="height: 2.4rem; width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;">
                         <option value="">Select Program</option>
                         <?php
                         $years = GetCustomProgram();
-                        foreach ($years as $year) { ?>
-                            <option value="<?php echo $year['department_program']; ?>">
-                                <?php echo $year['department_program'] ?>
-                            </option>
-                        <?php } ?>
+                        foreach ($years as $year) {
+                            echo "<option value=\"" . htmlspecialchars($year['department_program']) . "\">" . htmlspecialchars($year['department_program']) . "</option>";
+                        }
+                        ?>
                     </select>
 
-                    <label style=" margin: 2px;" for=" program_id">Course Title:</label>
-                    <select
-                        style="height: 2.4rem; width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;"
-                        name="course">
+                    <!--   <label  for="course" style="margin: 2px;">Course Title:</label> -->
+                    <select hidden id="course" name="course"
+                        style="height: 2.4rem; width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px;">
                         <option value="">Select Major Course</option>
                         <?php
                         $years = GetCustomCourse();
-                        foreach ($years as $year) { ?>
-                            <option value="<?php echo $year['program_course']; ?>"><?php echo $year['program_course'] ?>
-                            </option>
-                        <?php } ?>
-
+                        foreach ($years as $year) {
+                            echo "<option value=\"" . htmlspecialchars($year['program_course']) . "\">" . htmlspecialchars($year['program_course']) . "</option>";
+                        }
+                        ?>
                     </select>
 
-                    <button class=" buttons" type="submit" onclick="display()" class="btn btn-primary"
-                        style="margin-top: 10px; ">Filtering</button>
+                    <!--  <button class="buttons" type="button" onclick="handleSearch()"
+                        style="margin-top: 10px;">Filtering</button> -->
                 </form>
-                <style>
-                    .buttons {
-                        height: 2.6rem;
-                        background-color: #ff3d00;
-                        width: 100%;
-                        margin-top: 100%;
-                        color: #ffff;
-                        padding: 10px;
-                        border: 1px solid #ccc;
-                        border-radius: 5px;
-                        font-size: 14px;
-                    }
-                </style>
+
+                <div id="searchResults" style="margin-top: 20px;"></div>
 
                 <script>
-                    document.getElementById('student_name').addEventListener('input', handleInput);
-                    document.getElementById('semester_id').addEventListener('input', handleInput);
+                    const fields = ['student_name', 'contact', 'program', 'course'];
 
-                    function handleInput(event) {
-                        const {
-                            id,
-                            value
-                        } = event.target;
-                        console.log(`The current value of ${id} is: ${value}`);
+                    fields.forEach(id => {
+                        document.getElementById(id).addEventListener('input', handleSearch);
+                    });
+
+                    function handleSearch() {
+                        const student_name = document.getElementById('student_name').value;
+                        const contact = document.getElementById('contact').value;
+                        const program = document.getElementById('program').value;
+                        const course = document.getElementById('course').value;
+
+                        const params = new URLSearchParams({
+                            student_name,
+                            contact,
+                            program,
+                            course
+                        });
+
+                        fetch('search_students.php?' + params.toString())
+                            .then(response => response.text())
+                            .then(data => {
+                                document.getElementById('resulttable').innerHTML = data;
+                            });
                     }
-
-                    function display() {
-                        document.getElementById("tableNone").style.display = "block";
-                    }
-
-
-                    function closeModal() {
-                        document.getElementById("myModal").style.display = "none";
-                    }
-
-                    window.onclick = function (event) {
-                        let modal = document.getElementById("myModal");
-                        if (event.target === modal) {
-                            modal.style.display = "none";
-                        }
-                    };
                 </script>
             </div>
 
+
             <div class="card-table" id="tableNone"
                 style="width: 100%; color: #ccc; border: 1px solid #ccc; height: 10rem; background-color: #8B0000; overflow-y: scroll;">
-                <div class="tables-content" style=" background-color: #8B0000; display: flex; color: white;">
+                <div id="resulttable" class="tables-content"
+                    style=" background-color: #8B0000; display: flex; color: white;">
                     <table class="table" style=" width: 100%; ">
                         <thead>
                             <tr>
@@ -540,7 +527,6 @@ if (isset($_GET['delete_program'])) {
 
 
         <script src="../assets/libs/sweetalert2/sweetalert2.all.min.js"></script>
-
         <script>
             document.addEventListener("DOMContentLoaded", function () {
 
@@ -624,6 +610,19 @@ if (isset($_GET['delete_program'])) {
                         icon: "success",
                         title: "Successfully added!",
                         text: "The program was successfully Added!.",
+                        showConfirmButton: false,
+                        timer: 2500
+                    });
+                    const newURL = window.location.origin + window.location.pathname;
+                    window.history.replaceState({}, document.title, newURL);
+
+                }
+
+                if (urlParams.has("success-delete")) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Delete Successfully!",
+                        text: "Student Delete Successfully",
                         showConfirmButton: false,
                         timer: 2500
                     });

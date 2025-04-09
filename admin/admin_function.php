@@ -664,7 +664,7 @@ function DeleteStudentByID($student_code)
         $stmt3 = $pdo->prepare("DELETE FROM students WHERE id = ?");
         $stmt3->execute([$student_code]);
 
-        header("Location: students.php?success=Student Deleted Successfully");
+        header("Location: students.php?success-delete=Student Deleted Successfully");
         exit();
     } catch (PDOException $e) {
         header("Location: students.php?error=Failed to Delete Student");
